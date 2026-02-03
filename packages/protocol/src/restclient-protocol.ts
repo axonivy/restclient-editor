@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import type { EditorFileContent, RoleMeta, RestClientContext, RestClientEditorData, RestClientSaveDataArgs, ValidationResult } from './data/restclient';
+import type {
+  EditorFileContent,
+  RestClientContext,
+  RestClientEditorData,
+  RestClientSaveDataArgs,
+  ValidationResult
+} from './data/restclient';
 
 export interface RestClientActionArgs {
   actionId: 'openUrl';
@@ -7,9 +13,8 @@ export interface RestClientActionArgs {
   payload: string;
 }
 
-export interface RestClientMetaRequestTypes {
-  'meta/roles/all': [RestClientContext, Array<RoleMeta>];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface RestClientMetaRequestTypes {}
 
 export interface RestClientRequestTypes extends RestClientMetaRequestTypes {
   initialize: [RestClientContext, void];

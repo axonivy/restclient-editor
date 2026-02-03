@@ -2,70 +2,53 @@ import type { RestClientData } from '@axonivy/restclient-editor-protocol';
 
 export const data: Array<RestClientData> = [
   {
-    name: 'wt',
-    fullName: 'William Tell',
-    emailAddress: 'william.tell@axonivy.com',
-    password: '',
-    roles: ['Teamleader'],
-    properties: {
-      perms: 'sa',
-      status: 'married'
-    }
+    name: 'personService',
+    id: 'e00c9735-7733-4da8-85c8-6413c6fb2cd3',
+    uri: '{ivy.app.baseurl}/api/persons',
+    description: '',
+    icon: ''
   },
   {
-    name: 'ldv',
-    fullName: 'Leonardo Da Vinci',
-    emailAddress: 'leonarda.davinci@axonivy.com',
-    password: '',
-    roles: ['Employee'],
-    properties: {}
+    name: 'batchService',
+    id: 'b0a5f371-e479-444d-b71c-af1fff4c084d',
+    uri: '{ivy.app.baseurl}/api/batch',
+    description: '',
+    icon: ''
   },
   {
-    name: 'hb',
-    fullName: 'Hugo Boss',
-    emailAddress: 'hugo.boss@axonivy.com',
-    password: 'hb',
-    roles: ['Teamleader', 'HR Manager', 'Facility Manager', 'IT Manager', 'Office Manager', 'Executive Manager', 'Processor'],
-    properties: {}
+    name: 'jsonPlaceholder',
+    id: '449e7581-aa1e-4e3b-931a-903253491b50',
+    uri: 'https://jsonplaceholder.typicode.com/',
+    description: 'A free to use test service with fixed data.',
+    icon: ''
   },
   {
-    name: 'mc',
-    fullName: 'Marie Curie',
-    emailAddress: 'marie.curie@axonivy.com',
-    password: '',
-    roles: ['Facility Manager'],
-    properties: {}
+    name: 'odataService',
+    id: '65f8e5a4-768d-4a68-813a-e6d569cda522',
+    uri: 'https://services.odata.org/V4/(S(cnbm44wtbc1v5bgrlek5lpcc))/TripPinServiceRW',
+    description: 'The OData demo service',
+    icon: ''
   },
   {
-    name: 'md',
-    fullName: 'Marlene Dietrich',
-    emailAddress: 'marlene.dietrich@axonivy.com',
-    password: '',
-    roles: ['HR Manager'],
-    properties: {}
+    name: 'ivy.engine (local.backend)',
+    id: '4d9a8b09-9968-4476-a8ac-b71a94d25e94',
+    uri: '{ivy.app.baseurl}/api',
+    description:
+      'A client using the REST endpoints defined by the serving ivy.engine. These endpoints either derive from application/projects or static engine resources.',
+    icon: ''
   },
   {
-    name: 'jb',
-    fullName: 'James Bond',
-    emailAddress: 'james.bond@axonivy.com',
-    password: '',
-    roles: ['Office Manager', 'Deliverer'],
-    properties: {}
+    name: 'openApiService',
+    id: 'ae69ba01-79b7-4dce-9049-900f8f420907',
+    uri: 'https://petstore3.swagger.io/api/v3',
+    description: '',
+    icon: ''
   },
   {
-    name: 'hf',
-    fullName: 'Henry Ford',
-    emailAddress: 'henry.ford@axonivy.com',
-    password: '',
-    roles: ['IT Manager'],
-    properties: {}
-  },
-  {
-    name: 'bf',
-    fullName: 'Benjamin Franklin',
-    emailAddress: 'benjamin.franklin@axonivy.com',
-    password: '',
-    roles: ['Executive Manager', 'Finance'],
-    properties: {}
+    name: 'customClient',
+    id: 'bf0e4baf-96e6-470c-a61c-a2f4dbfe4c8f',
+    uri: '{ivy.app.baseurl}/api/persons',
+    description: '',
+    icon: ''
   }
 ];

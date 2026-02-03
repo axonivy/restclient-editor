@@ -10,12 +10,13 @@
     },
     "label": {
       "cancel": "Abbrechen",
+      "description": "Beschreibung",
       "details": "Details",
-      "emailAddress": "E-Mail Adresse",
-      "fullName": "Vollständiger Name",
+      "icon": "Symbol",
+      "id": "ID",
       "name": "Name",
-      "password": "Passwort",
       "properties": "Eigenschaften",
+      "uri": "URI",
       "value": "Wert"
     },
     "message": {

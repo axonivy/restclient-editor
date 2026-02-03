@@ -2,14 +2,18 @@ import { expect, test } from '@playwright/test';
 import { AddRestClientDialog } from '../page-objects/AddRestClientDialog';
 import { RestClientEditor } from '../page-objects/RestClientEditor';
 
-// eslint-disable-next-line playwright/no-skipped-test
-test.skip('data', async ({ page }) => {
+test('data', async ({ page }) => {
   const editor = await RestClientEditor.openRestClient(page);
   await expect(editor.main.locator.getByText('Rest Clients').first()).toBeVisible();
   await editor.main.table.header(0).locator.getByRole('button', { name: 'Sort by Name' }).click();
-  await editor.main.table.expectToHaveRows(['bf', 'Benjamin Franklin', 'Executive ManagerFinance'], ['hb', 'Hugo Boss'], ['hf', 'Henry Ford', 'IT Manager'], ['jb']);
+  await editor.main.table.expectToHaveRows(
+    ['batchService', '{ivy.app.baseurl}/api/batch'],
+    ['customClient', '{ivy.app.baseurl}/api/persons'],
+    ['ivy.engine (local.backend)', '{ivy.app.baseurl}/api'],
+    ['jsonPlaceholder', 'https://jsonplaceholder.typicode.com/']
+  );
   await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.header).toHaveText('bf');
+  await expect(editor.detail.header).toHaveText('batchService');
 });
 
 // eslint-disable-next-line playwright/no-skipped-test
@@ -23,11 +27,11 @@ test.skip('save data', async ({ page, browserName }, testInfo) => {
   await row.expectToHaveColumns(newRestClientName, '', '');
   await row.locator.click();
   await expect(editor.detail.header).toHaveText(newRestClientName);
-  await editor.detail.fullName.fill('fullname');
-  await row.expectToHaveColumns(newRestClientName, 'fullname', 'Teamleader');
+  await editor.detail.uri.fill('www.axonivy.com');
+  await row.expectToHaveColumns(newRestClientName, 'www.axonivy.com');
 
   await page.reload();
-  await row.expectToHaveColumns(newRestClientName, 'fullname', 'Teamleader');
+  await row.expectToHaveColumns(newRestClientName, 'www.axonivy.com');
 
   await row.locator.click();
   await editor.main.delete.click();
@@ -40,7 +44,7 @@ test('select rest client', async ({ page }) => {
   await expect(editor.detail.header).toHaveText('Rest Client');
 
   await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.header).toHaveText('wt');
+  await expect(editor.detail.header).toHaveText('personService');
 
   await editor.main.table.header(0).locator.click();
   await editor.main.table.expectToHaveNoSelection();
@@ -49,33 +53,35 @@ test('select rest client', async ({ page }) => {
 
 test('search', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
-  await editor.main.table.expectToHaveRowCount(8);
-  await editor.main.search.fill('bo');
-  await editor.main.table.expectToHaveRowCount(2);
+  await editor.main.table.expectToHaveRowCount(7);
+  await editor.main.search.fill('vice');
+  await editor.main.table.expectToHaveRowCount(4);
 });
 
 test('sort', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
-  await editor.main.table.expectToHaveRows(['wt']);
+  await editor.main.table.expectToHaveRows(['personService']);
   await editor.main.table.header(0).locator.getByRole('button', { name: 'Sort by Name' }).click();
-  await editor.main.table.expectToHaveRows(['bf']);
+  await editor.main.table.expectToHaveRows(['batchService']);
 });
 
 test('add', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
-  await editor.main.table.expectToHaveRowCount(8);
+  await editor.main.table.expectToHaveRowCount(7);
   const dialog = await editor.main.openAddRestClientDialog();
   await dialog.name.locator.fill('NewRestClient');
   await dialog.cancel.click();
-  await editor.main.table.expectToHaveRowCount(8);
+  await editor.main.table.expectToHaveRowCount(7);
   await editor.main.openAddRestClientDialog();
   await dialog.name.locator.fill('NewRestClient');
   await dialog.create.click();
-  await editor.main.table.expectToHaveRowCount(9);
-  await editor.main.table.row(8).expectToHaveColumns('NewRestClient');
-  await editor.main.table.row(8).locator.click();
-  await editor.main.delete.click();
   await editor.main.table.expectToHaveRowCount(8);
+  await editor.main.table.row(7).expectToHaveColumns('NewRestClient');
+  await editor.main.table.row(7).expectToBeSelected();
+  await expect(editor.detail.header).toHaveText('NewRestClient');
+  await expect(editor.detail.id).toHaveValue(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  await editor.main.delete.click();
+  await editor.main.table.expectToHaveRowCount(7);
 });
 
 test('empty', async ({ page }) => {

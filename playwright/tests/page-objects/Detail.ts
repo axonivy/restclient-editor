@@ -7,10 +7,11 @@ export class Detail {
   readonly header: Locator;
   readonly help: Locator;
   readonly content: Locator;
+  readonly id: Locator;
   readonly name: Locator;
-  readonly password: Locator;
-  readonly fullName: Locator;
-  readonly emailAddress: Locator;
+  readonly description: Locator;
+  readonly icon: Locator;
+  readonly uri: Locator;
   readonly properties: Table;
 
   constructor(page: Page) {
@@ -19,10 +20,11 @@ export class Detail {
     this.header = this.locator.locator('.restclient-editor-detail-header');
     this.help = this.locator.getByRole('button', { name: 'Open Help' });
     this.content = this.locator.locator('.restclient-editor-detail-content');
+    this.id = this.locator.getByLabel('ID', { exact: true });
     this.name = this.locator.getByLabel('Name', { exact: true });
-    this.password = this.locator.getByLabel('Password', { exact: true });
-    this.fullName = this.locator.getByLabel('Full Name', { exact: true });
-    this.emailAddress = this.locator.getByLabel('Email Address', { exact: true });
+    this.description = this.locator.getByLabel('Description', { exact: true });
+    this.icon = this.locator.getByLabel('Icon', { exact: true });
+    this.uri = this.locator.getByLabel('URI', { exact: true });
     this.properties = new Table(page, this.locator);
   }
 }

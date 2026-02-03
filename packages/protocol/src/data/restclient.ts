@@ -7,10 +7,9 @@
 
 export type Severity = ("INFO" | "WARNING" | "ERROR")
 
-export interface RestClients {
+export interface Restclients {
   boolean: boolean;
   editorFileContent: EditorFileContent;
-  roleMeta: RoleMeta[];
   restClientContext: RestClientContext;
   restClientEditorData: RestClientEditorData;
   restClientSaveDataArgs: RestClientSaveDataArgs;
@@ -19,10 +18,6 @@ export interface RestClients {
 }
 export interface EditorFileContent {
   content: string;
-}
-export interface RoleMeta {
-  id: string;
-  label: string;
 }
 export interface RestClientContext {
   app: string;
@@ -36,15 +31,11 @@ export interface RestClientEditorData {
   readonly: boolean;
 }
 export interface RestClientData {
-  emailAddress: string;
-  fullName: string;
+  description: string;
+  icon: string;
+  id: string;
   name: string;
-  password: string;
-  properties: MapStringString;
-  roles: string[];
-}
-export interface MapStringString {
-  [k: string]: string;
+  uri: string;
 }
 export interface RestClientSaveDataArgs {
   context: RestClientContext;
