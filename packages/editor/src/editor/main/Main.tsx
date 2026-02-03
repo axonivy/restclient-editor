@@ -62,8 +62,8 @@ export const Main = () => {
         )
       },
       {
-        accessorKey: 'fullName',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.fullName')} />,
+        accessorKey: 'uri',
+        header: ({ column }) => <SortableHeader column={column} name={t('common.label.uri')} />,
         cell: cell => (
           <Flex alignItems='center' gap={1}>
             <span>{cell.getValue()}</span>

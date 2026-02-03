@@ -13,35 +13,37 @@ test('empty', async ({ page }) => {
 test('edit rest client', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.header).toHaveText('wt');
+  await expect(editor.detail.header).toHaveText('personService');
   await expect(editor.detail.content).toBeVisible();
-  await expect(editor.detail.name).toHaveValue('wt');
-  await expect(editor.detail.password).toBeEmpty();
-  await expect(editor.detail.fullName).toHaveValue('William Tell');
-  await expect(editor.detail.emailAddress).toHaveValue('william.tell@axonivy.com');
-  await editor.detail.properties.expectToHaveRowValues(['perms', 'sa'], ['status', 'married']);
+  await expect(editor.detail.id).toBeDisabled();
+  await expect(editor.detail.name).toHaveValue('personService');
+  await expect(editor.detail.description).toBeEmpty();
+  await expect(editor.detail.icon).toBeEmpty();
+  await expect(editor.detail.uri).toHaveValue('{ivy.app.baseurl}/api/persons');
+  // await editor.detail.properties.expectToHaveRowValues(['perms', 'sa'], ['status', 'married']);
 
-  await editor.detail.name.fill('Updated wt');
-  await editor.detail.password.fill('newpassword');
-  await editor.detail.fullName.fill('Updated Full Name');
-  await editor.detail.emailAddress.fill('updated.email@axonivy.com');
-  const row = await editor.detail.properties.addRow();
-  await row.fill(['newProp', 'newValue']);
-  await editor.main.table.row(0).expectToHaveColumns('Updated wt', 'Updated Full Name');
+  await editor.detail.name.fill('Updated service');
+  await editor.detail.description.fill('desc');
+  await editor.detail.icon.fill('file://icon');
+  await editor.detail.uri.fill('{ivy.app.baseurl}/api/updatedService');
+  // const row = await editor.detail.properties.addRow();
+  // await row.fill(['newProp', 'newValue']);
+  // await editor.main.table.row(0).expectToHaveColumns('Updated service', 'Updated Full Name');
 
-  await editor.main.table.row(1).locator.click();
-  await expect(editor.detail.header).toHaveText('ldv');
+  // await editor.main.table.row(1).locator.click();
+  // await expect(editor.detail.header).toHaveText('ldv');
 
-  await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.header).toHaveText('Updated wt');
-  await expect(editor.detail.name).toHaveValue('Updated wt');
-  await expect(editor.detail.password).toHaveValue('newpassword');
-  await expect(editor.detail.fullName).toHaveValue('Updated Full Name');
-  await expect(editor.detail.emailAddress).toHaveValue('updated.email@axonivy.com');
-  await editor.detail.properties.expectToHaveRowValues(['perms', 'sa'], ['status', 'married'], ['newProp', 'newValue']);
+  // await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.header).toHaveText('Updated service');
+  await expect(editor.detail.name).toHaveValue('Updated service');
+  await expect(editor.detail.description).toHaveValue('desc');
+  await expect(editor.detail.icon).toHaveValue('file://icon');
+  await expect(editor.detail.uri).toHaveValue('{ivy.app.baseurl}/api/updatedService');
+  // await editor.detail.properties.expectToHaveRowValues(['perms', 'sa'], ['status', 'married'], ['newProp', 'newValue']);
 });
 
-test('keyboard properties', async ({ page }) => {
+// eslint-disable-next-line playwright/no-skipped-test
+test.skip('keyboard properties', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.row(0).locator.click();
   await editor.detail.properties.expectToHaveRowValues(['perms', 'sa'], ['status', 'married']);

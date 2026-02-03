@@ -9,14 +9,13 @@ import type {
   ValidationResult
 } from '@axonivy/restclient-editor-protocol';
 import { data } from './data-mock';
-import { ROLES } from './meta-mock';
 import { validateMock } from './validation-mock';
 
 export class RestClientMock implements RestClientClient {
   private restclientData: RestClientEditorData;
   constructor() {
     this.restclientData = {
-      context: { app: 'mockApp', pmv: 'mockPmv', file: 'restclients.yaml' },
+      context: { app: 'mockApp', pmv: 'mockPmv', file: 'rest-clients.yaml' },
       data: data,
       helpUrl: 'https://dev.axonivy.com',
       readonly: false
@@ -51,9 +50,6 @@ export class RestClientMock implements RestClientClient {
   ): Promise<RestClientMetaRequestTypes[TMeta][1]> {
     console.log('Meta:', args);
     switch (path) {
-      case 'meta/roles/all': {
-        return Promise.resolve(ROLES);
-      }
       default:
         throw Error('mock meta path not programmed');
     }

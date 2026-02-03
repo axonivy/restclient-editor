@@ -1,3 +1,4 @@
+import type { RestClientData } from '@axonivy/restclient-editor-protocol';
 import {
   BasicDialogContent,
   BasicField,
@@ -16,7 +17,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { RestClientData } from '@axonivy/restclient-editor-protocol';
+import { v4 as uuid } from '@lukeed/uuid';
 import type { Table } from '@tanstack/react-table';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -59,15 +60,14 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
     if (!allInputsValid) {
       return;
     }
-    const id = name.trim();
-    setData(old => [...old, { name, fullName: '', emailAddress: '', password: '', roles: [], properties: {} }]);
+    setData(old => [...old, { id: uuid(), name, description: '', icon: '', uri: '' }]);
     if (!event.ctrlKey && !event.metaKey) {
       closeDialog();
     } else {
       setName('');
       nameInputRef.current?.focus();
     }
-    selectRow(table, id);
+    selectRow(table, data.length.toString());
     setSelectedIndex(data.length);
   };
 

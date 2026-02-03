@@ -13,10 +13,10 @@ export const DetailContent = () => {
   const { data, setData, selectedIndex } = useAppContext();
   const restclient = useMemo(() => data[selectedIndex], [data, selectedIndex]);
   const validations = useValidations(restclient?.name ?? '');
-  const properties = useMemo(
-    () => Object.entries(restclient?.properties ?? {}).map(([key, value]) => ({ key, value })),
-    [restclient?.properties]
-  );
+  // const properties = useMemo(
+  //   () => Object.entries(restclient?.properties ?? {}).map(([key, value]) => ({ key, value })),
+  //   [restclient?.properties]
+  // );
   if (restclient === undefined) {
     return <PanelMessage message={t('label.noRestClientSelected')} />;
   }
@@ -30,31 +30,31 @@ export const DetailContent = () => {
     });
 
   const nameMessage = fieldMessage(validations, restclient.name, 'name');
-  const passwordMessage = fieldMessage(validations, restclient.name, 'password');
-  const fullNameMessage = fieldMessage(validations, restclient.name, 'fullName');
-  const emailAddressMessage = fieldMessage(validations, restclient.name, 'emailAddress');
 
   return (
     <Flex direction='column' gap={4} className='restclient-editor-detail-content'>
+      <BasicField label={t('common.label.id')}>
+        <BasicInput value={restclient.id} disabled />
+      </BasicField>
       <NameInput
         value={restclient.name}
         onChange={value => handleAttributeChange('name', value)}
         restClients={data.filter(u => u.name !== restclient.name)}
         message={nameMessage}
       />
-      <BasicField label={t('common.label.password')} message={passwordMessage}>
-        <BasicInput value={restclient.password} onChange={event => handleAttributeChange('password', event.target.value)} />
+      <BasicField label={t('common.label.description')}>
+        <BasicInput value={restclient.description} onChange={event => handleAttributeChange('description', event.target.value)} />
       </BasicField>
-      <BasicField label={t('common.label.fullName')} message={fullNameMessage}>
-        <BasicInput value={restclient.fullName} onChange={event => handleAttributeChange('fullName', event.target.value)} />
+      <BasicField label={t('common.label.icon')}>
+        <BasicInput value={restclient.icon} onChange={event => handleAttributeChange('icon', event.target.value)} />
       </BasicField>
-      <BasicField label={t('common.label.emailAddress')} message={emailAddressMessage}>
-        <BasicInput value={restclient.emailAddress} onChange={event => handleAttributeChange('emailAddress', event.target.value)} />
+      <BasicField label={t('common.label.uri')}>
+        <BasicInput value={restclient.uri} onChange={event => handleAttributeChange('uri', event.target.value)} />
       </BasicField>
       <PropertiesTable
         key={restclient.name}
-        data={properties}
-        onChange={change => handleAttributeChange('properties', Object.fromEntries(change.map(({ key, value }) => [key, value])))}
+        data={[]}
+        onChange={() => {} /*handleAttributeChange('properties', Object.fromEntries(change.map(({ key, value }) => [key, value])))*/}
       />
     </Flex>
   );

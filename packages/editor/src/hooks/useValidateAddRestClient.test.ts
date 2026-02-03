@@ -5,19 +5,17 @@ import { useValidateName } from './useValidateAddRestClient';
 const data: Array<RestClientData> = [
   {
     name: 'Employee',
-    fullName: '',
-    emailAddress: '',
-    password: '',
-    roles: [],
-    properties: {}
+    description: '',
+    icon: '',
+    id: '1',
+    uri: ''
   },
   {
     name: 'Teamleader',
-    fullName: '',
-    emailAddress: '',
-    password: '',
-    roles: [],
-    properties: {}
+    description: '',
+    icon: '',
+    id: '2',
+    uri: ''
   }
 ];
 

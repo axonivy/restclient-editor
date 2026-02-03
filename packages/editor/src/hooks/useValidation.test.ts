@@ -15,10 +15,10 @@ const renderValidations = (path: string) => {
 };
 
 const data: Array<RestClientData> = [
-  { name: 'Employee', fullName: '', emailAddress: '', password: '', roles: [], properties: {} },
-  { name: 'Teamleader', fullName: '', emailAddress: '', password: '', roles: [], properties: {} },
-  { name: 'Manager', fullName: '', emailAddress: '', password: '', roles: [], properties: {} },
-  { name: 'HR Manager', fullName: '', emailAddress: '', password: '', roles: [], properties: {} }
+  { name: 'Employee', description: '', icon: '', id: '1', uri: '' },
+  { name: 'Teamleader', description: '', icon: '', id: '2', uri: '' },
+  { name: 'Manager', description: '', icon: '', id: '3', uri: '' },
+  { name: 'HR Manager', description: '', icon: '', id: '4', uri: '' }
 ];
 
 const validations: Array<ValidationResult> = [
