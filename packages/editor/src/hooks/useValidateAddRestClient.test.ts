@@ -8,14 +8,28 @@ const data: Array<RestClientData> = [
     description: '',
     icon: '',
     id: '1',
-    uri: ''
+    uri: '',
+    features: [],
+    properties: [],
+    openApi: {
+      namespace: '',
+      resolveFully: false,
+      spec: ''
+    }
   },
   {
     name: 'Teamleader',
     description: '',
     icon: '',
     id: '2',
-    uri: ''
+    uri: '',
+    features: [],
+    properties: [],
+    openApi: {
+      namespace: '',
+      resolveFully: false,
+      spec: ''
+    }
   }
 ];
 
