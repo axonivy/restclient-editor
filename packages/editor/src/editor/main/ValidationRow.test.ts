@@ -1,0 +1,11 @@
+import type { ValidationResult } from '@axonivy/restclient-editor-protocol';
+import { rowClass } from './ValidationRow';
+
+test('rowClass', () => {
+  expect(rowClass([])).toEqual('');
+  expect(rowClass([{ severity: 'INFO' }] as ValidationResult[])).toEqual('');
+  expect(rowClass([{ severity: 'INFO' }, { severity: 'WARNING' }] as ValidationResult[])).toEqual('restclient-editor-row-warning');
+  expect(rowClass([{ severity: 'INFO' }, { severity: 'ERROR' }] as ValidationResult[])).toEqual(
+    'restclient-editor-row-error'
+  );
+});

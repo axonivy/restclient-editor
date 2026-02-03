@@ -1,0 +1,53 @@
+{
+  "common": {
+    "hotkey": {
+      "focusInscription": "Fokus Detailansicht ({{hotkey}})",
+      "focusMain": "Fokus Hauptansicht ({{hotkey}})",
+      "focusToolbar": "Fokus Toolbar ({{hotkey}})",
+      "help": "Hilfe öffnen ({{hotkey}})",
+      "redo": "Wiederholen ({{hotkey}})",
+      "undo": "Rückgängig ({{hotkey}})"
+    },
+    "label": {
+      "cancel": "Abbrechen",
+      "details": "Details",
+      "emailAddress": "E-Mail Adresse",
+      "fullName": "Vollständiger Name",
+      "name": "Name",
+      "password": "Passwort",
+      "properties": "Eigenschaften",
+      "value": "Wert"
+    },
+    "message": {
+      "errorOccurred": "Ein Fehler ist aufgetreten: {{message}}"
+    }
+  },
+  "dialog": {
+    "addRestClient": {
+      "desc": "Fügen Sie eine neue Rest Client Konfiguration hinzu.",
+      "title": "Rest Client hinzufügen"
+    },
+    "create": "Erstellen",
+    "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen."
+  },
+  "hotkey": {
+    "addRestClient": "Rest Client hinzufügen ({{hotkey}})",
+    "deleteRestClient": "Rest Client löschen ({{hotkey}})"
+  },
+  "label": {
+    "noRestClientSelected": "Kein Rest Client ausgewählt",
+    "removeRow": "Zeile entfernen",
+    "restClients": "Rest Clients"
+  },
+  "message": {
+    "addFirstRestClient": "Fügen Sie Ihren ersten Rest Client hinzu, um zu beginnen.",
+    "emptyName": "Name darf nicht leer sein.",
+    "errorOnly": "Fehler: {{error}}",
+    "notFound": "Nicht gefunden",
+    "restclientAlreadyExists": "Rest Client existiert bereits."
+  },
+  "title": {
+    "detail": "Rest Client",
+    "main": "Rest Clients - {{name}}"
+  }
+}

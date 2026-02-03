@@ -1,0 +1,15 @@
+import type { RestClientData, ValidationResult } from '@axonivy/restclient-editor-protocol';
+
+export const validateMock = (data: Array<RestClientData>): Array<ValidationResult> => {
+  const validations: Array<ValidationResult> = [];
+  data.forEach(restClient => {
+    if (restClient.name.includes('#')) {
+      validations.push({
+        path: `${restClient.name}.name`,
+        message: `RestClient ${restClient.name} contains invalid characters`,
+        severity: 'ERROR'
+      });
+    }
+  });
+  return validations;
+};
