@@ -60,7 +60,19 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
     if (!allInputsValid) {
       return;
     }
-    setData(old => [...old, { id: uuid(), name, description: '', icon: '', uri: '' }]);
+    setData(old => [
+      ...old,
+      {
+        id: uuid(),
+        name,
+        description: '',
+        icon: '',
+        uri: '',
+        features: [],
+        properties: [],
+        openApi: { namespace: '', resolveFully: false, spec: '' }
+      }
+    ]);
     if (!event.ctrlKey && !event.metaKey) {
       closeDialog();
     } else {

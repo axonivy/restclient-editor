@@ -5,7 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Severity = ("INFO" | "WARNING" | "ERROR")
+export type RestClientPropertyType = ("STRING" | "PASSWORD" | "PATH")
+export type Severity = "INFO" | "WARNING" | "ERROR";
 
 export interface Restclients {
   boolean: boolean;
@@ -32,10 +33,23 @@ export interface RestClientEditorData {
 }
 export interface RestClientData {
   description: string;
+  features: string[];
   icon: string;
   id: string;
   name: string;
+  openApi: RestClientOpenApi;
+  properties: RestClientProperty[];
   uri: string;
+}
+export interface RestClientOpenApi {
+  namespace: string;
+  resolveFully: boolean;
+  spec: string;
+}
+export interface RestClientProperty {
+  key: string;
+  type: RestClientPropertyType;
+  value: string;
 }
 export interface RestClientSaveDataArgs {
   context: RestClientContext;
