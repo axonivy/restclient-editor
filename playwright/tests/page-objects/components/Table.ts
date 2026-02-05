@@ -1,4 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { Select } from './Select';
+
+export type ColumnType = 'text' | 'input' | 'select' | 'combobox';
 
 export class Table {
   readonly locator: Locator;
@@ -7,7 +10,8 @@ export class Table {
 
   constructor(
     readonly page: Page,
-    parent: Locator
+    parent: Locator,
+    readonly columns: ColumnType[]
   ) {
     this.locator = parent.locator('table');
     this.headers = this.locator.locator('th');
@@ -19,11 +23,11 @@ export class Table {
   }
 
   row(index: number) {
-    return new Row(this.rows.nth(index));
+    return new Row(this.page, this.rows.nth(index), this.columns);
   }
 
   lastRow() {
-    return new Row(this.rows.last());
+    return new Row(this.page, this.rows.last(), this.columns);
   }
 
   async addRow() {
@@ -36,12 +40,6 @@ export class Table {
     for (let i = 0; i < (await this.rows.count()); i++) {
       const row = this.row(i);
       await row.expectNotToBeSelected();
-    }
-  }
-
-  async expectToHaveRows(...rows: Array<Array<string>>) {
-    for (let i = 0; i < rows.length; i++) {
-      await this.row(i).expectToHaveColumns(...rows[i]!);
     }
   }
 
@@ -79,12 +77,16 @@ export class Header {
 export class Row {
   readonly locator: Locator;
 
-  constructor(row: Locator) {
+  constructor(
+    readonly page: Page,
+    row: Locator,
+    readonly columns: ColumnType[]
+  ) {
     this.locator = row;
   }
 
   column(index: number) {
-    return new Cell(this.locator, index);
+    return new Cell(this.page, this.locator, index, this.columns[index]!);
   }
 
   async fill(values: string[]) {
@@ -102,12 +104,6 @@ export class Row {
     await expect(this.locator).toHaveAttribute('data-state', 'unselected');
   }
 
-  async expectToHaveColumns(...values: Array<string>) {
-    for (let i = 0; i < values.length; i++) {
-      await this.column(i).expectToHaveText(values[i]!);
-    }
-  }
-
   async expectToHaveColumnValues(...values: Array<string>) {
     for (let i = 0; i < values.length; i++) {
       await this.column(i).expectToHaveValue(values[i]!);
@@ -117,22 +113,49 @@ export class Row {
 
 export class Cell {
   readonly locator: Locator;
+  readonly inputCell: Locator;
+  readonly selectCell: Select;
 
-  constructor(row: Locator, index: number) {
+  constructor(
+    readonly page: Page,
+    row: Locator,
+    index: number,
+    readonly columnType: ColumnType
+  ) {
     this.locator = row.getByRole('cell').nth(index);
+    this.inputCell = this.locator.getByRole('textbox');
+    this.selectCell = new Select(page, this.locator);
   }
 
   async fill(value: string) {
-    const input = this.locator.getByRole('textbox');
-    await input.fill(value);
-    await input.blur();
+    switch (this.columnType) {
+      case 'input':
+        await this.fillText(value);
+        break;
+      case 'select':
+      case 'combobox':
+        await this.selectCell.choose(value);
+        break;
+    }
   }
 
-  async expectToHaveText(value: string) {
-    await expect(this.locator).toHaveText(value);
+  private async fillText(value: string) {
+    await this.inputCell.fill(value);
+    await this.inputCell.blur();
   }
 
   async expectToHaveValue(value: string) {
-    await expect(this.locator.getByRole('textbox')).toHaveValue(value);
+    switch (this.columnType) {
+      case 'text':
+        await expect(this.locator).toHaveText(value);
+        break;
+      case 'input':
+        await expect(this.inputCell).toHaveValue(value);
+        break;
+      case 'select':
+      case 'combobox':
+        await this.selectCell.expectValue(value);
+        break;
+    }
   }
 }

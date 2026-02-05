@@ -10,7 +10,7 @@ export const data: Array<RestClientData> = [
     features: ['ch.ivyteam.ivy.rest.client.authentication.HttpBasicAuthenticationFeature', 'ch.ivyteam.ivy.rest.client.mapper.JsonFeature'],
     properties: [
       { key: 'username', type: 'STRING', value: 'theWorker' },
-      { key: 'password', type: 'PASSWORD', value: '' }
+      { key: 'password', type: 'PASSWORD', value: 'theWorker' }
     ],
     openApi: {
       spec: '',
@@ -29,7 +29,7 @@ export const data: Array<RestClientData> = [
       { key: 'jersey.config.client.readTimeout', type: 'STRING', value: '35000' },
       { key: 'jersey.config.client.connectTimeout', type: 'STRING', value: '1000' },
       { key: 'username', type: 'STRING', value: 'theWorker' },
-      { key: 'password', type: 'PASSWORD', value: '' }
+      { key: 'password', type: 'PASSWORD', value: 'theWorker' }
     ],
     openApi: {
       spec: '',
@@ -78,7 +78,7 @@ export const data: Array<RestClientData> = [
     ],
     properties: [
       { key: 'username', type: 'STRING', value: 'theWorker' },
-      { key: 'password', type: 'PASSWORD', value: '' }
+      { key: 'password', type: 'PASSWORD', value: 'theWorker' }
     ],
     openApi: {
       spec: '',
@@ -113,7 +113,7 @@ export const data: Array<RestClientData> = [
     ],
     properties: [
       { key: 'username', type: 'STRING', value: 'theWorker' },
-      { key: 'password', type: 'PASSWORD', value: '' }
+      { key: 'password', type: 'PASSWORD', value: 'theWorker' }
     ],
     openApi: {
       spec: '',
