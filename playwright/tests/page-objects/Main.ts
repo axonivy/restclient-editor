@@ -14,7 +14,7 @@ export class Main {
     this.add = this.locator.getByRole('button', { name: 'Add Rest Client' });
     this.delete = this.locator.getByRole('button', { name: 'Delete Rest Client' });
     this.search = this.locator.getByRole('textbox').first();
-    this.table = new Table(page, this.locator);
+    this.table = new Table(page, this.locator, ['text', 'text']);
   }
 
   public async openAddRestClientDialog() {

@@ -1,4 +1,4 @@
-import { Button, deepEqual, TableAddRow } from '@axonivy/ui-components';
+import { deepEqual, TableAddRow, type ButtonProps } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { ColumnDef, RowSelectionState, SortingState } from '@tanstack/react-table';
 import { getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
@@ -100,12 +100,20 @@ export const useResizableEditableTable = <TData,>({
     }
   };
 
-  const selectedRowActions = () => {
+  const selectedRowActions = (): Array<ButtonProps> => {
     const firstSelectedRow = table.getSelectedRowModel().rows[0];
     if (firstSelectedRow === undefined) {
-      return null;
+      return [];
     }
-    return <Button size='small' title={t('label.removeRow')} icon={IvyIcons.Trash} onClick={() => removeRow(firstSelectedRow.index)} />;
+    return [
+      {
+        size: 'small',
+        title: t('label.removeRow'),
+        'aria-label': t('label.removeRow'),
+        icon: IvyIcons.Trash,
+        onClick: () => removeRow(firstSelectedRow.index)
+      }
+    ];
   };
 
   return { table, tableRef, rowSelection, selectedRowActions, setRowSelection, showAddButton };

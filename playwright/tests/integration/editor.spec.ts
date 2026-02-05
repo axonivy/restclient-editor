@@ -6,7 +6,7 @@ test('data', async ({ page }) => {
   const editor = await RestClientEditor.openRestClient(page);
   await expect(editor.main.locator.getByText('Rest Clients').first()).toBeVisible();
   await editor.main.table.header(0).locator.getByRole('button', { name: 'Sort by Name' }).click();
-  await editor.main.table.expectToHaveRows(
+  await editor.main.table.expectToHaveRowValues(
     ['batchService', '{ivy.app.baseurl}/api/batch'],
     ['customClient', '{ivy.app.baseurl}/api/persons'],
     ['ivy.engine (local.backend)', '{ivy.app.baseurl}/api'],
@@ -24,14 +24,14 @@ test.skip('save data', async ({ page, browserName }, testInfo) => {
   await dialog.name.locator.fill(newRestClientName);
   await dialog.create.click();
   const row = editor.main.table.lastRow();
-  await row.expectToHaveColumns(newRestClientName, '', '');
+  await row.expectToHaveColumnValues(newRestClientName, '', '');
   await row.locator.click();
   await expect(editor.detail.header).toHaveText(newRestClientName);
   await editor.detail.uri.fill('www.axonivy.com');
-  await row.expectToHaveColumns(newRestClientName, 'www.axonivy.com');
+  await row.expectToHaveColumnValues(newRestClientName, 'www.axonivy.com');
 
   await page.reload();
-  await row.expectToHaveColumns(newRestClientName, 'www.axonivy.com');
+  await row.expectToHaveColumnValues(newRestClientName, 'www.axonivy.com');
 
   await row.locator.click();
   await editor.main.delete.click();
@@ -60,9 +60,9 @@ test('search', async ({ page }) => {
 
 test('sort', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
-  await editor.main.table.expectToHaveRows(['personService']);
+  await editor.main.table.expectToHaveRowValues(['personService']);
   await editor.main.table.header(0).locator.getByRole('button', { name: 'Sort by Name' }).click();
-  await editor.main.table.expectToHaveRows(['batchService']);
+  await editor.main.table.expectToHaveRowValues(['batchService']);
 });
 
 test('add', async ({ page }) => {
@@ -76,7 +76,7 @@ test('add', async ({ page }) => {
   await dialog.name.locator.fill('NewRestClient');
   await dialog.create.click();
   await editor.main.table.expectToHaveRowCount(8);
-  await editor.main.table.row(7).expectToHaveColumns('NewRestClient');
+  await editor.main.table.row(7).expectToHaveColumnValues('NewRestClient');
   await editor.main.table.row(7).expectToBeSelected();
   await expect(editor.detail.header).toHaveText('NewRestClient');
   await expect(editor.detail.id).toHaveValue(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);

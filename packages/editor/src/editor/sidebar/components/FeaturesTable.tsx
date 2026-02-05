@@ -1,8 +1,6 @@
-import type { RestClientProperty } from '@axonivy/restclient-editor-protocol';
 import {
   BasicCollapsible,
   InputCell,
-  SelectCell,
   SelectRow,
   SortableHeader,
   Table,
@@ -15,55 +13,42 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useResizableEditableTable } from '../../../hooks/useResizableEditableTable';
 
-type PropertiesTableProps = {
-  data: Array<RestClientProperty>;
-  onChange: (props: Array<RestClientProperty>) => void;
+type Feature = { class: string };
+
+type FeaturesTableProps = {
+  data: Array<string>;
+  onChange: (props: Array<string>) => void;
 };
 
-export const PropertiesTable = ({ data, onChange }: PropertiesTableProps) => {
+export const FeaturesTable = ({ data, onChange }: FeaturesTableProps) => {
   const { t } = useTranslation();
 
-  const columns = useMemo<ColumnDef<RestClientProperty, string>[]>(
+  const tableData: Feature[] = useMemo<Array<Feature>>(() => data.map(f => ({ class: f })), [data]);
+
+  const onTableDataChange = (changedData: Array<Feature>) => {
+    onChange(changedData.map(d => d.class));
+  };
+
+  const columns = useMemo<ColumnDef<Feature, string>[]>(
     () => [
       {
-        accessorKey: 'type',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.type')} />,
-        cell: cell => (
-          <SelectCell
-            cell={cell}
-            items={[
-              { label: t('common.label.text'), value: 'STRING' },
-              { label: t('common.label.password'), value: 'PASSWORD' },
-              { label: t('common.label.path'), value: 'PATH' }
-            ]}
-          />
-        )
-      },
-      {
-        accessorKey: 'key',
+        accessorKey: 'class',
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
         cell: cell => <InputCell cell={cell} />
-      },
-      {
-        accessorKey: 'value',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.value')} />,
-        cell: cell => {
-          return cell.row.original.type === 'PASSWORD' ? <InputCell cell={cell} type='password' /> : <InputCell cell={cell} />;
-        }
       }
     ],
     [t]
   );
 
   const { table, tableRef, setRowSelection, selectedRowActions, showAddButton } = useResizableEditableTable({
-    data,
+    data: tableData,
     columns,
-    onChange,
-    emptyDataObject: { type: 'STRING', key: '', value: '' }
+    onChange: onTableDataChange,
+    emptyDataObject: { class: '' }
   });
 
   return (
-    <BasicCollapsible label={t('common.label.properties')} controls={selectedRowActions()}>
+    <BasicCollapsible label={t('common.label.features')} controls={selectedRowActions()}>
       <div>
         <Table ref={tableRef}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => setRowSelection({})} />

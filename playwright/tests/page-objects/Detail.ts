@@ -1,4 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
+import { RadioGroup } from './components/RadioGroup';
+import { Section } from './components/Section';
 import { Table } from './components/Table';
 
 export class Detail {
@@ -12,6 +14,13 @@ export class Detail {
   readonly description: Locator;
   readonly icon: Locator;
   readonly uri: Locator;
+  readonly authSection: Section;
+  readonly authenticationType: RadioGroup;
+  readonly username: Locator;
+  readonly password: Locator;
+  readonly featuresSection: Section;
+  readonly features: Table;
+  readonly propertiesSection: Section;
   readonly properties: Table;
 
   constructor(page: Page) {
@@ -25,6 +34,16 @@ export class Detail {
     this.description = this.locator.getByLabel('Description', { exact: true });
     this.icon = this.locator.getByLabel('Icon', { exact: true });
     this.uri = this.locator.getByLabel('URI', { exact: true });
-    this.properties = new Table(page, this.locator);
+
+    this.authSection = new Section(page, this.locator, 'Authentication');
+    this.authenticationType = new RadioGroup(this.authSection.content);
+    this.username = this.authSection.content.getByLabel('Username', { exact: true });
+    this.password = this.authSection.content.getByLabel('Password', { exact: true });
+
+    this.featuresSection = new Section(page, this.locator, 'Features');
+    this.features = new Table(page, this.featuresSection.content, ['input']);
+
+    this.propertiesSection = new Section(page, this.locator, 'Properties');
+    this.properties = new Table(page, this.propertiesSection.content, ['select', 'input', 'input']);
   }
 }

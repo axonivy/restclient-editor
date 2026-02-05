@@ -9,14 +9,21 @@
       "undo": "Undo ({{hotkey}})"
     },
     "label": {
+      "authentication": "Authentication",
       "cancel": "Cancel",
       "description": "Description",
       "details": "Details",
+      "features": "Features",
       "icon": "Icon",
       "id": "ID",
       "name": "Name",
+      "password": "Password",
+      "path": "Path",
       "properties": "Properties",
+      "text": "Text",
+      "type": "Type",
       "uri": "URI",
+      "username": "Username",
       "value": "Value"
     },
     "message": {
@@ -36,6 +43,12 @@
     "deleteRestClient": "Delete Rest Client ({{hotkey}})"
   },
   "label": {
+    "authentication": {
+      "basic": "Basic",
+      "digest": "Digest",
+      "none": "None",
+      "ntlm": "NTLM"
+    },
     "noRestClientSelected": "No Rest Client Selected",
     "removeRow": "Remove Row",
     "restClients": "Rest Clients"
