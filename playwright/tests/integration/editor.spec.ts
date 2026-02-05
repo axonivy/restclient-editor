@@ -16,15 +16,14 @@ test('data', async ({ page }) => {
   await expect(editor.detail.header).toHaveText('batchService');
 });
 
-// eslint-disable-next-line playwright/no-skipped-test
-test.skip('save data', async ({ page, browserName }, testInfo) => {
+test('save data', async ({ page, browserName }, testInfo) => {
   const editor = await RestClientEditor.openRestClient(page);
   const dialog = await editor.main.openAddRestClientDialog();
   const newRestClientName = `restclient-${browserName}-${testInfo.retry}`;
   await dialog.name.locator.fill(newRestClientName);
   await dialog.create.click();
   const row = editor.main.table.lastRow();
-  await row.expectToHaveColumnValues(newRestClientName, '', '');
+  await row.expectToHaveColumnValues(newRestClientName, '');
   await row.locator.click();
   await expect(editor.detail.header).toHaveText(newRestClientName);
   await editor.detail.uri.fill('www.axonivy.com');
