@@ -1,15 +1,16 @@
+import type { Severity, ValidationResult } from '@axonivy/restclient-editor-protocol';
 import { MessageRow, SelectRow, TableCell } from '@axonivy/ui-components';
-import type { Severity, RestClientData, ValidationResult } from '@axonivy/restclient-editor-protocol';
 import { flexRender, type Row } from '@tanstack/react-table';
 import { useValidations } from '../../hooks/useValidation';
 import './ValidationRow.css';
 
-type ValidationRowProps = {
-  row: Row<RestClientData>;
+type ValidationRowProps<TData> = {
+  row: Row<TData>;
+  validationPath: string;
 };
 
-export const ValidationRow = ({ row }: ValidationRowProps) => {
-  const validations = useValidations(row.original.name);
+export const ValidationRow = <TData,>({ row, validationPath }: ValidationRowProps<TData>) => {
+  const validations = useValidations(validationPath);
   return (
     <>
       <SelectRow row={row} className={rowClass(validations)}>

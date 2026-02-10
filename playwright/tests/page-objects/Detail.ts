@@ -2,6 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { RadioGroup } from './components/RadioGroup';
 import { Section } from './components/Section';
 import { Table } from './components/Table';
+import { Textbox } from './components/Textbox';
 
 export class Detail {
   readonly page: Page;
@@ -10,10 +11,10 @@ export class Detail {
   readonly help: Locator;
   readonly content: Locator;
   readonly id: Locator;
-  readonly name: Locator;
+  readonly name: Textbox;
   readonly description: Locator;
   readonly icon: Locator;
-  readonly uri: Locator;
+  readonly uri: Textbox;
   readonly authSection: Section;
   readonly authenticationType: RadioGroup;
   readonly username: Locator;
@@ -30,10 +31,10 @@ export class Detail {
     this.help = this.locator.getByRole('button', { name: 'Open Help' });
     this.content = this.locator.locator('.restclient-editor-detail-content');
     this.id = this.locator.getByLabel('ID', { exact: true });
-    this.name = this.locator.getByLabel('Name', { exact: true });
+    this.name = new Textbox(this.locator, { name: 'Name' });
     this.description = this.locator.getByLabel('Description', { exact: true });
     this.icon = this.locator.getByLabel('Icon', { exact: true });
-    this.uri = this.locator.getByLabel('URI', { exact: true });
+    this.uri = new Textbox(this.locator, { name: 'URI' });
 
     this.authSection = new Section(page, this.locator, 'Authentication');
     this.authenticationType = new RadioGroup(this.authSection.content);

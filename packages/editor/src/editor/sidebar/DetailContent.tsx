@@ -27,13 +27,15 @@ export const DetailContent = () => {
       return structuredClone(old);
     });
 
+  const idMessage = fieldMessage(validations, restclient.name, 'id');
   const nameMessage = fieldMessage(validations, restclient.name, 'name');
+  const uriMessage = fieldMessage(validations, restclient.name, 'uri');
 
   return (
     <Flex direction='column' gap={3} className='restclient-editor-detail-content'>
       <BasicCollapsible label={t('common.label.details')} defaultOpen>
         <Flex direction='column' gap={3}>
-          <BasicField label={t('common.label.id')}>
+          <BasicField label={t('common.label.id')} message={idMessage}>
             <BasicInput value={restclient.id} disabled />
           </BasicField>
           <NameInput
@@ -48,7 +50,7 @@ export const DetailContent = () => {
           <BasicField label={t('common.label.icon')}>
             <BasicInput value={restclient.icon} onChange={event => handleAttributeChange('icon', event.target.value)} />
           </BasicField>
-          <BasicField label={t('common.label.uri')}>
+          <BasicField label={t('common.label.uri')} message={uriMessage}>
             <BasicInput value={restclient.uri} onChange={event => handleAttributeChange('uri', event.target.value)} />
           </BasicField>
         </Flex>
@@ -56,7 +58,11 @@ export const DetailContent = () => {
       <BasicCollapsible label={t('common.label.authentication')}>
         <AuthenticationPart restClient={restclient} handleAttributeChange={handleAttributeChange} />
       </BasicCollapsible>
-      <FeaturesTable data={restclient.features} onChange={change => handleAttributeChange('features', change)} />
+      <FeaturesTable
+        data={restclient.features}
+        onChange={change => handleAttributeChange('features', change)}
+        validationPath={restclient.name}
+      />
       <PropertiesTable data={restclient.properties} onChange={change => handleAttributeChange('properties', change)} />
     </Flex>
   );

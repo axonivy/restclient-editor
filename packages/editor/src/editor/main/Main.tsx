@@ -148,7 +148,7 @@ export const Main = () => {
             <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
             <TableBody>
               {table.getRowModel().rows.map(row => (
-                <ValidationRow key={row.id} row={row} />
+                <ValidationRow key={row.id} row={row} validationPath={row.original.name} />
               ))}
             </TableBody>
           </Table>

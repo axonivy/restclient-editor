@@ -1,26 +1,19 @@
-import {
-  BasicCollapsible,
-  InputCell,
-  SelectRow,
-  SortableHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableResizableHeader
-} from '@axonivy/ui-components';
-import { flexRender, type ColumnDef } from '@tanstack/react-table';
+import { BasicCollapsible, InputCell, SortableHeader, Table, TableBody, TableResizableHeader } from '@axonivy/ui-components';
+import { type ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useResizableEditableTable } from '../../../hooks/useResizableEditableTable';
+import { ValidationRow } from '../../main/ValidationRow';
 
 type Feature = { class: string };
 
 type FeaturesTableProps = {
   data: Array<string>;
   onChange: (props: Array<string>) => void;
+  validationPath: string;
 };
 
-export const FeaturesTable = ({ data, onChange }: FeaturesTableProps) => {
+export const FeaturesTable = ({ data, onChange, validationPath }: FeaturesTableProps) => {
   const { t } = useTranslation();
 
   const tableData: Feature[] = useMemo<Array<Feature>>(() => data.map(f => ({ class: f })), [data]);
@@ -54,13 +47,7 @@ export const FeaturesTable = ({ data, onChange }: FeaturesTableProps) => {
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => setRowSelection({})} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <SelectRow key={row.id} row={row}>
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </SelectRow>
+              <ValidationRow key={row.id} row={row} validationPath={`${validationPath}.features.${row.original.class}`} />
             ))}
           </TableBody>
         </Table>
