@@ -26,7 +26,7 @@ test('save data', async ({ page, browserName }, testInfo) => {
   await row.expectToHaveColumnValues(newRestClientName, '');
   await row.locator.click();
   await expect(editor.detail.header).toHaveText(newRestClientName);
-  await editor.detail.uri.fill('www.axonivy.com');
+  await editor.detail.uri.locator.fill('www.axonivy.com');
   await row.expectToHaveColumnValues(newRestClientName, 'www.axonivy.com');
 
   await page.reload();

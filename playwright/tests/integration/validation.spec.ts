@@ -6,7 +6,24 @@ test('table', async ({ page }) => {
   const dialog = await editor.main.openAddRestClientDialog();
   await dialog.name.locator.fill('invalid#restclient');
   await dialog.create.click();
-  await expect(editor.main.table.locator.locator('.ui-message-row')).toHaveText('RestClient invalid#restclient contains invalid characters');
+  await expect(editor.main.table.locator.locator('.ui-message-row').first()).toHaveText('RestClient invalid#restclient contains invalid characters');
+});
+
+test('detail', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  const dialog = await editor.main.openAddRestClientDialog();
+  await dialog.name.locator.fill('invalid#restclient');
+  await dialog.create.click();
+  await editor.main.table.lastRow().locator.click();
+
+  await (await editor.detail.name.message()).expectToBeError('RestClient invalid#restclient contains invalid characters');
+  await (await editor.detail.uri.message()).expectToBeError('URI empty');
+  await editor.detail.featuresSection.open();
+  await editor.detail.features.expectToHaveRowCount(0);
+  const row = await editor.detail.features.addRow();
+  await row.fill(['bla']);
+  await editor.detail.features.expectToHaveRowCount(2);
+  await expect(editor.detail.features.locator.getByRole('row').last()).toHaveText('Features unknown');
 });
 
 test('add rest client', async ({ page }) => {
