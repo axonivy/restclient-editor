@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type {
   EditorFileContent,
+  JavaType,
   RestClientContext,
   RestClientEditorData,
   RestClientSaveDataArgs,
+  RestPropertyMeta,
   ValidationResult
 } from './data/restclient';
 
@@ -13,8 +15,10 @@ export interface RestClientActionArgs {
   payload: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface RestClientMetaRequestTypes {}
+export interface RestClientMetaRequestTypes {
+  'meta/properties/all': [void, Array<RestPropertyMeta>];
+  'meta/features/all': [RestClientContext, Array<JavaType>];
+}
 
 export interface RestClientRequestTypes extends RestClientMetaRequestTypes {
   initialize: [RestClientContext, void];

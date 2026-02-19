@@ -9,6 +9,7 @@ import type {
   ValidationResult
 } from '@axonivy/restclient-editor-protocol';
 import { data } from './data-mock';
+import { META_FEATURES, META_PROPS } from './meta.mock';
 import { validateMock } from './validation-mock';
 
 export class RestClientMock implements RestClientClient {
@@ -50,6 +51,10 @@ export class RestClientMock implements RestClientClient {
   ): Promise<RestClientMetaRequestTypes[TMeta][1]> {
     console.log('Meta:', args);
     switch (path) {
+      case 'meta/properties/all':
+        return Promise.resolve(META_PROPS);
+      case 'meta/features/all':
+        return Promise.resolve(META_FEATURES);
       default:
         throw Error('mock meta path not programmed');
     }

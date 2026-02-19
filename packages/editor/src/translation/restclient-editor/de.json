@@ -9,17 +9,21 @@
       "undo": "Rückgängig ({{hotkey}})"
     },
     "label": {
+      "apply": "Anwenden",
       "authentication": "Authentifizierung",
+      "browser": "Browser",
       "cancel": "Abbrechen",
       "description": "Beschreibung",
       "details": "Details",
       "features": "Funktionen",
       "icon": "Symbol",
       "id": "ID",
+      "info": "Info",
       "name": "Name",
       "password": "Passwort",
       "path": "Pfad",
       "properties": "Eigenschaften",
+      "search": "Suchen",
       "text": "Text",
       "type": "Typ",
       "uri": "URI",
@@ -34,6 +38,12 @@
     "addRestClient": {
       "desc": "Fügen Sie eine neue Rest Client Konfiguration hinzu.",
       "title": "Rest Client hinzufügen"
+    },
+    "browser": {
+      "description": "Durchsuchen Sie verfügbare Optionen.",
+      "loadError": "Konnte Browser-Daten nicht laden",
+      "loading": "Lädt...",
+      "title": "Browser"
     },
     "create": "Erstellen",
     "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen."
