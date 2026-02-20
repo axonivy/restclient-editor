@@ -30,6 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { AddRestClientDialog } from '../dialog/AddRestClientDialog';
+import { GenerateRestClassesDialog } from '../sidebar/GenerateRestClassesDialog';
 import './Main.css';
 import { ValidationRow } from './ValidationRow';
 
@@ -159,6 +160,7 @@ export const Main = () => {
 };
 
 const Controls = ({ table, deleteRestClient }: { table: ReactTable<RestClientData>; deleteRestClient?: () => void }) => {
+  const { t } = useTranslation();
   const readonly = useReadonly();
   const hotkeys = useKnownHotkeys();
   if (readonly) {
@@ -166,6 +168,14 @@ const Controls = ({ table, deleteRestClient }: { table: ReactTable<RestClientDat
   }
   return (
     <Flex gap={2}>
+      <GenerateRestClassesDialog>
+        <Button
+          icon={IvyIcons.SettingsCog}
+          aria-label={t('dialog.OpenAPI.generateRestClassesButton')}
+          disabled={table.getSelectedRowModel().rows.length === 0}
+        />
+      </GenerateRestClassesDialog>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <AddRestClientDialog table={table}>
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addRestClient.label} />
       </AddRestClientDialog>

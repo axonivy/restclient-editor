@@ -10,6 +10,21 @@ test('empty', async ({ page }) => {
   await expect(emptyMessage).toHaveText('No Rest Client Selected');
 });
 
+test('generate service', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  await expect(editor.main.generate).toBeDisabled();
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.main.generate).toBeEnabled();
+
+  const dialog = await editor.main.openGenerateServiceDialog();
+  await expect(dialog.namespaceInput).toBeDisabled();
+  await expect(dialog.resolveFullyCheckbox).toBeDisabled();
+
+  await dialog.fileInput.fill('tests/integration/schema.json');
+  await expect(dialog.namespaceInput).toBeEnabled();
+  await expect(dialog.resolveFullyCheckbox).toBeEnabled();
+});
+
 test('edit details', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.row(0).locator.click();

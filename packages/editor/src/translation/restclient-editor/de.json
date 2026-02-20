@@ -46,7 +46,16 @@
       "title": "Browser"
     },
     "create": "Erstellen",
-    "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen."
+    "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen.",
+    "OpenAPI": {
+      "convertODataLink": "Haben Sie einen OData-Dienst? Konvertieren Sie Ihre OData-Spezifikation hier.",
+      "generateRestClasses": "REST-Klassen aus einer Schema-URI generieren",
+      "generateRestClassesButton": "REST-Klassen generieren",
+      "generateRestClassesDescription": "Geben Sie eine OpenAPI-Schema-URI (.json-Datei) ein, um REST-Klassen zu generieren",
+      "namespace": "Namespace",
+      "properties": "Eigenschaften",
+      "schemaUri": "Schema-URI"
+    }
   },
   "hotkey": {
     "addRestClient": "Rest Client hinzufügen ({{hotkey}})",

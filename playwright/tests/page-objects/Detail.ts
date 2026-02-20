@@ -3,6 +3,7 @@ import { RadioGroup } from './components/RadioGroup';
 import { Section } from './components/Section';
 import { Table } from './components/Table';
 import { Textbox } from './components/Textbox';
+import { OpenApiDialog } from './OpenApiDialog';
 
 export class Detail {
   readonly page: Page;
@@ -15,6 +16,7 @@ export class Detail {
   readonly description: Locator;
   readonly icon: Locator;
   readonly uri: Textbox;
+  readonly openApi: Locator;
   readonly authSection: Section;
   readonly authenticationType: RadioGroup;
   readonly username: Locator;
@@ -35,6 +37,7 @@ export class Detail {
     this.description = this.locator.getByLabel('Description', { exact: true });
     this.icon = this.locator.getByLabel('Icon', { exact: true });
     this.uri = new Textbox(this.locator, { name: 'URI' });
+    this.openApi = this.locator.getByRole('button', { name: 'Generate REST classes' });
 
     this.authSection = new Section(page, this.locator, 'Authentication');
     this.authenticationType = new RadioGroup(this.authSection.content);
@@ -46,5 +49,9 @@ export class Detail {
 
     this.propertiesSection = new Section(page, this.locator, 'Properties');
     this.properties = new Table(page, this.propertiesSection.content, ['select', 'input', 'input']);
+  }
+
+  get openApiDialog() {
+    return new OpenApiDialog(this.page);
   }
 }
