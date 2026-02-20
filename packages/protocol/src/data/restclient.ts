@@ -11,14 +11,21 @@ export type Severity = "INFO" | "WARNING" | "ERROR";
 export interface Restclients {
   boolean: boolean;
   editorFileContent: EditorFileContent;
+  javaType: JavaType[];
   restClientContext: RestClientContext;
   restClientEditorData: RestClientEditorData;
   restClientSaveDataArgs: RestClientSaveDataArgs;
+  restPropertyMeta: RestPropertyMeta[];
   validationResult: ValidationResult[];
   [k: string]: unknown;
 }
 export interface EditorFileContent {
   content: string;
+}
+export interface JavaType {
+  fullQualifiedName: string;
+  packageName: string;
+  simpleName: string;
 }
 export interface RestClientContext {
   app: string;
@@ -55,6 +62,10 @@ export interface RestClientSaveDataArgs {
   context: RestClientContext;
   data: RestClientData[];
   directSave: boolean;
+}
+export interface RestPropertyMeta {
+  description: string;
+  property: string;
 }
 export interface ValidationResult {
   message: string;

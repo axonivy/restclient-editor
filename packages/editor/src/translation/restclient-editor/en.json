@@ -9,17 +9,21 @@
       "undo": "Undo ({{hotkey}})"
     },
     "label": {
+      "apply": "Apply",
       "authentication": "Authentication",
+      "browser": "Browser",
       "cancel": "Cancel",
       "description": "Description",
       "details": "Details",
       "features": "Features",
       "icon": "Icon",
       "id": "ID",
+      "info": "Info",
       "name": "Name",
       "password": "Password",
       "path": "Path",
       "properties": "Properties",
+      "search": "Search",
       "text": "Text",
       "type": "Type",
       "uri": "URI",
@@ -34,6 +38,12 @@
     "addRestClient": {
       "desc": "Add a new Rest Client configuration.",
       "title": "Add Rest Client"
+    },
+    "browser": {
+      "description": "Browse available options.",
+      "loadError": "Couldn't load browser data",
+      "loading": "Loading...",
+      "title": "Browser"
     },
     "create": "Create",
     "createTooltip": "Hold {{modifier}} to add an additional Rest Client."

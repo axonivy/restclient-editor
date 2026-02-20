@@ -1,9 +1,10 @@
-import { BasicCollapsible, InputCell, SortableHeader, Table, TableBody, TableResizableHeader } from '@axonivy/ui-components';
+import { BasicCollapsible, SortableHeader, Table, TableBody, TableResizableHeader } from '@axonivy/ui-components';
 import { type ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useResizableEditableTable } from '../../../hooks/useResizableEditableTable';
 import { ValidationRow } from '../../main/ValidationRow';
+import { InputCellWithBrowser } from './InputCellWithBrowser';
 
 type Feature = { class: string };
 
@@ -27,7 +28,7 @@ export const FeaturesTable = ({ data, onChange, validationPath }: FeaturesTableP
       {
         accessorKey: 'class',
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => <InputCell cell={cell} />
+        cell: cell => <InputCellWithBrowser cell={cell} activeBrowsers={['FEATURES']} />
       }
     ],
     [t]

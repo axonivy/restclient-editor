@@ -134,6 +134,9 @@ test('keyboard properties', async ({ page }) => {
   await page.keyboard.press('Tab');
   await page.keyboard.press('Tab');
   await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
   await editor.detail.properties.expectToHaveRowCount(3);
   await page.keyboard.press('Tab');
   await page.keyboard.press('Tab');
