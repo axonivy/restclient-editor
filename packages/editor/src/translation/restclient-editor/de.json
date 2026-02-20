@@ -36,7 +36,16 @@
       "title": "Rest Client hinzufügen"
     },
     "create": "Erstellen",
-    "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen."
+    "createTooltip": "Halte {{modifier}} gedrückt, um einen weiteren Rest Client hinzuzufügen.",
+    "OpenAPI": {
+      "convertODataLink": "__MISSING_TRANSLATION__",
+      "generateRestClasses": "__MISSING_TRANSLATION__",
+      "generateRestClassesButton": "__MISSING_TRANSLATION__",
+      "generateRestClassesDescription": "__MISSING_TRANSLATION__",
+      "namespace": "__MISSING_TRANSLATION__",
+      "properties": "__MISSING_TRANSLATION__",
+      "schemaUri": "__MISSING_TRANSLATION__"
+    }
   },
   "hotkey": {
     "addRestClient": "Rest Client hinzufügen ({{hotkey}})",
