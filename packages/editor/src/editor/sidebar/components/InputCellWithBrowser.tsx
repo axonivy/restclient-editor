@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTrigger,
   InputGroup,
+  selectNextPreviousCell,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -46,13 +47,23 @@ export const InputCellWithBrowser = <TData,>({ cell, activeBrowsers }: InputCell
             }
             onBlur?.();
           }}
+          onKeyDown={e => {
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              selectNextPreviousCell(e.currentTarget as HTMLInputElement, cell, 1);
+            }
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              selectNextPreviousCell(e.currentTarget as HTMLInputElement, cell, -1);
+            }
+          }}
         />
         {isFocusWithin && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <DialogTrigger asChild>
-                  <Button icon={IvyIcons.ListSearch} aria-label={t('common.label.browser')} />
+                  <Button icon={IvyIcons.ListSearch} aria-label={t('common.label.browser')} onBlur={onBlur} />
                 </DialogTrigger>
               </TooltipTrigger>
               <TooltipContent>{t('common.label.browser')}</TooltipContent>
