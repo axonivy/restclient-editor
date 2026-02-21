@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useValidations } from '../../hooks/useValidation';
 import { AuthenticationPart } from './AuthenticationPart';
-import './DetailContent.css';
 import { FeaturesTable } from './components/FeaturesTable';
 import { NameInput } from './components/NameInput';
 import { PropertiesTable } from './components/PropertiesTable';
+import './DetailContent.css';
+import { GenerateRestClassesDialog } from './GenerateRestClassesDialog';
 
 export const DetailContent = () => {
   const { t } = useTranslation();
@@ -52,6 +53,9 @@ export const DetailContent = () => {
           </BasicField>
           <BasicField label={t('common.label.uri')} message={uriMessage}>
             <BasicInput value={restclient.uri} onChange={event => handleAttributeChange('uri', event.target.value)} />
+          </BasicField>
+          <BasicField label='OpenAPI'>
+            <GenerateRestClassesDialog />
           </BasicField>
         </Flex>
       </BasicCollapsible>
