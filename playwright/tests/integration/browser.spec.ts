@@ -18,7 +18,7 @@ test('features', async ({ page }) => {
 
   await browser.view.getByRole('textbox').clear();
   await browser.table.expectToHaveRowCount(7);
-  await browser.table.expectToHaveRowValues(['MyFeaturecom.axonivy.connectivity.rest.client.connect'], ['HttpBasicAuthenticationFeaturech.ivyteam.ivy.rest.client.authentication']);
+  await browser.table.expectToHaveRowValues(['MyFeaturecom.axonivy.connectivity.rest.client.connect'], ['JsonFeaturech.ivyteam.ivy.rest.client.mapper']);
 });
 
 test('features apply', async ({ page }) => {
