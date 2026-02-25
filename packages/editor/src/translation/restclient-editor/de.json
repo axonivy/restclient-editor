@@ -59,6 +59,8 @@
       "none": "Keine",
       "ntlm": "NTLM"
     },
+    "defaultValue": "Standardwert: {{defaultValue}}",
+    "examples": "Beispiele: {{examples}}",
     "noRestClientSelected": "Kein Rest Client ausgewählt",
     "removeRow": "Zeile entfernen",
     "restClients": "Rest Clients"

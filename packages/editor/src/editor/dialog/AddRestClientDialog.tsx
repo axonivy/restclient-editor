@@ -68,7 +68,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
         description: '',
         icon: '',
         uri: '',
-        features: [],
+        features: ['ch.ivyteam.ivy.rest.client.mapper.JsonFeature'],
         properties: [],
         openApi: { namespace: '', resolveFully: false, spec: '' }
       }

@@ -16,8 +16,8 @@ export const validateMock = (data: Array<RestClientData>): Array<ValidationResul
           severity: 'ERROR'
         },
         {
-          path: `${restClient.name}.features.bla`,
-          message: 'Features unknown',
+          path: `${restClient.name}.features.ch.ivyteam.ivy.rest.client.mapper.JsonFeature`,
+          message: 'Feature unknown',
           severity: 'WARNING'
         }
       );
