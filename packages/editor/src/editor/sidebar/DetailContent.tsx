@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useValidations } from '../../hooks/useValidation';
 import { AuthenticationPart } from './AuthenticationPart';
-import './DetailContent.css';
 import { FeaturesTable } from './components/FeaturesTable';
 import { NameInput } from './components/NameInput';
 import { PropertiesTable } from './components/PropertiesTable';
+import './DetailContent.css';
 
 export const DetailContent = () => {
   const { t } = useTranslation();

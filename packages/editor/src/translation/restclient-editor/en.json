@@ -46,7 +46,16 @@
       "title": "Browser"
     },
     "create": "Create",
-    "createTooltip": "Hold {{modifier}} to add an additional Rest Client."
+    "createTooltip": "Hold {{modifier}} to add an additional Rest Client.",
+    "OpenAPI": {
+      "convertODataLink": "Having an OData service? Convert your OData specification here.",
+      "generateRestClasses": "Generate REST classes from a Schema URI",
+      "generateRestClassesButton": "Generate REST Classes",
+      "generateRestClassesDescription": "Enter an OpenAPI Schema URI (.json file) to generate REST classes",
+      "namespace": "Namespace",
+      "properties": "Resolve Fully: generate types for generic allOf, anyOf references",
+      "schemaUri": "Schema URI"
+    }
   },
   "hotkey": {
     "addRestClient": "Add Rest Client ({{hotkey}})",
