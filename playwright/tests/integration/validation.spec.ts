@@ -19,11 +19,8 @@ test('detail', async ({ page }) => {
   await (await editor.detail.name.message()).expectToBeError('RestClient invalid#restclient contains invalid characters');
   await (await editor.detail.uri.message()).expectToBeError('URI empty');
   await editor.detail.featuresSection.open();
-  await editor.detail.features.expectToHaveRowCount(0);
-  const row = await editor.detail.features.addRow();
-  await row.fill(['bla']);
   await editor.detail.features.expectToHaveRowCount(2);
-  await expect(editor.detail.features.locator.getByRole('row').last()).toHaveText('Features unknown');
+  await expect(editor.detail.features.locator.getByRole('row').last()).toHaveText('Feature unknown');
 });
 
 test('add rest client', async ({ page }) => {

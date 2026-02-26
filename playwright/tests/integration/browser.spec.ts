@@ -17,7 +17,7 @@ test('features', async ({ page }) => {
   await browser.table.expectToHaveRowValues(['JsonFeaturech.ivyteam.ivy.rest.client.mapper']);
 
   await browser.view.getByRole('textbox').clear();
-  await browser.table.expectToHaveRowCount(7);
+  await browser.table.expectToHaveRowCount(8);
   await browser.table.expectToHaveRowValues(['MyFeaturecom.axonivy.connectivity.rest.client.connect'], ['JsonFeaturech.ivyteam.ivy.rest.client.mapper']);
 });
 
@@ -57,10 +57,10 @@ test('properties', async ({ page }) => {
 
   await browser.view.getByRole('textbox').clear();
   await browser.table.expectToHaveRowCount(133);
-  await browser.table.expectToHaveRowValues(['JSON.Deserialization.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECTDefault: false']);
+  await browser.table.expectToHaveRowValues(['JSON.Deserialization.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT']);
 
   await browser.table.row(0).locator.click();
-  await expect(browser.info.content).toHaveText('InfoDefault: false');
+  await expect(browser.info.content).toHaveText('InfoDefault value: false');
 });
 
 test('properties apply', async ({ page }) => {

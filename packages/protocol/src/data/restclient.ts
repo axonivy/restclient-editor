@@ -64,7 +64,9 @@ export interface RestClientSaveDataArgs {
   directSave: boolean;
 }
 export interface RestPropertyMeta {
+  defaultValue: string;
   description: string;
+  examples: string[];
   property: string;
 }
 export interface ValidationResult {
