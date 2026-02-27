@@ -31,7 +31,6 @@ import { useAppContext } from '../../context/AppContext';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { AddRestClientDialog } from '../dialog/AddRestClientDialog';
 import { GenerateRestClassesDialog } from '../sidebar/GenerateRestClassesDialog';
-import './Main.css';
 import { ValidationRow } from './ValidationRow';
 
 export const Main = () => {
@@ -119,7 +118,7 @@ export const Main = () => {
 
   if (data === undefined || data.length === 0) {
     return (
-      <Flex direction='column' alignItems='center' justifyContent='center' style={{ height: '100%' }}>
+      <Flex direction='column' alignItems='center' justifyContent='center' className='h-full'>
         <PanelMessage icon={IvyIcons.Tool} message={t('message.addFirstRestClient')} mode='column'>
           <AddRestClientDialog table={table}>
             <Button size='large' variant='primary' icon={IvyIcons.Plus}>
@@ -132,11 +131,11 @@ export const Main = () => {
   }
 
   return (
-    <Flex direction='column' ref={ref} onClick={resetSelection} className='restclient-editor-main-content'>
+    <Flex direction='column' ref={ref} onClick={resetSelection} className='h-full overflow-auto'>
       <BasicField
         tabIndex={-1}
         ref={firstElement}
-        className='restclient-editor-table-field'
+        className='m-3 min-h-0'
         label={t('label.restClients')}
         control={
           <Controls table={table} deleteRestClient={table.getSelectedRowModel().flatRows.length > 0 ? deleteRestClient : undefined} />
@@ -144,7 +143,7 @@ export const Main = () => {
         onClick={event => event.stopPropagation()}
       >
         {globalFilter.filter}
-        <div className='restclient-editor-table-container'>
+        <div className='overflow-x-hidden'>
           <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))}>
             <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
             <TableBody>
@@ -175,11 +174,11 @@ const Controls = ({ table, deleteRestClient }: { table: ReactTable<RestClientDat
           disabled={table.getSelectedRowModel().rows.length === 0}
         />
       </GenerateRestClassesDialog>
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <Separator decorative orientation='vertical' className='m-0! h-5!' />
       <AddRestClientDialog table={table}>
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addRestClient.label} />
       </AddRestClientDialog>
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <Separator decorative orientation='vertical' className='m-0! h-5!' />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>

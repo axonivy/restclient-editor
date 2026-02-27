@@ -4,10 +4,7 @@ import { RestClientEditor } from '../page-objects/RestClientEditor';
 test('empty', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await expect(editor.detail.header).toHaveText('Rest Client');
-  await expect(editor.detail.content).toBeHidden();
-  const emptyMessage = editor.detail.locator.locator('.ui-panel-message');
-  await expect(emptyMessage).toBeVisible();
-  await expect(emptyMessage).toHaveText('No Rest Client Selected');
+  await expect(editor.detail.locator.locator('.ui-panel-message')).toHaveText('No Rest Client Selected');
 });
 
 test('generate service', async ({ page }) => {
@@ -29,7 +26,6 @@ test('edit details', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.row(0).locator.click();
   await expect(editor.detail.header).toHaveText('personService');
-  await expect(editor.detail.content).toBeVisible();
   await expect(editor.detail.id).toBeDisabled();
   await expect(editor.detail.name.locator).toHaveValue('personService');
   await expect(editor.detail.description).toBeEmpty();

@@ -86,12 +86,11 @@ test('add', async ({ page }) => {
 test('empty', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.clear();
-  await expect(editor.main.locator).toBeHidden();
-  const mainPanel = page.locator('.restclient-editor-main-panel');
-  const emptyMessage = mainPanel.locator('.ui-panel-message');
+  await expect(editor.main.table.locator).toBeHidden();
+  const emptyMessage = editor.main.locator.locator('.ui-panel-message');
   await expect(emptyMessage).toBeVisible();
 
-  await mainPanel.locator('button', { hasText: 'Add Rest Client' }).click();
+  await editor.main.add.click();
   const dialog = new AddRestClientDialog(page);
   await expect(dialog.locator).toBeVisible();
   await dialog.cancel.click();

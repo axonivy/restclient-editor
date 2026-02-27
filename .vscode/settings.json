@@ -15,6 +15,10 @@
   },
   "task.autoDetect": "off",
   "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.classFunctions": ["clsx", "cn", "cva"],
   "editor.insertSpaces": true,
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
