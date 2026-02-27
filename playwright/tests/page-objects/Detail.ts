@@ -10,7 +10,6 @@ export class Detail {
   readonly locator: Locator;
   readonly header: Locator;
   readonly help: Locator;
-  readonly content: Locator;
   readonly id: Locator;
   readonly name: Textbox;
   readonly description: Locator;
@@ -28,10 +27,9 @@ export class Detail {
 
   constructor(page: Page) {
     this.page = page;
-    this.locator = this.page.locator('.restclient-editor-detail-panel');
-    this.header = this.locator.locator('.restclient-editor-detail-header');
+    this.locator = this.page.locator('#restclient-editor-detail');
+    this.header = this.locator.locator('.ui-sidebar-header');
     this.help = this.locator.getByRole('button', { name: 'Open Help' });
-    this.content = this.locator.locator('.restclient-editor-detail-content');
     this.id = this.locator.getByLabel('ID', { exact: true });
     this.name = new Textbox(this.locator, { name: 'Name' });
     this.description = this.locator.getByLabel('Description', { exact: true });

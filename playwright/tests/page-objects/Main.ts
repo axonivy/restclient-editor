@@ -12,7 +12,7 @@ export class Main {
   readonly generate: Locator;
 
   constructor(readonly page: Page) {
-    this.locator = page.locator('.restclient-editor-main-content');
+    this.locator = page.locator('#restclient-editor-main');
     this.add = this.locator.getByRole('button', { name: 'Add Rest Client' });
     this.delete = this.locator.getByRole('button', { name: 'Delete Rest Client' });
     this.search = this.locator.getByRole('textbox').first();

@@ -8,7 +8,6 @@ import { AuthenticationPart } from './AuthenticationPart';
 import { FeaturesTable } from './components/FeaturesTable';
 import { NameInput } from './components/NameInput';
 import { PropertiesTable } from './components/PropertiesTable';
-import './DetailContent.css';
 
 export const DetailContent = () => {
   const { t } = useTranslation();
@@ -32,7 +31,7 @@ export const DetailContent = () => {
   const uriMessage = fieldMessage(validations, restclient.name, 'uri');
 
   return (
-    <Flex direction='column' gap={3} className='restclient-editor-detail-content'>
+    <Flex direction='column' gap={3} className='min-h-0 overflow-auto p-3'>
       <BasicCollapsible label={t('common.label.details')} defaultOpen>
         <Flex direction='column' gap={3}>
           <BasicField label={t('common.label.id')} message={idMessage}>

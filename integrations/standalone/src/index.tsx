@@ -1,6 +1,6 @@
 import { webSocketConnection, type Connection } from '@axonivy/jsonrpc';
-import { Flex, HotkeysProvider, ReadonlyProvider, Spinner, ThemeProvider, toast, Toaster } from '@axonivy/ui-components';
 import { App, ClientContextProvider, initQueryClient, QueryProvider, RestClientClientJsonRpc } from '@axonivy/restclient-editor';
+import { Flex, HotkeysProvider, ReadonlyProvider, Spinner, ThemeProvider, toast, Toaster } from '@axonivy/ui-components';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { initTranslation } from './i18n';
@@ -25,7 +25,7 @@ export async function start() {
   root.render(
     <React.StrictMode>
       <ThemeProvider defaultTheme={theme}>
-        <Flex style={{ height: '100%' }} justifyContent='center' alignItems='center'>
+        <Flex className='h-full' justifyContent='center' alignItems='center'>
           <Spinner size='large' />
         </Flex>
         <Toaster closeButton={true} position='bottom-left' />
