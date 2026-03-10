@@ -1,4 +1,4 @@
-import type { JavaType, RestPropertyMeta } from '@axonivy/restclient-editor-protocol';
+import type { JavaType, RestClientIcon, RestPropertyMeta } from '@axonivy/restclient-editor-protocol';
 
 export const META_PROPS = [
   {
@@ -48,3 +48,5 @@ export const META_FEATURES = [
     fullQualifiedName: 'org.glassfish.jersey.server.internal.monitoring.MonitoringFeature'
   }
 ] as const satisfies JavaType[];
+
+export const META_ICONS = [{ name: 'market', path: '/icons/market.svg' }] as const satisfies RestClientIcon[];

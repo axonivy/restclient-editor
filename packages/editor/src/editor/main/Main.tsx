@@ -54,12 +54,15 @@ export const Main = () => {
       {
         accessorKey: 'name',
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => (
-          <Flex alignItems='center' gap={1}>
-            {<IvyIcon icon={IvyIcons.RestClient} />}
-            <span>{cell.getValue()}</span>
-          </Flex>
-        )
+        cell: cell => {
+          const iconPath = cell.row.original.icon;
+          return (
+            <Flex alignItems='center' gap={1}>
+              {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.RestClient} />}
+              <span>{cell.getValue()}</span>
+            </Flex>
+          );
+        }
       },
       {
         accessorKey: 'uri',

@@ -14,6 +14,7 @@ export interface Restclients {
   javaType: JavaType[];
   restClientContext: RestClientContext;
   restClientEditorData: RestClientEditorData;
+  restClientIcon: RestClientIcon[];
   restClientSaveDataArgs: RestClientSaveDataArgs;
   restPropertyMeta: RestPropertyMeta[];
   validationResult: ValidationResult[];
@@ -57,6 +58,10 @@ export interface RestClientProperty {
   key: string;
   type: RestClientPropertyType;
   value: string;
+}
+export interface RestClientIcon {
+  name: string;
+  path: string;
 }
 export interface RestClientSaveDataArgs {
   context: RestClientContext;
