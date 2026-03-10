@@ -5,15 +5,16 @@ import type {
   RestClientContext,
   RestClientEditorData,
   RestClientIcon,
+  RestClientOpenApi,
   RestClientSaveDataArgs,
   RestPropertyMeta,
   ValidationResult
 } from './data/restclient';
 
 export interface RestClientActionArgs {
-  actionId: 'openUrl';
+  actionId: 'openUrl' | 'generateOpenApiClient';
   context: RestClientContext;
-  payload: string;
+  payload: string | RestClientOpenApi;
 }
 
 export interface RestClientMetaRequestTypes {

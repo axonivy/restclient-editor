@@ -17,6 +17,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
+import { useAction } from '../../hooks/useAction';
 
 export const GenerateRestClassesDialog = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
@@ -39,6 +40,7 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
 const OpenApiClassGeneratorDialog = () => {
   const { t } = useTranslation();
   const { data, setData, selectedIndex } = useAppContext();
+  const generateOpenApiClient = useAction('generateOpenApiClient');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [filePath, setFilePath] = useState('');
   const [namespace, setNamespace] = useState('');
@@ -56,6 +58,12 @@ const OpenApiClassGeneratorDialog = () => {
     if (!currentClient) {
       return;
     }
+
+    generateOpenApiClient({
+      spec: filePath,
+      namespace,
+      resolveFully
+    });
 
     setData(currentData =>
       currentData.map((client, index) =>
