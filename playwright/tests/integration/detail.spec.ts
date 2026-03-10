@@ -29,19 +29,33 @@ test('edit details', async ({ page }) => {
   await expect(editor.detail.id).toBeDisabled();
   await expect(editor.detail.name.locator).toHaveValue('personService');
   await expect(editor.detail.description).toBeEmpty();
-  await expect(editor.detail.icon).toBeEmpty();
+
+  await expect(editor.detail.icon.locator).toHaveValue('');
   await expect(editor.detail.uri.locator).toHaveValue('{ivy.app.baseurl}/api/persons');
 
   await editor.detail.name.locator.fill('Updated service');
   await editor.detail.description.fill('desc');
-  await editor.detail.icon.fill('file://icon');
+  await editor.detail.icon.locator.fill('file://icon');
   await editor.detail.uri.locator.fill('{ivy.app.baseurl}/api/updatedService');
 
   await expect(editor.detail.header).toHaveText('Updated service');
   await expect(editor.detail.name.locator).toHaveValue('Updated service');
   await expect(editor.detail.description).toHaveValue('desc');
-  await expect(editor.detail.icon).toHaveValue('file://icon');
+  await expect(editor.detail.icon.locator).toHaveValue('file://icon');
   await expect(editor.detail.uri.locator).toHaveValue('{ivy.app.baseurl}/api/updatedService');
+});
+
+test('icon chooser', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.icon.locator).toHaveValue('');
+
+  await editor.detail.icon.choose('microsoft');
+  await expect(editor.detail.icon.locator).toHaveValue('/icons/microsoft.svg');
+  const selectedRow = editor.main.table.row(0);
+  const iconInRow = selectedRow.locator.locator('img');
+  await expect(iconInRow).toHaveAttribute('src', '/icons/microsoft.svg');
+  await expect(iconInRow).toHaveAttribute('alt', 'icon');
 });
 
 test('edit authentication type', async ({ page }) => {

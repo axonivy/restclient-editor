@@ -4,6 +4,7 @@ import type {
   JavaType,
   RestClientContext,
   RestClientEditorData,
+  RestClientIcon,
   RestClientSaveDataArgs,
   RestPropertyMeta,
   ValidationResult
@@ -18,6 +19,7 @@ export interface RestClientActionArgs {
 export interface RestClientMetaRequestTypes {
   'meta/properties/all': [void, Array<RestPropertyMeta>];
   'meta/features/all': [RestClientContext, Array<JavaType>];
+  'meta/icons/all': [RestClientContext, Array<RestClientIcon>];
 }
 
 export interface RestClientRequestTypes extends RestClientMetaRequestTypes {

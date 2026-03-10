@@ -1,6 +1,7 @@
 import { type Locator, type Page } from '@playwright/test';
 import { RadioGroup } from './components/RadioGroup';
 import { Section } from './components/Section';
+import { Select } from './components/Select';
 import { Table } from './components/Table';
 import { Textbox } from './components/Textbox';
 import { OpenApiDialog } from './OpenApiDialog';
@@ -13,7 +14,7 @@ export class Detail {
   readonly id: Locator;
   readonly name: Textbox;
   readonly description: Locator;
-  readonly icon: Locator;
+  readonly icon: Select;
   readonly uri: Textbox;
   readonly openApi: Locator;
   readonly authSection: Section;
@@ -33,7 +34,7 @@ export class Detail {
     this.id = this.locator.getByLabel('ID', { exact: true });
     this.name = new Textbox(this.locator, { name: 'Name' });
     this.description = this.locator.getByLabel('Description', { exact: true });
-    this.icon = this.locator.getByLabel('Icon', { exact: true });
+    this.icon = new Select(page, this.locator, { label: 'Icon' });
     this.uri = new Textbox(this.locator, { name: 'URI' });
     this.openApi = this.locator.getByRole('button', { name: 'Generate REST classes' });
 

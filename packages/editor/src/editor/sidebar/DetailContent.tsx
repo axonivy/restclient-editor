@@ -1,8 +1,9 @@
 import type { RestClientData, Severity, ValidationResult } from '@axonivy/restclient-editor-protocol';
-import { BasicCollapsible, BasicField, BasicInput, Flex, PanelMessage, type MessageData } from '@axonivy/ui-components';
+import { BasicCollapsible, BasicField, BasicInput, Combobox, Flex, PanelMessage, type MessageData } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
+import { useMeta } from '../../hooks/useMeta';
 import { useValidations } from '../../hooks/useValidation';
 import { AuthenticationPart } from './AuthenticationPart';
 import { FeaturesTable } from './components/FeaturesTable';
@@ -11,9 +12,10 @@ import { PropertiesTable } from './components/PropertiesTable';
 
 export const DetailContent = () => {
   const { t } = useTranslation();
-  const { data, setData, selectedIndex } = useAppContext();
+  const { data, setData, selectedIndex, context } = useAppContext();
   const restclient = useMemo(() => data[selectedIndex], [data, selectedIndex]);
   const validations = useValidations(restclient?.name ?? '');
+  const iconMeta = useMeta('meta/icons/all', context);
   if (restclient === undefined) {
     return <PanelMessage message={t('label.noRestClientSelected')} />;
   }
@@ -47,7 +49,17 @@ export const DetailContent = () => {
             <BasicInput value={restclient.description} onChange={event => handleAttributeChange('description', event.target.value)} />
           </BasicField>
           <BasicField label={t('common.label.icon')}>
-            <BasicInput value={restclient.icon} onChange={event => handleAttributeChange('icon', event.target.value)} />
+            <Combobox
+              itemRender={item => (
+                <Flex alignItems='center' gap={1}>
+                  <img src={item.icon} alt={item.label} className='size-3' />
+                  <span>{item.label}</span>
+                </Flex>
+              )}
+              onChange={value => handleAttributeChange('icon', value)}
+              options={iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.path })) ?? []}
+              value={restclient.icon}
+            />
           </BasicField>
           <BasicField label={t('common.label.uri')} message={uriMessage}>
             <BasicInput value={restclient.uri} onChange={event => handleAttributeChange('uri', event.target.value)} />

@@ -22,7 +22,8 @@ export class Select {
 
   async choose(value: string | RegExp) {
     await this.locator.click();
-    await this.page.getByRole('option', { name: value, exact: true }).first().click();
+    const option = this.page.getByRole('option', { name: value }).first();
+    await option.click();
   }
 
   async expectValue(value: string | RegExp) {
