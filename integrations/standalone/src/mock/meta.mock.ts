@@ -49,4 +49,4 @@ export const META_FEATURES = [
   }
 ] as const satisfies JavaType[];
 
-export const META_ICONS = [{ name: 'market', path: '/icons/market.svg' }] as const satisfies RestClientIcon[];
+export const META_ICONS = [{ name: 'microsoft', path: '/icons/microsoft.svg' }] as const satisfies RestClientIcon[];

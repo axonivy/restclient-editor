@@ -50,11 +50,11 @@ test('icon chooser', async ({ page }) => {
   await editor.main.table.row(0).locator.click();
   await expect(editor.detail.icon.locator).toHaveValue('');
 
-  await editor.detail.icon.choose('market');
-  await expect(editor.detail.icon.locator).toHaveValue('/icons/market.svg');
+  await editor.detail.icon.choose('microsoft');
+  await expect(editor.detail.icon.locator).toHaveValue('/icons/microsoft.svg');
   const selectedRow = editor.main.table.row(0);
   const iconInRow = selectedRow.locator.locator('img');
-  await expect(iconInRow).toHaveAttribute('src', '/icons/market.svg');
+  await expect(iconInRow).toHaveAttribute('src', '/icons/microsoft.svg');
   await expect(iconInRow).toHaveAttribute('alt', 'icon');
 });
 

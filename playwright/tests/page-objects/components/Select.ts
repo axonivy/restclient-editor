@@ -23,7 +23,6 @@ export class Select {
   async choose(value: string | RegExp) {
     await this.locator.click();
     const option = this.page.getByRole('option', { name: value }).first();
-    await option.waitFor({ state: 'visible' });
     await option.click();
   }
 
