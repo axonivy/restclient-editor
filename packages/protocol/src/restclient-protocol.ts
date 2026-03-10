@@ -14,7 +14,11 @@ import type {
 export interface RestClientActionArgs {
   actionId: 'openUrl' | 'generateOpenApiClient';
   context: RestClientContext;
-  payload: string | RestClientOpenApi;
+  payload: string | OpenApiGeneratorConfig;
+}
+
+export interface OpenApiGeneratorConfig extends RestClientOpenApi {
+  clientName: string;
 }
 
 export interface RestClientMetaRequestTypes {

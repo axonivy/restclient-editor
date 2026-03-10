@@ -60,6 +60,7 @@ const OpenApiClassGeneratorDialog = () => {
     }
 
     generateOpenApiClient({
+      clientName: currentClient.name,
       spec: filePath,
       namespace,
       resolveFully

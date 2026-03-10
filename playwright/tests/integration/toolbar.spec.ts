@@ -57,6 +57,7 @@ test('openapi codegen', async ({ page }) => {
   const msg1 = consoleLog(page);
   await page.getByRole('button', { name: 'Create' }).click();
   expect(await msg1).toContain('generateOpenApiClient');
+  expect(await msg1).toContain('openApiService');
   expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
   expect(await msg1).toContain('io.swagger.petstore3.client');
 });
