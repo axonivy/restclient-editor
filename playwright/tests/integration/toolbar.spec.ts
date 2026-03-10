@@ -46,6 +46,21 @@ test('help', async ({ page }) => {
   expect(await msg2).toContain('https://dev.axonivy.com');
 });
 
+test('openapi codegen', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  await page.getByText('openApiService').click();
+  await editor.detail.openApi.click();
+
+  await editor.detail.openApiDialog.fileInput.fill('https://petstore3.swagger.io/api/v3/openapi.json');
+  await editor.detail.openApiDialog.namespaceInput.fill('io.swagger.petstore3.client');
+
+  const msg1 = consoleLog(page);
+  await page.getByRole('button', { name: 'Create' }).click();
+  expect(await msg1).toContain('generateOpenApiClient');
+  expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
+  expect(await msg1).toContain('io.swagger.petstore3.client');
+});
+
 test('focus jumps', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await page.keyboard.press('1');

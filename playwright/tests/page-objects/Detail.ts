@@ -36,7 +36,7 @@ export class Detail {
     this.description = this.locator.getByLabel('Description', { exact: true });
     this.icon = new Select(page, this.locator, { label: 'Icon' });
     this.uri = new Textbox(this.locator, { name: 'URI' });
-    this.openApi = this.locator.getByRole('button', { name: 'Generate REST classes' });
+    this.openApi = page.getByRole('button', { name: 'Generate REST classes' });
 
     this.authSection = new Section(page, this.locator, 'Authentication');
     this.authenticationType = new RadioGroup(this.authSection.content);
