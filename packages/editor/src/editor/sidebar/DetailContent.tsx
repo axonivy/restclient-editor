@@ -31,6 +31,7 @@ export const DetailContent = () => {
   const idMessage = fieldMessage(validations, restclient.name, 'id');
   const nameMessage = fieldMessage(validations, restclient.name, 'name');
   const uriMessage = fieldMessage(validations, restclient.name, 'uri');
+  const iconOptions = iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.relativePath })) ?? [];
 
   return (
     <Flex direction='column' gap={3} className='min-h-0 overflow-auto p-3'>
@@ -56,9 +57,9 @@ export const DetailContent = () => {
                   <span>{item.label}</span>
                 </Flex>
               )}
-              onChange={value => handleAttributeChange('icon', value)}
-              options={iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.path })) ?? []}
-              value={restclient.icon}
+              onChange={value => handleAttributeChange('icon', iconOptions.find(option => option.value === value)?.icon ?? value)}
+              options={iconOptions}
+              value={iconOptions.find(option => option.icon === restclient.icon)?.value ?? restclient.icon}
             />
           </BasicField>
           <BasicField label={t('common.label.uri')} message={uriMessage}>

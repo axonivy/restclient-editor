@@ -69,6 +69,7 @@ export interface RestClientProperty {
 export interface RestClientIcon {
   name: string;
   path: string;
+  relativePath: string;
 }
 export interface RestClientSaveDataArgs {
   context: RestClientContext;

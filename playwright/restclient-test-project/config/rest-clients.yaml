@@ -12,6 +12,7 @@ RestClients:
   batchService:
     UUID: b0a5f371-e479-444d-b71c-af1fff4c084d
     Url: '{ivy.app.baseurl}/api/batch'
+    Icon: http://localhost:8080/~Developer-restclient-test-project/Developer-restclient-test-project/1/faces/javax.faces.resource/icons/microsoft.svg?ln=xpertivy-6-webContent
     Features:
       - ch.ivyteam.ivy.rest.client.authentication.HttpBasicAuthenticationFeature
     Properties:
@@ -28,6 +29,7 @@ RestClients:
   jsonPlaceholder:
     UUID: 449e7581-aa1e-4e3b-931a-903253491b50
     Url: https://jsonplaceholder.typicode.com/
+    Icon: http://localhost:8080/~Developer-restclient-test-project/Developer-restclient-test-project/1/faces/javax.faces.resource/icons/microsoft.svg?ln=xpertivy-6-webContent
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
@@ -53,6 +55,7 @@ RestClients:
   openApiService:
     UUID: ae69ba01-79b7-4dce-9049-900f8f420907
     Url: https://petstore3.swagger.io/api/v3
+    Icon: res:/webContent/icons/microsoft.svg
     Features:
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
     Properties:
@@ -63,6 +66,7 @@ RestClients:
   customClient:
     UUID: bf0e4baf-96e6-470c-a61c-a2f4dbfe4c8f
     Url: '{ivy.app.baseurl}/api/persons'
+    Icon: res:/webContent/icons/microsoft.svg
     Features:
       - ch.ivyteam.ivy.rest.client.authentication.HttpBasicAuthenticationFeature
       - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
