@@ -48,14 +48,14 @@ test('help', async ({ page }) => {
 
 test('openapi codegen', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
-  await page.getByText('openApiService').click();
+  await editor.main.table.locator.getByText('openApiService').click();
   await editor.detail.openApi.click();
 
   await editor.detail.openApiDialog.fileInput.fill('https://petstore3.swagger.io/api/v3/openapi.json');
   await editor.detail.openApiDialog.namespaceInput.fill('io.swagger.petstore3.client');
 
   const msg1 = consoleLog(page);
-  await page.getByRole('button', { name: 'Create' }).click();
+  await editor.detail.openApiDialog.submitButton.click();
   expect(await msg1).toContain('generateOpenApiClient');
   expect(await msg1).toContain('openApiService');
   expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
