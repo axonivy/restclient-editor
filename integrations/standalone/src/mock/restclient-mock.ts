@@ -9,7 +9,7 @@ import type {
   ValidationResult
 } from '@axonivy/restclient-editor-protocol';
 import { data } from './data-mock';
-import { META_FEATURES, META_ICONS, META_PROPS } from './meta.mock';
+import { META_FEATURES, META_ICONS, META_OPENAPI_LOAD, META_PROPS } from './meta.mock';
 import { validateMock } from './validation-mock';
 
 export class RestClientMock implements RestClientClient {
@@ -57,6 +57,8 @@ export class RestClientMock implements RestClientClient {
         return Promise.resolve(META_FEATURES);
       case 'meta/icons/all':
         return Promise.resolve(META_ICONS);
+      case 'meta/open-api/load':
+        return Promise.resolve(META_OPENAPI_LOAD);
       default:
         throw Error('mock meta path not programmed');
     }

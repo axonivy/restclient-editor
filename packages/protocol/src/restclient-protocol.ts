@@ -2,6 +2,7 @@
 import type {
   EditorFileContent,
   JavaType,
+  OpenApiSpec,
   RestClientContext,
   RestClientEditorData,
   RestClientIcon,
@@ -25,6 +26,7 @@ export interface RestClientMetaRequestTypes {
   'meta/properties/all': [void, Array<RestPropertyMeta>];
   'meta/features/all': [RestClientContext, Array<JavaType>];
   'meta/icons/all': [RestClientContext, Array<RestClientIcon>];
+  'meta/open-api/load': [string, OpenApiSpec];
 }
 
 export interface RestClientRequestTypes extends RestClientMetaRequestTypes {

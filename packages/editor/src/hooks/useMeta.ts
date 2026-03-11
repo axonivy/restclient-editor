@@ -6,12 +6,13 @@ import { genQueryKey } from '../query/query-client';
 export function useMeta<TMeta extends keyof RestClientMetaRequestTypes>(
   path: TMeta,
   args: RestClientMetaRequestTypes[TMeta][0],
-  options?: { disable?: boolean }
+  options?: { disable?: boolean; retry?: boolean }
 ) {
   const client = useClient();
   return useQuery({
     enabled: !options?.disable,
     queryKey: genQueryKey(path, args),
-    queryFn: () => client.meta(path, args)
+    queryFn: () => client.meta(path, args),
+    retry: options?.retry ?? true
   });
 }

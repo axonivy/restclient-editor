@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTrigger,
   Flex,
+  Spinner,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -18,6 +19,7 @@ import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useAction } from '../../hooks/useAction';
+import { useMeta } from '../../hooks/useMeta';
 
 export const GenerateRestClassesDialog = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
@@ -40,11 +42,13 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
 const OpenApiClassGeneratorDialog = () => {
   const { t } = useTranslation();
   const { data, setData, selectedIndex } = useAppContext();
+  const currentClient = data[selectedIndex];
   const generateOpenApiClient = useAction('generateOpenApiClient');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [filePath, setFilePath] = useState('');
-  const [namespace, setNamespace] = useState('');
-  const [resolveFully, setResolveFully] = useState(false);
+  const [filePath, setFilePath] = useState(currentClient?.openApi.spec ?? '');
+  const [namespace, setNamespace] = useState(currentClient?.openApi.namespace ?? '');
+  const [resolveFully, setResolveFully] = useState(currentClient?.openApi.resolveFully ?? false);
+  const query = useMeta('meta/open-api/load', filePath, { disable: !filePath, retry: false });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -54,7 +58,6 @@ const OpenApiClassGeneratorDialog = () => {
   };
 
   const generateRestClasses = () => {
-    const currentClient = data[selectedIndex];
     if (!currentClient) {
       return;
     }
@@ -72,10 +75,11 @@ const OpenApiClassGeneratorDialog = () => {
           ? {
               ...client,
               openApi: {
-                namespace,
+                namespace: namespace.trim() ? namespace : (query.data?.namespace ?? ''),
                 resolveFully,
                 spec: filePath
-              }
+              },
+              uri: query.data?.uri ?? ''
             }
           : client
       )
@@ -91,7 +95,7 @@ const OpenApiClassGeneratorDialog = () => {
           variant='primary'
           size='large'
           icon={IvyIcons.SettingsCog}
-          disabled={!filePath || !namespace}
+          disabled={!query.data?.uri}
           aria-label={t('dialog.create')}
           onClick={generateRestClasses}
         >
@@ -108,12 +112,24 @@ const OpenApiClassGeneratorDialog = () => {
         <BasicField
           control={<Button icon={IvyIcons.FolderOpen} onClick={() => fileInputRef.current?.click()}></Button>}
           label={t('dialog.OpenAPI.schemaUri')}
+          message={query.isError ? { variant: 'error', message: query.error.message } : undefined}
         >
           <input ref={fileInputRef} accept='.json' type='file' onChange={handleFileChange} hidden />
           <BasicInput value={filePath} required onChange={event => setFilePath(event.target.value)} />
         </BasicField>
+        {filePath && query.isPending && (
+          <div>
+            <Spinner />
+            {t('dialog.OpenAPI.loading')}
+          </div>
+        )}
         <BasicField label={t('dialog.OpenAPI.namespace')}>
-          <BasicInput disabled={!filePath} value={namespace} required onChange={event => setNamespace(event.target.value)} />
+          <BasicInput
+            disabled={!filePath}
+            value={namespace}
+            placeholder={query.data?.namespace}
+            onChange={event => setNamespace(event.target.value)}
+          />
         </BasicField>
         <Flex gap={2}>
           <BasicCheckbox

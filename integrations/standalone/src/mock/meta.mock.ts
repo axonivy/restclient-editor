@@ -1,4 +1,4 @@
-import type { JavaType, RestClientIcon, RestPropertyMeta } from '@axonivy/restclient-editor-protocol';
+import type { JavaType, OpenApiSpec, RestClientIcon, RestPropertyMeta } from '@axonivy/restclient-editor-protocol';
 
 export const META_PROPS = [
   {
@@ -48,5 +48,11 @@ export const META_FEATURES = [
     fullQualifiedName: 'org.glassfish.jersey.server.internal.monitoring.MonitoringFeature'
   }
 ] as const satisfies JavaType[];
+
+export const META_OPENAPI_LOAD = {
+  uri: 'http://acme.com/erp/api/',
+  namespace: 'com.acme.erp.client',
+  description: 'ERP API'
+} as const satisfies OpenApiSpec;
 
 export const META_ICONS = [{ name: 'microsoft', path: '/icons/microsoft.svg' }] as const satisfies RestClientIcon[];
