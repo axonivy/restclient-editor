@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { RestClientEditor } from '../page-objects/RestClientEditor';
 
+const CLIENT_URL =
+  'http://localhost:8080/~Developer-restclient-test-project/Developer-restclient-test-project/1/faces/javax.faces.resource/icons/microsoft.svg?ln=xpertivy-1-webContent';
+
 test('empty', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await expect(editor.detail.header).toHaveText('Rest Client');
@@ -56,6 +59,22 @@ test('icon chooser', async ({ page }) => {
   const iconInRow = selectedRow.locator.locator('img');
   await expect(iconInRow).toHaveAttribute('src', '/icons/microsoft.svg');
   await expect(iconInRow).toHaveAttribute('alt', 'icon');
+});
+
+test('icon chooser client', async ({ page }) => {
+  const editor = await RestClientEditor.openRestClient(page);
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.icon.locator).toHaveValue('');
+
+  await editor.detail.icon.choose('microsoft');
+  await expect(editor.detail.icon.locator).toHaveValue(CLIENT_URL);
+  const selectedRow = editor.main.table.row(0);
+  const iconInRow = selectedRow.locator.locator('img');
+  await expect(iconInRow).toHaveAttribute('src', CLIENT_URL);
+  await expect(iconInRow).toHaveAttribute('alt', 'icon');
+  await editor.detail.icon.locator.fill('');
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.icon.locator).toHaveValue('');
 });
 
 test('edit authentication type', async ({ page }) => {
