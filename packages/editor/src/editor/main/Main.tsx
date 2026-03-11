@@ -30,7 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { AddRestClientDialog } from '../dialog/AddRestClientDialog';
-import { GenerateRestClassesDialog } from '../sidebar/GenerateRestClassesDialog';
+import { GenerateRestClassesDialog } from '../dialog/GenerateRestClassesDialog';
 import { ValidationRow } from './ValidationRow';
 
 export const Main = () => {
