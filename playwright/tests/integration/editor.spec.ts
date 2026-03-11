@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { AddRestClientDialog } from '../page-objects/AddRestClientDialog';
 import { RestClientEditor } from '../page-objects/RestClientEditor';
 
@@ -99,3 +99,29 @@ test('empty', async ({ page }) => {
   await page.keyboard.press('a');
   await expect(dialog.locator).toBeVisible();
 });
+
+test('openapi codegen', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  await editor.main.table.locator.getByText('openApiService').click();
+  const dialog = await editor.main.openGenerateServiceDialog();
+
+  await dialog.fileInput.fill('https://petstore3.swagger.io/api/v3/openapi.json');
+  await dialog.namespaceInput.fill('io.swagger.petstore3.client');
+
+  const msg1 = consoleLog(page);
+  await dialog.submitButton.click();
+  expect(await msg1).toContain('generateOpenApiClient');
+  expect(await msg1).toContain('openApiService');
+  expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
+  expect(await msg1).toContain('io.swagger.petstore3.client');
+});
+
+const consoleLog = async (page: Page) => {
+  return new Promise(result => {
+    page.on('console', msg => {
+      if (msg.type() === 'log') {
+        result(msg.text());
+      }
+    });
+  });
+};

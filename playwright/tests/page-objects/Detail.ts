@@ -16,7 +16,6 @@ export class Detail {
   readonly description: Locator;
   readonly icon: Select;
   readonly uri: Textbox;
-  readonly openApi: Locator;
   readonly authSection: Section;
   readonly authenticationType: RadioGroup;
   readonly username: Locator;
@@ -36,7 +35,6 @@ export class Detail {
     this.description = this.locator.getByLabel('Description', { exact: true });
     this.icon = new Select(page, this.locator, { label: 'Icon' });
     this.uri = new Textbox(this.locator, { name: 'URI' });
-    this.openApi = page.getByRole('button', { name: 'Generate REST classes' });
 
     this.authSection = new Section(page, this.locator, 'Authentication');
     this.authenticationType = new RadioGroup(this.authSection.content);
