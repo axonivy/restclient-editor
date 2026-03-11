@@ -31,6 +31,7 @@ export const DetailContent = () => {
   const idMessage = fieldMessage(validations, restclient.name, 'id');
   const nameMessage = fieldMessage(validations, restclient.name, 'name');
   const uriMessage = fieldMessage(validations, restclient.name, 'uri');
+  const iconOptions = iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.relativePath })) ?? [];
 
   return (
     <Flex direction='column' gap={3} className='min-h-0 overflow-auto p-3'>
@@ -57,7 +58,7 @@ export const DetailContent = () => {
                 </Flex>
               )}
               onChange={value => handleAttributeChange('icon', value)}
-              options={iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.path })) ?? []}
+              options={iconOptions}
               value={restclient.icon}
             />
           </BasicField>
