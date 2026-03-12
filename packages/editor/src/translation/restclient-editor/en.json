@@ -19,6 +19,7 @@
       "icon": "Icon",
       "id": "ID",
       "info": "Info",
+      "loading": "Loading...",
       "name": "Name",
       "password": "Password",
       "path": "Path",
@@ -42,7 +43,6 @@
     "browser": {
       "description": "Browse available options.",
       "loadError": "Couldn't load browser data",
-      "loading": "Loading...",
       "title": "Browser"
     },
     "create": "Create",
@@ -52,7 +52,6 @@
       "generateRestClasses": "Generate REST classes from a Schema URI",
       "generateRestClassesButton": "Generate REST Classes",
       "generateRestClassesDescription": "Enter an OpenAPI Schema URI (.json file) to generate REST classes",
-      "loading": "Loading...",
       "namespace": "Namespace",
       "properties": "Resolve Fully: generate types for generic allOf, anyOf references",
       "schemaUri": "Schema URI"

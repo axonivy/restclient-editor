@@ -19,6 +19,7 @@
       "icon": "Symbol",
       "id": "ID",
       "info": "Info",
+      "loading": "Lädt...",
       "name": "Name",
       "password": "Passwort",
       "path": "Pfad",
@@ -42,7 +43,6 @@
     "browser": {
       "description": "Durchsuchen Sie verfügbare Optionen.",
       "loadError": "Konnte Browser-Daten nicht laden",
-      "loading": "Lädt...",
       "title": "Browser"
     },
     "create": "Erstellen",
@@ -52,7 +52,6 @@
       "generateRestClasses": "REST-Klassen aus einer Schema-URI generieren",
       "generateRestClassesButton": "REST-Klassen generieren",
       "generateRestClassesDescription": "Geben Sie eine OpenAPI-Schema-URI (.json-Datei) ein, um REST-Klassen zu generieren",
-      "loading": "Lädt...",
       "namespace": "Namespace",
       "properties": "Eigenschaften",
       "schemaUri": "Schema-URI"

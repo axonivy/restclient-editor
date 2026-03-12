@@ -120,7 +120,7 @@ const OpenApiClassGeneratorDialog = () => {
         {filePath && query.isPending && (
           <Flex direction='row' gap={1}>
             <Spinner size='small' />
-            {t('dialog.OpenAPI.loading')}
+            {t('common.label.loading')}
           </Flex>
         )}
         <BasicField label={t('dialog.OpenAPI.namespace')}>

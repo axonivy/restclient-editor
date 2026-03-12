@@ -13,6 +13,6 @@ export function useMeta<TMeta extends keyof RestClientMetaRequestTypes>(
     enabled: !options?.disable,
     queryKey: genQueryKey(path, args),
     queryFn: () => client.meta(path, args),
-    retry: options?.retry ?? true
+    retry: options?.retry
   });
 }
