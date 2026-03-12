@@ -50,9 +50,9 @@ export const META_FEATURES = [
 ] as const satisfies JavaType[];
 
 export const META_OPENAPI_LOAD = {
-  uri: 'http://acme.com/erp/api/',
-  namespace: 'com.acme.erp.client',
-  description: 'ERP API'
+  uri: 'https://petstore3.swagger.io/api/v3',
+  namespace: 'io.swagger.petstore3.client',
+  description: 'Petstore OpenAPI 3 specification'
 } as const satisfies OpenApiSpec;
 
 export const META_ICONS = [{ name: 'microsoft', path: '/icons/microsoft.svg' }] as const satisfies RestClientIcon[];

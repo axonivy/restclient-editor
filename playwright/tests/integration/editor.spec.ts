@@ -106,13 +106,28 @@ test('openapi codegen', async ({ page }) => {
   const dialog = await editor.main.openGenerateServiceDialog();
 
   await dialog.namespaceInput.fill('io.swagger.petstore.v3.client');
-
-  const msg1 = consoleLog(page);
+  const msg = consoleLog(page);
   await dialog.submitButton.click();
-  expect(await msg1).toContain('generateOpenApiClient');
-  expect(await msg1).toContain('openApiService');
-  expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
-  expect(await msg1).toContain('io.swagger.petstore.v3.client');
+
+  expect(await msg).toContain('generateOpenApiClient');
+  expect(await msg).toContain('openApiService');
+  expect(await msg).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
+  expect(await msg).toContain('io.swagger.petstore.v3.client');
+});
+
+test('openapi codegen: placeholder', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  await editor.main.table.locator.getByText('openApiService').click();
+  const dialog = await editor.main.openGenerateServiceDialog();
+
+  await dialog.namespaceInput.clear();
+  const msg = consoleLog(page);
+  await dialog.submitButton.click();
+
+  expect(await msg).toContain('generateOpenApiClient');
+  expect(await msg).toContain('openApiService');
+  expect(await msg).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
+  expect(await msg).toContain('io.swagger.petstore3.client'); // placeholder
 });
 
 const consoleLog = async (page: Page) => {
