@@ -65,7 +65,7 @@ const OpenApiClassGeneratorDialog = () => {
     generateOpenApiClient({
       clientName: currentClient.name,
       spec: filePath,
-      namespace,
+      namespace: namespace.trim() ? namespace : (query.data?.namespace ?? ''),
       resolveFully
     });
 
