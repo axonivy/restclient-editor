@@ -118,10 +118,10 @@ const OpenApiClassGeneratorDialog = () => {
           <BasicInput value={filePath} required onChange={event => setFilePath(event.target.value)} />
         </BasicField>
         {filePath && query.isPending && (
-          <div>
-            <Spinner />
+          <Flex direction='row' gap={1}>
+            <Spinner size='small' />
             {t('dialog.OpenAPI.loading')}
-          </div>
+          </Flex>
         )}
         <BasicField label={t('dialog.OpenAPI.namespace')}>
           <BasicInput
