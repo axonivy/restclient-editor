@@ -19,6 +19,7 @@
       "icon": "Symbol",
       "id": "ID",
       "info": "Info",
+      "loading": "Lädt...",
       "name": "Name",
       "password": "Passwort",
       "path": "Pfad",
@@ -42,7 +43,6 @@
     "browser": {
       "description": "Durchsuchen Sie verfügbare Optionen.",
       "loadError": "Konnte Browser-Daten nicht laden",
-      "loading": "Lädt...",
       "title": "Browser"
     },
     "create": "Erstellen",

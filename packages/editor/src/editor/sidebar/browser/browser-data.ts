@@ -10,7 +10,7 @@ export const useBrowserData = <T>(queryResult: UseQueryResult<Array<T>, Error>, 
     if (isPending) {
       return [
         {
-          value: t('dialog.browser.loading'),
+          value: t('common.label.loading'),
           info: '',
           children: [],
           notSelectable: true

@@ -105,15 +105,14 @@ test('openapi codegen', async ({ page }) => {
   await editor.main.table.locator.getByText('openApiService').click();
   const dialog = await editor.main.openGenerateServiceDialog();
 
-  await dialog.fileInput.fill('https://petstore3.swagger.io/api/v3/openapi.json');
-  await dialog.namespaceInput.fill('io.swagger.petstore3.client');
+  await dialog.namespaceInput.fill('io.swagger.petstore.v3.client');
 
   const msg1 = consoleLog(page);
   await dialog.submitButton.click();
   expect(await msg1).toContain('generateOpenApiClient');
   expect(await msg1).toContain('openApiService');
   expect(await msg1).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
-  expect(await msg1).toContain('io.swagger.petstore3.client');
+  expect(await msg1).toContain('io.swagger.petstore.v3.client');
 });
 
 const consoleLog = async (page: Page) => {

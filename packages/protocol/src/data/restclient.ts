@@ -12,11 +12,13 @@ export interface Restclients {
   boolean: boolean;
   editorFileContent: EditorFileContent;
   javaType: JavaType[];
+  openApiSpec: OpenApiSpec;
   restClientContext: RestClientContext;
   restClientEditorData: RestClientEditorData;
   restClientIcon: RestClientIcon[];
   restClientSaveDataArgs: RestClientSaveDataArgs;
   restPropertyMeta: RestPropertyMeta[];
+  uri: string;
   validationResult: ValidationResult[];
   [k: string]: unknown;
 }
@@ -27,6 +29,11 @@ export interface JavaType {
   fullQualifiedName: string;
   packageName: string;
   simpleName: string;
+}
+export interface OpenApiSpec {
+  description: string;
+  namespace: string;
+  uri: string;
 }
 export interface RestClientContext {
   app: string;
