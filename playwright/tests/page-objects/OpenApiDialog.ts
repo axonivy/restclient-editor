@@ -12,6 +12,6 @@ export class OpenApiDialog {
     this.fileInput = page.getByRole('textbox', { name: 'Schema URI' });
     this.namespaceInput = page.getByRole('textbox', { name: 'Namespace' });
     this.resolveFullyCheckbox = page.getByRole('checkbox', { name: 'Resolve Fully: generate types for generic allOf, anyOf references' });
-    this.submitButton = page.getByRole('button', { name: 'Create' });
+    this.submitButton = page.getByRole('button', { name: 'Generate' });
   }
 }

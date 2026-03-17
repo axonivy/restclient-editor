@@ -17,7 +17,7 @@ export class Main {
     this.delete = this.locator.getByRole('button', { name: 'Delete Rest Client' });
     this.search = this.locator.getByRole('textbox').first();
     this.table = new Table(page, this.locator, ['text', 'text']);
-    this.generate = this.locator.getByRole('button', { name: 'Generate REST Classes' });
+    this.generate = this.locator.getByRole('button', { name: 'Generate an OpenAPI client' });
   }
 
   public async openAddRestClientDialog() {
