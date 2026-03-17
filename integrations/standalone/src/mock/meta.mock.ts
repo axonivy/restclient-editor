@@ -55,4 +55,6 @@ export const META_OPENAPI_LOAD = {
   description: 'Petstore OpenAPI 3 specification'
 } as const satisfies OpenApiSpec;
 
-export const META_ICONS = [{ name: 'microsoft', path: '/icons/microsoft.svg' }] as const satisfies RestClientIcon[];
+export const META_ICONS = [
+  { name: 'microsoft', path: '/icons/microsoft.svg', relativePath: 'res:/webContent/icons/microsoft.svg' }
+] as const satisfies RestClientIcon[];
