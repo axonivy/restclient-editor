@@ -57,9 +57,9 @@ export const DetailContent = () => {
                   <span>{item.label}</span>
                 </Flex>
               )}
-              onChange={value => handleAttributeChange('icon', iconOptions.find(option => option.value === value)?.icon ?? value)}
+              onChange={value => handleAttributeChange('icon', value)}
               options={iconOptions}
-              value={iconOptions.find(option => option.icon === restclient.icon)?.value ?? restclient.icon}
+              value={restclient.icon}
             />
           </BasicField>
           <BasicField label={t('common.label.uri')} message={uriMessage}>

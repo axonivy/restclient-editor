@@ -28,6 +28,7 @@ import { getCoreRowModel, useReactTable, type ColumnDef, type Table as ReactTabl
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
+import { useMeta } from '../../hooks/useMeta';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { AddRestClientDialog } from '../dialog/AddRestClientDialog';
 import { GenerateRestClassesDialog } from '../dialog/GenerateRestClassesDialog';
@@ -35,7 +36,8 @@ import { ValidationRow } from './ValidationRow';
 
 export const Main = () => {
   const { t } = useTranslation();
-  const { data, setData, setSelectedIndex, detail, setDetail } = useAppContext();
+  const { data, setData, setSelectedIndex, detail, setDetail, context } = useAppContext();
+  const iconMeta = useMeta('meta/icons/all', context);
 
   const selection = useTableSelect<RestClientData>({
     onSelect: selectedRows => {
@@ -55,7 +57,8 @@ export const Main = () => {
         accessorKey: 'name',
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
         cell: cell => {
-          const iconPath = cell.row.original.icon;
+          const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
+
           return (
             <Flex alignItems='center' gap={1}>
               {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.RestClient} />}
@@ -74,7 +77,7 @@ export const Main = () => {
         )
       }
     ],
-    [t]
+    [t, iconMeta.data]
   );
 
   const table = useReactTable({
