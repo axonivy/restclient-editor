@@ -30,7 +30,7 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
           <TooltipTrigger asChild>
             <DialogTrigger asChild>{children}</DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent>{t('dialog.OpenAPI.generateRestClassesButton')}</TooltipContent>
+          <TooltipContent>{t('dialog.OpenAPI.generator')}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
@@ -88,18 +88,18 @@ const OpenApiClassGeneratorDialog = () => {
 
   return (
     <BasicDialogContent
-      title={t('dialog.OpenAPI.generateRestClasses')}
-      description={t('dialog.OpenAPI.generateRestClassesDescription')}
+      title={t('dialog.OpenAPI.generator')}
+      description={t('dialog.OpenAPI.generateDescription')}
       submit={
         <Button
           variant='primary'
           size='large'
           icon={IvyIcons.SettingsCog}
           disabled={!query.data?.uri}
-          aria-label={t('dialog.create')}
+          aria-label={t('dialog.OpenAPI.generate')}
           onClick={generateRestClasses}
         >
-          {t('dialog.create')}
+          {t('dialog.OpenAPI.generate')}
         </Button>
       }
       cancel={

@@ -173,7 +173,7 @@ const Controls = ({ table, deleteRestClient }: { table: ReactTable<RestClientDat
       <GenerateRestClassesDialog>
         <Button
           icon={IvyIcons.SettingsCog}
-          aria-label={t('dialog.OpenAPI.generateRestClassesButton')}
+          aria-label={t('dialog.OpenAPI.generator')}
           disabled={table.getSelectedRowModel().rows.length === 0}
         />
       </GenerateRestClassesDialog>
