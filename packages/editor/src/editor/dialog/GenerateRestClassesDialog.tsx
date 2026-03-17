@@ -1,3 +1,4 @@
+import type { RestClientData, RestClientOpenApi } from '@axonivy/restclient-editor-protocol';
 import {
   BasicCheckbox,
   BasicDialogContent,
@@ -39,50 +40,21 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
     </Dialog>
   );
 };
+
 const OpenApiClassGeneratorDialog = () => {
   const { t } = useTranslation();
   const { data, setData, selectedIndex } = useAppContext();
   const currentClient = data[selectedIndex];
-  const generateOpenApiClient = useAction('generateOpenApiClient');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [filePath, setFilePath] = useState(currentClient?.openApi.spec ?? '');
-  const [namespace, setNamespace] = useState(currentClient?.openApi.namespace ?? '');
-  const [resolveFully, setResolveFully] = useState(currentClient?.openApi.resolveFully ?? false);
-  const query = useMeta('meta/open-api/load', filePath, { disable: !filePath, retry: false });
+  const generator = useGenerateOpenApi(currentClient?.openApi ?? { namespace: '', resolveFully: false, spec: '' });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setFilePath(file.name);
-    }
-  };
-
-  const generateRestClasses = () => {
-    if (!currentClient) {
-      return;
-    }
-
-    generateOpenApiClient({
-      clientName: currentClient.name,
-      spec: filePath,
-      namespace: namespace.trim() ? namespace : (query.data?.namespace ?? ''),
-      resolveFully
-    });
-
+  const generateOpenApi = () => {
     setData(currentData =>
-      currentData.map((client, index) =>
-        index === selectedIndex
-          ? {
-              ...client,
-              openApi: {
-                namespace: namespace.trim() ? namespace : (query.data?.namespace ?? ''),
-                resolveFully,
-                spec: filePath
-              },
-              uri: query.data?.uri ?? ''
-            }
-          : client
-      )
+      currentData.map((client, index) => {
+        if (index === selectedIndex) {
+          return generator.generate(client);
+        }
+        return client;
+      })
     );
   };
 
@@ -95,9 +67,9 @@ const OpenApiClassGeneratorDialog = () => {
           variant='primary'
           size='large'
           icon={IvyIcons.SettingsCog}
-          disabled={!query.data?.uri}
+          disabled={!generator.query.data?.uri}
           aria-label={t('dialog.OpenAPI.generate')}
-          onClick={generateRestClasses}
+          onClick={generateOpenApi}
         >
           {t('dialog.OpenAPI.generate')}
         </Button>
@@ -108,46 +80,86 @@ const OpenApiClassGeneratorDialog = () => {
         </Button>
       }
     >
-      <Flex direction='column' gap={2}>
-        <BasicField
-          control={<Button icon={IvyIcons.FolderOpen} onClick={() => fileInputRef.current?.click()}></Button>}
-          label={t('dialog.OpenAPI.schemaUri')}
-          message={query.isError ? { variant: 'error', message: query.error.message } : undefined}
-        >
-          <input ref={fileInputRef} accept='.json' type='file' onChange={handleFileChange} hidden />
-          <BasicInput value={filePath} required onChange={event => setFilePath(event.target.value)} />
-        </BasicField>
-        {filePath && query.isPending && (
-          <Flex direction='row' gap={1}>
-            <Spinner size='small' />
-            {t('common.label.loading')}
-          </Flex>
-        )}
-        <BasicField label={t('dialog.OpenAPI.namespace')}>
-          <BasicInput
-            disabled={!filePath}
-            value={namespace}
-            placeholder={query.data?.namespace}
-            onChange={event => setNamespace(event.target.value)}
-          />
-        </BasicField>
-        <Flex gap={2}>
-          <BasicCheckbox
-            disabled={!filePath}
-            label={t('dialog.OpenAPI.properties')}
-            checked={resolveFully}
-            onCheckedChange={checked => setResolveFully(checked === true)}
-          />
-        </Flex>
-        <a
-          href='https://convert.odata-openapi.net/'
-          style={{ color: 'blue', textDecoration: 'underline' }}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {t('dialog.OpenAPI.convertODataLink')}
-        </a>
-      </Flex>
+      <OpenApiClassGenerator {...generator} />
     </BasicDialogContent>
+  );
+};
+
+export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi) => {
+  const generateOpenApiClient = useAction('generateOpenApiClient');
+  const [openApi, setOpenApi] = useState<RestClientOpenApi>(initOpenApi);
+  const query = useMeta('meta/open-api/load', openApi.spec, { disable: !openApi.spec, retry: false });
+  const generate = (client: RestClientData) => {
+    const openApiSpec = {
+      ...openApi,
+      namespace: openApi.namespace.trim() ? openApi.namespace : (query.data?.namespace ?? '')
+    };
+
+    generateOpenApiClient({
+      clientName: client.name,
+      ...openApiSpec
+    });
+
+    return {
+      ...client,
+      openApi: openApiSpec,
+      uri: query.data?.uri ?? ''
+    };
+  };
+  return { generate, openApi, setOpenApi, query };
+};
+
+export const OpenApiClassGenerator = ({ openApi, setOpenApi, query }: ReturnType<typeof useGenerateOpenApi>) => {
+  const { t } = useTranslation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setOpenApi({ ...openApi, spec: file.name });
+    }
+  };
+
+  return (
+    <Flex direction='column' gap={2}>
+      <BasicField
+        control={<Button icon={IvyIcons.FolderOpen} onClick={() => fileInputRef.current?.click()}></Button>}
+        label={t('dialog.OpenAPI.schemaUri')}
+        message={query.isError ? { variant: 'error', message: query.error.message } : undefined}
+      >
+        <input ref={fileInputRef} accept='.json' type='file' onChange={handleFileChange} hidden />
+        <BasicInput value={openApi.spec} required onChange={event => setOpenApi({ ...openApi, spec: event.target.value })} />
+      </BasicField>
+      {openApi.spec && query.isPending && (
+        <Flex direction='row' gap={1}>
+          <Spinner size='small' />
+          {t('common.label.loading')}
+        </Flex>
+      )}
+      <BasicField label={t('dialog.OpenAPI.namespace')}>
+        <BasicInput
+          disabled={!openApi.spec}
+          value={openApi.namespace}
+          placeholder={query.data?.namespace}
+          onChange={event => setOpenApi({ ...openApi, namespace: event.target.value })}
+        />
+      </BasicField>
+      <Flex gap={2}>
+        <BasicCheckbox
+          disabled={!openApi.spec}
+          label={t('dialog.OpenAPI.properties')}
+          checked={openApi.resolveFully}
+          onCheckedChange={checked => setOpenApi({ ...openApi, resolveFully: checked === true })}
+        />
+      </Flex>
+      <a
+        href='https://convert.odata-openapi.net/'
+        style={{ color: 'blue', textDecoration: 'underline' }}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        {t('dialog.OpenAPI.convertODataLink')}
+      </a>
+    </Flex>
   );
 };

@@ -1,7 +1,9 @@
 import type { RestClientData } from '@axonivy/restclient-editor-protocol';
 import {
+  BasicCollapsible,
   BasicDialogContent,
   BasicField,
+  BasicTooltip,
   Button,
   Dialog,
   DialogContent,
@@ -24,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useValidateName } from '../../hooks/useValidateAddRestClient';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
+import { OpenApiClassGenerator, useGenerateOpenApi } from './GenerateRestClassesDialog';
 
 const DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 
@@ -54,6 +57,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
   const { data, setData, setSelectedIndex } = useAppContext();
   const [name, setName] = useState('');
   const nameValidationMessage = useValidateName(name, data);
+  const generator = useGenerateOpenApi({ namespace: '', resolveFully: false, spec: '' });
   const allInputsValid = !nameValidationMessage;
 
   const addRestClient = (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => {
@@ -62,7 +66,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
     }
     setData(old => [
       ...old,
-      {
+      generator.generate({
         id: uuid(),
         name,
         description: '',
@@ -71,7 +75,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
         features: ['ch.ivyteam.ivy.rest.client.mapper.JsonFeature'],
         properties: [],
         openApi: { namespace: '', resolveFully: false, spec: '' }
-      }
+      })
     ]);
     if (!event.ctrlKey && !event.metaKey) {
       closeDialog();
@@ -90,23 +94,18 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
       title={t('dialog.addRestClient.title')}
       description={t('dialog.addRestClient.desc')}
       submit={
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant='primary'
-                size='large'
-                icon={IvyIcons.Plus}
-                aria-label={t('dialog.create')}
-                disabled={!allInputsValid}
-                onClick={addRestClient}
-              >
-                {t('dialog.create')}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{t('dialog.createTooltip', { modifier: hotkeyText('mod') })}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <BasicTooltip content={t('dialog.createTooltip', { modifier: hotkeyText('mod') })}>
+          <Button
+            variant='primary'
+            size='large'
+            icon={IvyIcons.Plus}
+            aria-label={t('dialog.create')}
+            disabled={!allInputsValid}
+            onClick={addRestClient}
+          >
+            {t('dialog.create')}
+          </Button>
+        </BasicTooltip>
       }
       cancel={
         <Button variant='outline' size='large'>
@@ -119,6 +118,10 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
       <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
         <Input ref={nameInputRef} value={name} onChange={event => setName(event.target.value)} />
       </BasicField>
+      <BasicCollapsible label={t('dialog.OpenAPI.generator')}>
+        <span>{t('dialog.OpenAPI.generateDescription')}</span>
+        <OpenApiClassGenerator {...generator} />
+      </BasicCollapsible>
     </BasicDialogContent>
   );
 };
