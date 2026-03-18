@@ -44,7 +44,7 @@ export const AddRestClientDialog = ({ table, children }: { table: Table<RestClie
           <TooltipContent>{shortcut.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
+      <DialogContent onCloseAutoFocus={e => e.preventDefault()} className='max-w-140!'>
         <AddDialogContent table={table} closeDialog={() => onOpenChange(false)} />
       </DialogContent>
     </Dialog>

@@ -34,7 +34,7 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
           <TooltipContent>{t('dialog.OpenAPI.generator')}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
+      <DialogContent onCloseAutoFocus={e => e.preventDefault()} className='max-w-140!'>
         <OpenApiClassGeneratorDialog />
       </DialogContent>
     </Dialog>
