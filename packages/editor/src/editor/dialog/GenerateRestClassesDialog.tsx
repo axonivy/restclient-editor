@@ -152,12 +152,7 @@ export const OpenApiClassGenerator = ({ openApi, setOpenApi, query }: ReturnType
           onCheckedChange={checked => setOpenApi({ ...openApi, resolveFully: checked === true })}
         />
       </Flex>
-      <a
-        href='https://convert.odata-openapi.net/'
-        style={{ color: 'blue', textDecoration: 'underline' }}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+      <a href='https://convert.odata-openapi.net/' style={{ textDecoration: 'underline' }} target='_blank' rel='noopener noreferrer'>
         {t('dialog.OpenAPI.convertODataLink')}
       </a>
     </Flex>
