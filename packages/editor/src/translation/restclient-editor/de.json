@@ -17,8 +17,8 @@
       "details": "Details",
       "features": "Funktionen",
       "icon": "Symbol",
-      "id": "ID",
       "info": "Info",
+      "key": "Schlüssel",
       "loading": "Lädt...",
       "name": "Name",
       "password": "Passwort",
@@ -79,7 +79,8 @@
     "emptyName": "Name darf nicht leer sein.",
     "errorOnly": "Fehler: {{error}}",
     "notFound": "Nicht gefunden",
-    "restclientAlreadyExists": "Rest Client existiert bereits."
+    "restclientAlreadyExists": "Rest Client existiert bereits.",
+    "sanitizedKey": "Bereinigter Schlüssel wird '{{key}}' sein."
   },
   "title": {
     "detail": "Rest Client",

@@ -78,7 +78,7 @@ test('add', async ({ page }) => {
   await editor.main.table.row(7).expectToHaveColumnValues('NewRestClient');
   await editor.main.table.row(7).expectToBeSelected();
   await expect(editor.detail.header).toHaveText('NewRestClient');
-  await expect(editor.detail.id).toHaveValue(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  await expect(editor.detail.key.locator).toHaveValue('NewRestClient');
   await editor.main.delete.click();
   await editor.main.table.expectToHaveRowCount(7);
 });

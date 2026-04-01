@@ -17,8 +17,8 @@
       "details": "Details",
       "features": "Features",
       "icon": "Icon",
-      "id": "ID",
       "info": "Info",
+      "key": "Key",
       "loading": "Loading...",
       "name": "Name",
       "password": "Password",
@@ -79,7 +79,8 @@
     "emptyName": "Name cannot be empty.",
     "errorOnly": "Error: {{error}}",
     "notFound": "Not Found",
-    "restclientAlreadyExists": "Rest Client already exists."
+    "restclientAlreadyExists": "Rest Client already exists.",
+    "sanitizedKey": "Sanitized key will be '{{key}}'."
   },
   "title": {
     "detail": "Rest Client",
