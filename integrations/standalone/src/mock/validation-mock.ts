@@ -3,20 +3,20 @@ import type { RestClientData, ValidationResult } from '@axonivy/restclient-edito
 export const validateMock = (data: Array<RestClientData>): Array<ValidationResult> => {
   const validations: Array<ValidationResult> = [];
   data.forEach(restClient => {
-    if (restClient.name.includes('#')) {
+    if (restClient.key.includes('invalid-')) {
       validations.push(
         {
-          path: `${restClient.name}.name`,
-          message: `RestClient ${restClient.name} contains invalid characters`,
+          path: `${restClient.key}.key`,
+          message: `RestClient ${restClient.key} contains invalid characters`,
           severity: 'ERROR'
         },
         {
-          path: `${restClient.name}.uri`,
+          path: `${restClient.key}.uri`,
           message: 'URI empty',
           severity: 'ERROR'
         },
         {
-          path: `${restClient.name}.features.ch.ivyteam.ivy.rest.client.mapper.JsonFeature`,
+          path: `${restClient.key}.features.ch.ivyteam.ivy.rest.client.mapper.JsonFeature`,
           message: 'Feature unknown',
           severity: 'WARNING'
         }

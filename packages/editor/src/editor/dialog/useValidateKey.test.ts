@@ -1,13 +1,13 @@
 import type { RestClientData } from '@axonivy/restclient-editor-protocol';
 import { customRenderHook } from 'test-utils';
-import { useValidateName } from './useValidateAddRestClient';
+import { useValidateKey } from './useValidateKey';
 
 const data: Array<RestClientData> = [
   {
     name: 'Employee',
     description: '',
     icon: '',
-    id: '1',
+    key: 'Employee',
     uri: '',
     features: [],
     properties: [],
@@ -21,7 +21,7 @@ const data: Array<RestClientData> = [
     name: 'Teamleader',
     description: '',
     icon: '',
-    id: '2',
+    key: 'Teamleader',
     uri: '',
     features: [],
     properties: [],
@@ -34,7 +34,7 @@ const data: Array<RestClientData> = [
 ];
 
 const validate = (name: string) => {
-  const { result } = customRenderHook(() => useValidateName(name, data));
+  const { result } = customRenderHook(() => useValidateKey(name, data));
   return result.current;
 };
 

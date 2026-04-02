@@ -5,6 +5,7 @@ import {
   BasicField,
   BasicTooltip,
   Button,
+  configKeySanitize,
   Dialog,
   DialogContent,
   DialogTrigger,
@@ -16,17 +17,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
   useDialogHotkeys,
-  useHotkeys
+  useHotkeys,
+  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { v4 as uuid } from '@lukeed/uuid';
 import type { Table } from '@tanstack/react-table';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
-import { useValidateName } from '../../hooks/useValidateAddRestClient';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { OpenApiClassGenerator, useGenerateOpenApi } from './GenerateRestClassesDialog';
+import { useValidateKey } from './useValidateKey';
 
 const DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 
@@ -56,9 +57,11 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
   const { t } = useTranslation();
   const { data, setData, setSelectedIndex } = useAppContext();
   const [name, setName] = useState('');
-  const nameValidationMessage = useValidateName(name, data);
+  const nameValidationMessage = useValidateKey(name, data);
   const generator = useGenerateOpenApi({ namespace: '', resolveFully: false, spec: '' });
   const allInputsValid = !nameValidationMessage;
+  const sanitizedKey = configKeySanitize(name);
+  const sanitizeMessage: MessageData = { variant: 'info', message: t('message.sanitizedKey', { key: sanitizedKey }) };
 
   const addRestClient = (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => {
     if (!allInputsValid) {
@@ -67,7 +70,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
     setData(old => [
       ...old,
       generator.generate({
-        id: uuid(),
+        key: sanitizedKey,
         name,
         description: '',
         icon: '',
@@ -115,7 +118,7 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>
       ref={enter}
       tabIndex={-1}
     >
-      <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
+      <BasicField label={t('common.label.name')} message={nameValidationMessage || sanitizeMessage} aria-label={t('common.label.name')}>
         <Input ref={nameInputRef} value={name} onChange={event => setName(event.target.value)} />
       </BasicField>
       <BasicCollapsible label={t('dialog.OpenAPI.generator')}>

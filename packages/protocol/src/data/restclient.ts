@@ -50,7 +50,7 @@ export interface RestClientData {
   description: string;
   features: string[];
   icon: string;
-  id: string;
+  key: string;
   name: string;
   openApi: RestClientOpenApi;
   properties: RestClientProperty[];

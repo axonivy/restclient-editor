@@ -28,20 +28,20 @@ test('edit details', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.row(0).locator.click();
   await expect(editor.detail.header).toHaveText('personService');
-  await expect(editor.detail.id).toBeDisabled();
-  await expect(editor.detail.name.locator).toHaveValue('personService');
+  await expect(editor.detail.key.locator).toBeDisabled();
+  await expect(editor.detail.name).toHaveValue('personService');
   await expect(editor.detail.description).toBeEmpty();
 
   await expect(editor.detail.icon.locator).toHaveValue('');
   await expect(editor.detail.uri.locator).toHaveValue('{ivy.app.baseurl}/api/persons');
 
-  await editor.detail.name.locator.fill('Updated service');
+  await editor.detail.name.fill('Updated service');
   await editor.detail.description.fill('desc');
   await editor.detail.icon.locator.fill('file://icon');
   await editor.detail.uri.locator.fill('{ivy.app.baseurl}/api/updatedService');
 
   await expect(editor.detail.header).toHaveText('Updated service');
-  await expect(editor.detail.name.locator).toHaveValue('Updated service');
+  await expect(editor.detail.name).toHaveValue('Updated service');
   await expect(editor.detail.description).toHaveValue('desc');
   await expect(editor.detail.icon.locator).toHaveValue('file://icon');
   await expect(editor.detail.uri.locator).toHaveValue('{ivy.app.baseurl}/api/updatedService');
