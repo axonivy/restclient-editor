@@ -45,17 +45,22 @@ export const DetailContent = () => {
             <BasicInput value={restclient.description} onChange={event => handleAttributeChange('description', event.target.value)} />
           </BasicField>
           <BasicField label={t('common.label.icon')}>
-            <Combobox
-              itemRender={item => (
-                <Flex alignItems='center' gap={1}>
-                  <img src={item.icon} alt={item.label} className='size-3' />
-                  <span>{item.label}</span>
-                </Flex>
-              )}
-              onChange={value => handleAttributeChange('icon', value)}
-              options={iconOptions}
-              value={restclient.icon}
-            />
+            <Flex alignItems='center' gap={2} className='w-full *:last:grow'>
+              <div className='flex size-9.25 items-center justify-center rounded-sm border border-n200'>
+                {restclient.icon && <img src={iconOptions.find(option => option.value === restclient.icon)?.icon} className='size-6' />}
+              </div>
+              <Combobox
+                itemRender={item => (
+                  <Flex alignItems='center' gap={1}>
+                    <img src={item.icon} alt={item.label} className='size-3' />
+                    <span>{item.label}</span>
+                  </Flex>
+                )}
+                onChange={value => handleAttributeChange('icon', value)}
+                options={iconOptions}
+                value={restclient.icon}
+              />
+            </Flex>
           </BasicField>
           <BasicField label={t('common.label.uri')} message={uriMessage}>
             <BasicInput value={restclient.uri} onChange={event => handleAttributeChange('uri', event.target.value)} />
