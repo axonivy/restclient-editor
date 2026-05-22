@@ -1,14 +1,28 @@
 {
   "common": {
-    "hotkey": {},
-    "label": {},
-    "message": {}
+    "hotkey": {
+      "focusMain": "メインをフォーカス ({{hotkey}})",
+      "focusToolbar": "ツールバーをフォーカス ({{hotkey}})",
+      "help": "オープンヘルプ({{hotkey}})",
+      "redo": "やり直す ({{hotkey}})",
+      "undo": "元に戻す ({{hotkey}})"
+    },
+    "label": {
+      "apply": "適用",
+      "name": "名前",
+      "search": "検索",
+      "type": "タイプ",
+      "username": "ユーザー名",
+      "value": "値"
+    }
   },
   "dialog": {
-    "addRestClient": {}
+    "browser": {
+      "title": "browser"
+    },
+    "create": "作成"
   },
-  "hotkey": {},
-  "label": {},
-  "message": {},
-  "title": {}
+  "message": {
+    "notFound": "見つかりません"
+  }
 }
