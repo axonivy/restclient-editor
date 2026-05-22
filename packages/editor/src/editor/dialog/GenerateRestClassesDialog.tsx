@@ -94,11 +94,13 @@ export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi) => {
       ...openApi,
       namespace: openApi.namespace.trim() ? openApi.namespace : (query.data?.namespace ?? '')
     };
-
-    generateOpenApiClient({
-      clientName: client.name,
-      ...openApiSpec
-    });
+    
+    if(openApiSpec.spec) {
+      generateOpenApiClient({
+        clientName: client.name,
+        ...openApiSpec
+      });
+    }
 
     return {
       ...client,
