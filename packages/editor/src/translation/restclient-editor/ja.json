@@ -1,14 +1,89 @@
 {
   "common": {
-    "hotkey": {},
-    "label": {},
-    "message": {}
+    "hotkey": {
+      "focusMain": "メインをフォーカス ({{hotkey}})",
+      "focusToolbar": "ツールバーをフォーカス ({{hotkey}})",
+      "help": "オープンヘルプ({{hotkey}})",
+      "redo": "やり直す ({{hotkey}})",
+      "undo": "元に戻す ({{hotkey}})",
+      "focusInscription": "インスクリプションをフォーカス ({{hotkey}})"
+    },
+    "label": {
+      "apply": "適用",
+      "name": "名前",
+      "search": "検索",
+      "type": "タイプ",
+      "username": "ユーザー名",
+      "value": "値",
+      "description": "説明",
+      "details": "詳細",
+      "features": "機能",
+      "icon": "アイコン",
+      "browser": "ブラウザ",
+      "cancel": "キャンセル",
+      "info": "情報",
+      "password": "パスワード",
+      "path": "パス",
+      "properties": "プロパティ",
+      "authentication": "認証",
+      "key": "キーキー",
+      "loading": "ローディング...",
+      "text": "テキスト",
+      "uri": "ログイン"
+    },
+    "message": {
+      "errorOccurred": "エラーが発生しました: {{message}}"
+    }
   },
   "dialog": {
-    "addRestClient": {}
+    "browser": {
+      "title": "browser",
+      "description": "利用可能なオプションを参照します.",
+      "loadError": "ブラウザデータをロードできません"
+    },
+    "create": "作成",
+    "OpenAPI": {
+      "generate": "生成",
+      "namespace": "名前空間",
+      "generateDescription": "OpenAPI スキーマ URI (.json または .yaml ファイル) を入力します",
+      "generator": "OpenAPI クライアントの生成",
+      "convertODataLink": "ODataサービスをお持ちですか? OData の仕様をここで変換します.",
+      "properties": "完全に解決する: 一般的なallOf、任意のOf リファレンスの型を生成する",
+      "schemaUri": "スキーマ URI"
+    },
+    "addRestClient": {
+      "title": "残りのクライアントを追加",
+      "desc": "新規のReest Client設定を追加します."
+    },
+    "createTooltip": "{{modifier}} を押しながら、残りのクライアントを追加します."
   },
-  "hotkey": {},
-  "label": {},
-  "message": {},
-  "title": {}
+  "message": {
+    "notFound": "見つかりません",
+    "emptyName": "名前を空にすることはできません。",
+    "errorOnly": "エラー: {{error}}",
+    "addFirstRestClient": "まずはReest Client を追加して起動します.",
+    "sanitizedKey": "サニタイズされたキーは「{{key}}」になります.",
+    "restclientAlreadyExists": "クライアントは既に存在しています."
+  },
+  "label": {
+    "noRestClientSelected": "選択された残りのクライアント無し",
+    "removeRow": "行を削除",
+    "restClients": "残りのクライアント",
+    "authentication": {
+      "basic": "基本情報",
+      "digest": "ダイジェスト",
+      "none": "なし",
+      "ntlm": "ログイン"
+    },
+    "defaultValue": "デフォルト値: {{defaultValue}}",
+    "examples": "例:{{examples}}"
+  },
+  "hotkey": {
+    "deleteRestClient": "残りのクライアントを削除 ({{hotkey}})",
+    "addRestClient": "残りのクライアントを追加 ({{hotkey}})"
+  },
+  "title": {
+    "detail": "残りのクライアント",
+    "main": "残りのクライアント - {{name}}"
+  }
 }
