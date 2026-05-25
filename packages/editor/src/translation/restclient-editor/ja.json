@@ -5,7 +5,8 @@
       "focusToolbar": "ツールバーをフォーカス ({{hotkey}})",
       "help": "オープンヘルプ({{hotkey}})",
       "redo": "やり直す ({{hotkey}})",
-      "undo": "元に戻す ({{hotkey}})"
+      "undo": "元に戻す ({{hotkey}})",
+      "focusInscription": "インスクリプションをフォーカス ({{hotkey}})"
     },
     "label": {
       "apply": "適用",
@@ -13,16 +14,32 @@
       "search": "検索",
       "type": "タイプ",
       "username": "ユーザー名",
-      "value": "値"
+      "value": "値",
+      "description": "説明",
+      "details": "詳細",
+      "features": "機能",
+      "icon": "アイコン",
+      "browser": "ブラウザ",
+      "cancel": "キャンセル",
+      "info": "情報",
+      "password": "パスワード",
+      "path": "パス",
+      "properties": "プロパティ"
     }
   },
   "dialog": {
     "browser": {
       "title": "browser"
     },
-    "create": "作成"
+    "create": "作成",
+    "OpenAPI": {
+      "generate": "生成",
+      "namespace": "名前空間"
+    }
   },
   "message": {
-    "notFound": "見つかりません"
+    "notFound": "見つかりません",
+    "emptyName": "名前を空にすることはできません。",
+    "errorOnly": "エラー: {{error}}"
   }
 }
