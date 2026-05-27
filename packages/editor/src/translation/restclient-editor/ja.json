@@ -3,7 +3,7 @@
     "hotkey": {
       "focusMain": "メインをフォーカス ({{hotkey}})",
       "focusToolbar": "ツールバーをフォーカス ({{hotkey}})",
-      "help": "オープンヘルプ({{hotkey}})",
+      "help": "ヘルプを開く ({{hotkey}})",
       "redo": "やり直す ({{hotkey}})",
       "undo": "元に戻す ({{hotkey}})",
       "focusInscription": "インスクリプションをフォーカス ({{hotkey}})"
@@ -27,7 +27,7 @@
       "properties": "プロパティ",
       "authentication": "認証",
       "key": "キーキー",
-      "loading": "ローディング...",
+      "loading": "読み込み中...",
       "text": "テキスト",
       "uri": "ログイン"
     },
@@ -37,7 +37,7 @@
   },
   "dialog": {
     "browser": {
-      "title": "browser",
+      "title": "ブラウザ",
       "description": "利用可能なオプションを参照します.",
       "loadError": "ブラウザデータをロードできません"
     },
