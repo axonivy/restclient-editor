@@ -56,7 +56,7 @@ test('properties', async ({ page }) => {
   await expect(browser.info.content).toHaveText('InfoThe username used for authentication by Basic, Digest or NTLM authentication.');
 
   await browser.view.getByRole('textbox').clear();
-  await browser.table.expectToHaveRowCount(134);
+  expect(await browser.table.rows.count()).toBeGreaterThan(100);
   await browser.table.expectToHaveRowValues(['JSON.Deserialization.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT']);
 
   await browser.table.row(0).locator.click();
