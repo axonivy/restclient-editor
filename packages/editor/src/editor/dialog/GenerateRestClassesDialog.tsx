@@ -13,20 +13,24 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
+  useDialogHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useMutation } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useClient } from '../../context/ClientContext';
-import { useAction } from '../../hooks/useAction';
 import { useMeta } from '../../hooks/useMeta';
+
+const DIALOG_HOTKEY_IDS = ['generateRestClassesDialog'];
 
 export const GenerateRestClassesDialog = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
+  const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
   return (
-    <Dialog modal>
+    <Dialog open={open} onOpenChange={onOpenChange} modal>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -36,28 +40,53 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
         </Tooltip>
       </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()} className='max-w-140!'>
-        <OpenApiClassGeneratorDialog />
+        <OpenApiClassGeneratorDialog closeDialog={() => onOpenChange(false)} />
       </DialogContent>
     </Dialog>
   );
 };
 
-const OpenApiClassGeneratorDialog = () => {
+const OpenApiClassGeneratorDialog = ({ closeDialog }: { closeDialog: () => void }) => {
   const { t } = useTranslation();
   const { data, setData, selectedIndex, context } = useAppContext();
   const client = useClient();
   const currentClient = data[selectedIndex];
   const generator = useGenerateOpenApi(currentClient?.openApi ?? { namespace: '', resolveFully: false, spec: '' }, context, client);
+  const generateMutation = useMutation({
+    mutationFn: (payload: { clientName: string; openApiSpec: RestClientOpenApi }) =>
+      client.vsc('integration/generate', {
+        context,
+        clientName: payload.clientName,
+        ...payload.openApiSpec
+      }),
+    onSuccess: (result, payload) => {
+      if (!result.success) {
+        return;
+      }
+      setData(currentData =>
+        currentData.map((clientData, index) =>
+          index === selectedIndex
+            ? {
+                ...clientData,
+                openApi: payload.openApiSpec,
+                uri: generator.query.data?.uri ?? ''
+              }
+            : clientData
+        )
+      );
+      closeDialog();
+    }
+  });
 
-  const generateOpenApi = () => {
-    setData(currentData =>
-      currentData.map((client, index) => {
-        if (index === selectedIndex) {
-          return generator.generate(client);
-        }
-        return client;
-      })
-    );
+  const generateOpenApi = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!currentClient || !generator.query.data?.uri) {
+      return;
+    }
+    generateMutation.mutate({
+      clientName: currentClient.name,
+      openApiSpec: generator.resolveOpenApiSpec()
+    });
   };
 
   return (
@@ -66,10 +95,12 @@ const OpenApiClassGeneratorDialog = () => {
       description={t('dialog.OpenAPI.generateDescription')}
       submit={
         <Button
+          type='button'
           variant='primary'
           size='large'
-          icon={IvyIcons.SettingsCog}
-          disabled={!generator.query.data?.uri}
+          icon={generateMutation.isPending ? IvyIcons.Spinner : IvyIcons.SettingsCog}
+          spin={generateMutation.isPending}
+          disabled={!generator.query.data?.uri || generateMutation.isPending}
           aria-label={t('dialog.OpenAPI.generate')}
           onClick={generateOpenApi}
         >
@@ -88,21 +119,16 @@ const OpenApiClassGeneratorDialog = () => {
 };
 
 export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi, context: RestClientContext, client: RestClientClient) => {
-  const generateOpenApiClient = useAction('generateOpenApiClient');
   const [openApi, setOpenApi] = useState<RestClientOpenApi>(initOpenApi);
   const query = useMeta('meta/open-api/load', openApi.spec, { disable: !openApi.spec, retry: false });
-  const generate = (client: RestClientData) => {
-    const openApiSpec = {
-      ...openApi,
-      namespace: openApi.namespace.trim() ? openApi.namespace : (query.data?.namespace ?? '')
-    };
 
-    if (openApiSpec.spec) {
-      generateOpenApiClient({
-        clientName: client.name,
-        ...openApiSpec
-      });
-    }
+  const resolveOpenApiSpec = () => ({
+    ...openApi,
+    namespace: openApi.namespace.trim() ? openApi.namespace : (query.data?.namespace ?? '')
+  });
+
+  const generate = (client: RestClientData) => {
+    const openApiSpec = resolveOpenApiSpec();
 
     return {
       ...client,
@@ -110,7 +136,7 @@ export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi, context: Rest
       uri: query.data?.uri ?? ''
     };
   };
-  return { generate, openApi, setOpenApi, query, context, client };
+  return { generate, resolveOpenApiSpec, openApi, setOpenApi, query, context, client };
 };
 
 export const OpenApiClassGenerator = ({ openApi, setOpenApi, query, context, client }: ReturnType<typeof useGenerateOpenApi>) => {

@@ -13,13 +13,19 @@ import type {
 } from './data/restclient';
 
 export interface RestClientActionArgs {
-  actionId: 'openUrl' | 'generateOpenApiClient';
+  actionId: 'openUrl';
   context: RestClientContext;
-  payload: string | OpenApiGeneratorConfig;
+  payload: string;
 }
 
 export interface OpenApiGeneratorConfig extends RestClientOpenApi {
+  context: RestClientContext;
   clientName: string;
+}
+
+export interface OpenApiGeneratorResult {
+  success: boolean;
+  message: string;
 }
 
 export interface RestClientMetaRequestTypes {
@@ -47,6 +53,7 @@ export interface RestClientOnNotificationTypes {
 }
 
 export interface RestClientVscExtensionTypes {
+  'integration/generate': [OpenApiGeneratorConfig, OpenApiGeneratorResult];
   'integration/file/pick': [FilePickRequest, string | undefined];
 }
 
