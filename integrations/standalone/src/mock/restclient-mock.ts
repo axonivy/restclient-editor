@@ -6,6 +6,7 @@ import type {
   RestClientEditorData,
   RestClientMetaRequestTypes,
   RestClientSaveDataArgs,
+  RestClientVscExtensionTypes,
   ValidationResult
 } from '@axonivy/restclient-editor-protocol';
 import { data } from './data-mock';
@@ -61,6 +62,19 @@ export class RestClientMock implements RestClientClient {
         return Promise.resolve(META_OPENAPI_LOAD);
       default:
         throw Error('mock meta path not programmed');
+    }
+  }
+
+  vsc<TVsc extends keyof RestClientVscExtensionTypes>(
+    path: TVsc,
+    args: RestClientVscExtensionTypes[TVsc][0]
+  ): Promise<RestClientVscExtensionTypes[TVsc][1]> {
+    console.log('Vsc:', JSON.stringify(args));
+    switch (path) {
+      case 'integration/file/pick':
+        return Promise.resolve('/workspace/mock/openapi.yaml') as Promise<RestClientVscExtensionTypes[TVsc][1]>;
+      default:
+        throw Error('mock vsc path not programmed');
     }
   }
 

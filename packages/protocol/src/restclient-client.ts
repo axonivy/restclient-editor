@@ -1,5 +1,11 @@
-import type { EditorFileContent, RestClientContext, RestClientEditorData, RestClientSaveDataArgs, ValidationResult } from './data/restclient';
-import type { RestClientActionArgs, RestClientMetaRequestTypes } from './restclient-protocol';
+import type {
+  EditorFileContent,
+  RestClientContext,
+  RestClientEditorData,
+  RestClientSaveDataArgs,
+  ValidationResult
+} from './data/restclient';
+import type { RestClientActionArgs, RestClientMetaRequestTypes, RestClientVscExtensionTypes } from './restclient-protocol';
 
 export interface Event<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,6 +25,11 @@ export interface RestClientClient {
     path: TMeta,
     args: RestClientMetaRequestTypes[TMeta][0]
   ): Promise<RestClientMetaRequestTypes[TMeta][1]>;
+
+  vsc<TVsc extends keyof RestClientVscExtensionTypes>(
+    path: TVsc,
+    args: RestClientVscExtensionTypes[TVsc][0]
+  ): Promise<RestClientVscExtensionTypes[TVsc][1]>;
 
   validate(context: RestClientContext): Promise<ValidationResult[]>;
   action(action: RestClientActionArgs): void;

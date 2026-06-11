@@ -29,7 +29,7 @@ export interface RestClientMetaRequestTypes {
   'meta/open-api/load': [string, OpenApiSpec];
 }
 
-export interface RestClientRequestTypes extends RestClientMetaRequestTypes {
+export interface RestClientRequestTypes extends RestClientMetaRequestTypes, RestClientVscExtensionTypes {
   initialize: [RestClientContext, void];
   data: [RestClientContext, RestClientEditorData];
   saveData: [RestClientSaveDataArgs, EditorFileContent];
@@ -44,4 +44,13 @@ export interface RestClientNotificationTypes {
 export interface RestClientOnNotificationTypes {
   dataChanged: void;
   validationChanged: void;
+}
+
+export interface RestClientVscExtensionTypes {
+  'integration/file/pick': [FilePickRequest, string | undefined];
+}
+
+export interface FilePickRequest {
+  context: RestClientContext;
+  fileTypes: Record<string, string[]>;
 }
