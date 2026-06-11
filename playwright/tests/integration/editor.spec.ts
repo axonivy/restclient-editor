@@ -88,10 +88,10 @@ test('openapi codegen', async ({ page }) => {
   const msg = consoleLog(page);
   await dialog.submitButton.click();
 
-  expect(await msg).toContain('generateOpenApiClient');
+  expect(await msg).toContain('"clientName":"openApiService"');
+  expect(await msg).toContain('"spec":"https://petstore3.swagger.io/api/v3/openapi.json"');
+  expect(await msg).toContain('"namespace":"io.swagger.petstore.v3.client"');
   expect(await msg).toContain('openApiService');
-  expect(await msg).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
-  expect(await msg).toContain('io.swagger.petstore.v3.client');
 });
 
 test('openapi codegen: placeholder', async ({ page }) => {
@@ -103,10 +103,10 @@ test('openapi codegen: placeholder', async ({ page }) => {
   const msg = consoleLog(page);
   await dialog.submitButton.click();
 
-  expect(await msg).toContain('generateOpenApiClient');
+  expect(await msg).toContain('"clientName":"openApiService"');
+  expect(await msg).toContain('"spec":"https://petstore3.swagger.io/api/v3/openapi.json"');
+  expect(await msg).toContain('"namespace":"io.swagger.petstore3.client"'); // placeholder
   expect(await msg).toContain('openApiService');
-  expect(await msg).toContain('https://petstore3.swagger.io/api/v3/openapi.json');
-  expect(await msg).toContain('io.swagger.petstore3.client'); // placeholder
 });
 
 const consoleLog = async (page: Page) => {

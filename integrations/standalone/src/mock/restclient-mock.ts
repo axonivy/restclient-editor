@@ -71,6 +71,17 @@ export class RestClientMock implements RestClientClient {
   ): Promise<RestClientVscExtensionTypes[TVsc][1]> {
     console.log('Vsc:', JSON.stringify(args));
     switch (path) {
+      case 'integration/generate': {
+        const generateArgs = args as RestClientVscExtensionTypes['integration/generate'][0];
+        return new Promise<RestClientVscExtensionTypes[TVsc][1]>(resolve => {
+          setTimeout(() => {
+            resolve({
+              success: true,
+              message: `Generated ${generateArgs.clientName}.`
+            } as RestClientVscExtensionTypes[TVsc][1]);
+          }, 500);
+        });
+      }
       case 'integration/file/pick':
         return Promise.resolve('/workspace/mock/openapi.yaml') as Promise<RestClientVscExtensionTypes[TVsc][1]>;
       default:
