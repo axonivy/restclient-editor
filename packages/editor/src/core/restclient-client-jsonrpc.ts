@@ -19,6 +19,7 @@ import type {
   RestClientOnNotificationTypes,
   RestClientRequestTypes,
   RestClientSaveDataArgs,
+  RestClientVscExtensionTypes,
   ValidationResult
 } from '@axonivy/restclient-editor-protocol';
 
@@ -63,11 +64,21 @@ export class RestClientClientJsonRpc extends BaseRpcClient implements RestClient
     return this.sendRequest(path, args);
   }
 
+  vsc<TVsc extends keyof RestClientVscExtensionTypes>(
+    path: TVsc,
+    args: RestClientVscExtensionTypes[TVsc][0]
+  ): Promise<RestClientVscExtensionTypes[TVsc][1]> {
+    return this.sendRequest(path, args);
+  }
+
   action(action: RestClientActionArgs): void {
     void this.sendNotification('action', action);
   }
 
-  sendRequest<K extends keyof RestClientRequestTypes>(command: K, args?: RestClientRequestTypes[K][0]): Promise<RestClientRequestTypes[K][1]> {
+  sendRequest<K extends keyof RestClientRequestTypes>(
+    command: K,
+    args?: RestClientRequestTypes[K][0]
+  ): Promise<RestClientRequestTypes[K][1]> {
     return args === undefined ? this.connection.sendRequest(command) : this.connection.sendRequest(command, args);
   }
 
@@ -75,7 +86,10 @@ export class RestClientClientJsonRpc extends BaseRpcClient implements RestClient
     return this.connection.sendNotification(command, args);
   }
 
-  onNotification<K extends keyof RestClientOnNotificationTypes>(kind: K, listener: (args: RestClientOnNotificationTypes[K]) => unknown): Disposable {
+  onNotification<K extends keyof RestClientOnNotificationTypes>(
+    kind: K,
+    listener: (args: RestClientOnNotificationTypes[K]) => unknown
+  ): Disposable {
     return this.connection.onNotification(kind, listener);
   }
 

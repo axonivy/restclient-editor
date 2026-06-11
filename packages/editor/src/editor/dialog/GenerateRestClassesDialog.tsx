@@ -1,4 +1,4 @@
-import type { RestClientData, RestClientOpenApi } from '@axonivy/restclient-editor-protocol';
+import type { RestClientClient, RestClientContext, RestClientData, RestClientOpenApi } from '@axonivy/restclient-editor-protocol';
 import {
   BasicCheckbox,
   BasicDialogContent,
@@ -16,9 +16,10 @@ import {
   TooltipTrigger
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
+import { useClient } from '../../context/ClientContext';
 import { useAction } from '../../hooks/useAction';
 import { useMeta } from '../../hooks/useMeta';
 
@@ -43,9 +44,10 @@ export const GenerateRestClassesDialog = ({ children }: { children: ReactNode })
 
 const OpenApiClassGeneratorDialog = () => {
   const { t } = useTranslation();
-  const { data, setData, selectedIndex } = useAppContext();
+  const { data, setData, selectedIndex, context } = useAppContext();
+  const client = useClient();
   const currentClient = data[selectedIndex];
-  const generator = useGenerateOpenApi(currentClient?.openApi ?? { namespace: '', resolveFully: false, spec: '' });
+  const generator = useGenerateOpenApi(currentClient?.openApi ?? { namespace: '', resolveFully: false, spec: '' }, context, client);
 
   const generateOpenApi = () => {
     setData(currentData =>
@@ -80,12 +82,12 @@ const OpenApiClassGeneratorDialog = () => {
         </Button>
       }
     >
-      <OpenApiClassGenerator {...generator} />
+      <OpenApiClassGenerator {...generator} context={context} client={client} />
     </BasicDialogContent>
   );
 };
 
-export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi) => {
+export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi, context: RestClientContext, client: RestClientClient) => {
   const generateOpenApiClient = useAction('generateOpenApiClient');
   const [openApi, setOpenApi] = useState<RestClientOpenApi>(initOpenApi);
   const query = useMeta('meta/open-api/load', openApi.spec, { disable: !openApi.spec, retry: false });
@@ -94,8 +96,8 @@ export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi) => {
       ...openApi,
       namespace: openApi.namespace.trim() ? openApi.namespace : (query.data?.namespace ?? '')
     };
-    
-    if(openApiSpec.spec) {
+
+    if (openApiSpec.spec) {
       generateOpenApiClient({
         clientName: client.name,
         ...openApiSpec
@@ -108,28 +110,26 @@ export const useGenerateOpenApi = (initOpenApi: RestClientOpenApi) => {
       uri: query.data?.uri ?? ''
     };
   };
-  return { generate, openApi, setOpenApi, query };
+  return { generate, openApi, setOpenApi, query, context, client };
 };
 
-export const OpenApiClassGenerator = ({ openApi, setOpenApi, query }: ReturnType<typeof useGenerateOpenApi>) => {
+export const OpenApiClassGenerator = ({ openApi, setOpenApi, query, context, client }: ReturnType<typeof useGenerateOpenApi>) => {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setOpenApi({ ...openApi, spec: file.name });
+  const browseOpenApi = async () => {
+    const selectedPath = await client.vsc('integration/file/pick', { context, fileTypes: { OpenAPI: ['json', 'yaml'] } });
+    if (selectedPath) {
+      setOpenApi({ ...openApi, spec: selectedPath });
     }
   };
 
   return (
     <Flex direction='column' gap={2}>
       <BasicField
-        control={<Button icon={IvyIcons.FolderOpen} onClick={() => fileInputRef.current?.click()}></Button>}
+        control={<Button icon={IvyIcons.FolderOpen} onClick={browseOpenApi}></Button>}
         label={t('dialog.OpenAPI.schemaUri')}
         message={query.isError ? { variant: 'error', message: query.error.message } : undefined}
       >
-        <input ref={fileInputRef} accept='.json' type='file' onChange={handleFileChange} hidden />
         <BasicInput value={openApi.spec} required onChange={event => setOpenApi({ ...openApi, spec: event.target.value })} />
       </BasicField>
       {openApi.spec && query.isPending && (

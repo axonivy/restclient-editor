@@ -24,6 +24,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { Table } from '@tanstack/react-table';
 import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useClient } from '../..';
 import { useAppContext } from '../../context/AppContext';
 import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { OpenApiClassGenerator, useGenerateOpenApi } from './GenerateRestClassesDialog';
@@ -55,10 +56,11 @@ export const AddRestClientDialog = ({ table, children }: { table: Table<RestClie
 const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>; closeDialog: () => void }) => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
-  const { data, setData, setSelectedIndex } = useAppContext();
+  const { data, setData, setSelectedIndex, context } = useAppContext();
   const [name, setName] = useState('');
+  const client = useClient();
   const nameValidationMessage = useValidateKey(name, data);
-  const generator = useGenerateOpenApi({ namespace: '', resolveFully: false, spec: '' });
+  const generator = useGenerateOpenApi({ namespace: '', resolveFully: false, spec: '' }, context, client);
   const allInputsValid = !nameValidationMessage;
   const sanitizedKey = configKeySanitize(name);
   const sanitizeMessage: MessageData = { variant: 'info', message: t('message.sanitizedKey', { key: sanitizedKey }) };
