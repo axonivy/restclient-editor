@@ -67,7 +67,7 @@
   },
   "label": {
     "noRestClientSelected": "選択された残りのクライアント無し",
-    "removeRow": "行を削除",
+    "removeRow": "行を削除する",
     "restClients": "残りのクライアント",
     "authentication": {
       "basic": "基本情報",
