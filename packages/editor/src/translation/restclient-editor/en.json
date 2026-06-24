@@ -69,6 +69,7 @@
       "ntlm": "NTLM"
     },
     "defaultValue": "Default value: {{defaultValue}}",
+    "deprecated": "Deprecated",
     "examples": "Examples: {{examples}}",
     "noRestClientSelected": "No Rest Client Selected",
     "removeRow": "Remove Row",

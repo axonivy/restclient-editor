@@ -77,7 +77,7 @@ test('edit authentication type', async ({ page }) => {
     ['ch.ivyteam.ivy.rest.client.authentication.HttpDigestAuthenticationFeature']
   );
 
-  await editor.detail.authenticationType.choose('NTLM');
+  await editor.detail.authenticationType.choose('NTLM (Deprecated)');
   await editor.detail.features.expectToHaveRowCount(2);
   await editor.detail.features.expectToHaveRowValues(['ch.ivyteam.ivy.rest.client.mapper.JsonFeature'], ['ch.ivyteam.ivy.rest.client.authentication.NtlmAuthenticationFeature']);
 
