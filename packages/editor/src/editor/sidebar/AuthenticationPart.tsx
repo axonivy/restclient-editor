@@ -70,7 +70,7 @@ export const AuthenticationPart = ({ restClient, handleAttributeChange }: Authen
         </Field>
         <Field direction='row' alignItems='center' gap={2}>
           <RadioGroupItem value='ntlm' />
-          <Label>{t('label.authentication.ntlm')}</Label>
+          <Label>{t('label.authentication.ntlm')} ({t('label.deprecated')})</Label>
         </Field>
       </RadioGroup>
       <BasicField label={t('common.label.username')}>
