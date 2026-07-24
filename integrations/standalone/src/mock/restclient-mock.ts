@@ -17,7 +17,7 @@ export class RestClientMock implements RestClientClient {
   private restclientData: RestClientEditorData;
   constructor() {
     this.restclientData = {
-      context: { app: 'mockApp', pmv: 'mockPmv', file: 'rest-clients.yaml' },
+      context: { app: 'mockApp', project: 'mockproject', file: 'rest-clients.yaml' },
       data: data,
       helpUrl: 'https://dev.axonivy.com',
       readonly: false
