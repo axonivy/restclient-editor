@@ -6,7 +6,7 @@
  */
 
 export type RestClientPropertyType = ("STRING" | "PASSWORD" | "PATH")
-export type Severity = "INFO" | "WARNING" | "ERROR";
+export type Severity = 'INFO' | 'WARNING' | 'ERROR';
 
 export interface Restclients {
   boolean: boolean;
@@ -38,7 +38,7 @@ export interface OpenApiSpec {
 export interface RestClientContext {
   app: string;
   file: string;
-  pmv: string;
+  project: string;
 }
 export interface RestClientEditorData {
   context: RestClientContext;

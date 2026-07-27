@@ -7,7 +7,7 @@ export const server = process.env.BASE_URL ?? 'localhost:8080/~Developer-restcli
 export const user = 'Developer';
 const ws = process.env.TEST_WS ?? '';
 const app = process.env.TEST_APP ?? 'Developer-restclient-test-project';
-const pmv = 'restclient-test-project';
+const project = 'restclient-test-project';
 
 export class RestClientEditor {
   readonly page: Page;
@@ -25,7 +25,7 @@ export class RestClientEditor {
 
   static async openRestClient(page: Page, options?: { readonly?: boolean; theme?: string }) {
     const serverUrl = server.replace(/^https?:\/\//, '');
-    let url = `?server=${serverUrl}${ws}&app=${app}&pmv=${pmv}&file=config/rest-clients.yaml`;
+    let url = `?server=${serverUrl}${ws}&app=${app}&project=${project}&file=config/rest-clients.yaml`;
     if (options) {
       url += Object.entries(options)
         .map(([key, value]) => `&${key}=${value}`)
