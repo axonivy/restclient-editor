@@ -1,5 +1,5 @@
 import type { RestClientData, Severity, ValidationResult } from '@axonivy/restclient-editor-protocol';
-import { BasicCollapsible, BasicField, BasicInput, Combobox, Flex, PanelMessage, type MessageData } from '@axonivy/ui-components';
+import { BasicCollapsible, BasicCombobox, BasicField, BasicInput, Flex, PanelMessage, type MessageData } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
@@ -45,20 +45,25 @@ export const DetailContent = () => {
             <BasicInput value={restclient.description} onChange={event => handleAttributeChange('description', event.target.value)} />
           </BasicField>
           <BasicField label={t('common.label.icon')}>
-            <Flex alignItems='center' gap={2} className='w-full *:last:grow'>
+            <Flex alignItems='center' gap={2} className='w-full'>
               <div className='flex size-9.25 items-center justify-center rounded-sm border border-n200'>
                 {restclient.icon && <img src={iconOptions.find(option => option.value === restclient.icon)?.icon} className='size-6' />}
               </div>
-              <Combobox
-                itemRender={item => (
+              <BasicCombobox
+                items={iconOptions}
+                isItemEqualToValue={(itemValue, value) => itemValue.value === value.value}
+                itemRenderer={item => (
                   <Flex alignItems='center' gap={1}>
                     <img src={item.icon} alt={item.label} className='size-3' />
-                    <span>{item.label}</span>
+                    <span className='truncate'>
+                      {item.label} ({item.value})
+                    </span>
                   </Flex>
                 )}
-                onChange={value => handleAttributeChange('icon', value)}
-                options={iconOptions}
-                value={restclient.icon}
+                itemToStringLabel={item => item.value}
+                value={iconOptions.find(item => item.value === restclient.icon)}
+                onValueChange={change => handleAttributeChange('icon', change?.value ?? '')}
+                className='w-full'
               />
             </Flex>
           </BasicField>
