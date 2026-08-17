@@ -161,7 +161,6 @@ test('keyboard properties', async ({ page, browserName }) => {
   await page.keyboard.press('Tab');
   await editor.detail.properties.expectToHaveRowCount(3);
   await page.keyboard.press('Tab');
-  await page.keyboard.press('Tab');
   await page.keyboard.type('new');
   await page.keyboard.press('Escape');
   await editor.detail.properties.expectToHaveRowValues(['Text', 'username1', 'theWorker'], ['Password', 'password', 'theWorker'], ['Text', 'new', '']);

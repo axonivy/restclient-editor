@@ -18,6 +18,7 @@ import {
   TooltipTrigger,
   useDialogHotkeys,
   useHotkeys,
+  type DataTableFeatures,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -32,7 +33,7 @@ import { useValidateKey } from './useValidateKey';
 
 const DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 
-export const AddRestClientDialog = ({ table, children }: { table: Table<RestClientData>; children: ReactNode }) => {
+export const AddRestClientDialog = ({ table, children }: { table: Table<DataTableFeatures, RestClientData>; children: ReactNode }) => {
   const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
   const { addRestClient: shortcut } = useKnownHotkeys();
   useHotkeys(shortcut.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
@@ -53,7 +54,7 @@ export const AddRestClientDialog = ({ table, children }: { table: Table<RestClie
   );
 };
 
-const AddDialogContent = ({ table, closeDialog }: { table: Table<RestClientData>; closeDialog: () => void }) => {
+const AddDialogContent = ({ table, closeDialog }: { table: Table<DataTableFeatures, RestClientData>; closeDialog: () => void }) => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
   const { data, setData, setSelectedIndex, context } = useAppContext();

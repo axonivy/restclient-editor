@@ -2,6 +2,7 @@ import type { RestClientData } from '@axonivy/restclient-editor-protocol';
 import {
   BasicField,
   Button,
+  dataTableHelper,
   deleteFirstSelectedRow,
   Flex,
   IvyIcon,
@@ -11,6 +12,7 @@ import {
   SortableHeader,
   Table,
   TableBody,
+  TableGlobalFilter,
   TableResizableHeader,
   Tooltip,
   TooltipContent,
@@ -18,14 +20,12 @@ import {
   TooltipTrigger,
   useHotkeys,
   useReadonly,
-  useTableGlobalFilter,
   useTableKeyHandler,
-  useTableSelect,
-  useTableSort
+  type DataTableFeatures
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { getCoreRowModel, useReactTable, type ColumnDef, type Table as ReactTable } from '@tanstack/react-table';
-import { useMemo, useRef } from 'react';
+import { useTable, type Table as ReactTable } from '@tanstack/react-table';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useMeta } from '../../hooks/useMeta';
@@ -34,66 +34,59 @@ import { AddRestClientDialog } from '../dialog/AddRestClientDialog';
 import { GenerateRestClassesDialog } from '../dialog/GenerateRestClassesDialog';
 import { ValidationRow } from './ValidationRow';
 
+const { columnHelper, tableOptions } = dataTableHelper<RestClientData>();
+
 export const Main = () => {
   const { t } = useTranslation();
   const { data, setData, setSelectedIndex, detail, setDetail, context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
 
-  const selection = useTableSelect<RestClientData>({
-    onSelect: selectedRows => {
+  const columns = useMemo(
+    () =>
+      columnHelper.columns([
+        columnHelper.accessor('name', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
+          cell: cell => {
+            const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
+
+            return (
+              <Flex alignItems='center' gap={1}>
+                {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.RestClient} />}
+                <span>{cell.getValue()}</span>
+              </Flex>
+            );
+          }
+        }),
+        columnHelper.accessor('uri', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.uri')} />,
+          cell: cell => (
+            <Flex alignItems='center' gap={1}>
+              <span>{cell.getValue()}</span>
+            </Flex>
+          )
+        })
+      ]),
+    [t, iconMeta.data]
+  );
+
+  const table = useTable({
+    ...tableOptions,
+    data,
+    columns,
+    columnResizeMode: 'onChange'
+  });
+
+  useEffect(() => {
+    const subscription = table.atoms.rowSelection.subscribe(selectedRows => {
       const selectedRowIndex = Object.keys(selectedRows).find(key => selectedRows[key]);
       if (selectedRowIndex === undefined) {
         setSelectedIndex(-1);
         return;
       }
       setSelectedIndex(Number(selectedRowIndex));
-    }
-  });
-  const globalFilter = useTableGlobalFilter();
-  const sort = useTableSort();
-  const columns = useMemo<ColumnDef<RestClientData, string>[]>(
-    () => [
-      {
-        accessorKey: 'name',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => {
-          const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
-
-          return (
-            <Flex alignItems='center' gap={1}>
-              {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.RestClient} />}
-              <span>{cell.getValue()}</span>
-            </Flex>
-          );
-        }
-      },
-      {
-        accessorKey: 'uri',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.uri')} />,
-        cell: cell => (
-          <Flex alignItems='center' gap={1}>
-            <span>{cell.getValue()}</span>
-          </Flex>
-        )
-      }
-    ],
-    [t, iconMeta.data]
-  );
-
-  const table = useReactTable({
-    ...selection.options,
-    ...globalFilter.options,
-    ...sort.options,
-    columnResizeMode: 'onChange',
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    state: {
-      ...selection.tableState,
-      ...sort.tableState,
-      ...globalFilter.tableState
-    }
-  });
+    });
+    return () => subscription.unsubscribe();
+  }, [table, setSelectedIndex]);
 
   const { handleKeyDown } = useTableKeyHandler({
     table,
@@ -148,7 +141,7 @@ export const Main = () => {
         }
         onClick={event => event.stopPropagation()}
       >
-        {globalFilter.filter}
+        <TableGlobalFilter table={table} />
         <div className='overflow-x-hidden'>
           <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))}>
             <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
@@ -164,7 +157,7 @@ export const Main = () => {
   );
 };
 
-const Controls = ({ table, deleteRestClient }: { table: ReactTable<RestClientData>; deleteRestClient?: () => void }) => {
+const Controls = ({ table, deleteRestClient }: { table: ReactTable<DataTableFeatures, RestClientData>; deleteRestClient?: () => void }) => {
   const { t } = useTranslation();
   const readonly = useReadonly();
   const hotkeys = useKnownHotkeys();

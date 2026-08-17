@@ -1,6 +1,7 @@
 import type { RestClientProperty } from '@axonivy/restclient-editor-protocol';
 import {
   BasicCollapsible,
+  dataTableHelper,
   InputCell,
   SelectCell,
   SelectRow,
@@ -10,7 +11,7 @@ import {
   TableCell,
   TableResizableHeader
 } from '@axonivy/ui-components';
-import { flexRender, type ColumnDef } from '@tanstack/react-table';
+import { flexRender } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useResizableEditableTable } from '../../../hooks/useResizableEditableTable';
@@ -21,42 +22,42 @@ type PropertiesTableProps = {
   onChange: (props: Array<RestClientProperty>) => void;
 };
 
+const { columnHelper } = dataTableHelper<RestClientProperty>();
+
 export const PropertiesTable = ({ data, onChange }: PropertiesTableProps) => {
   const { t } = useTranslation();
 
-  const columns = useMemo<ColumnDef<RestClientProperty, string>[]>(
-    () => [
-      {
-        accessorKey: 'type',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.type')} />,
-        cell: cell => (
-          <SelectCell
-            cell={cell}
-            items={[
-              { label: t('common.label.text'), value: 'STRING' },
-              { label: t('common.label.password'), value: 'PASSWORD' },
-              { label: t('common.label.path'), value: 'PATH' }
-            ]}
-          />
-        )
-      },
-      {
-        accessorKey: 'key',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => <InputCellWithBrowser cell={cell} activeBrowsers={['PROPERTIES']} />
-      },
-      {
-        accessorKey: 'value',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.value')} />,
-        cell: cell => {
-          return cell.row.original.type === 'PASSWORD' ? <InputCell cell={cell} type='password' /> : <InputCell cell={cell} />;
-        }
-      }
-    ],
+  const columns = useMemo(
+    () =>
+      columnHelper.columns([
+        columnHelper.accessor('type', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.type')} />,
+          cell: cell => (
+            <SelectCell
+              cell={cell}
+              items={[
+                { label: t('common.label.text'), value: 'STRING' },
+                { label: t('common.label.password'), value: 'PASSWORD' },
+                { label: t('common.label.path'), value: 'PATH' }
+              ]}
+            />
+          )
+        }),
+        columnHelper.accessor('key', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
+          cell: cell => <InputCellWithBrowser cell={cell} activeBrowsers={['PROPERTIES']} />
+        }),
+        columnHelper.accessor('value', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.value')} />,
+          cell: cell => {
+            return cell.row.original.type === 'PASSWORD' ? <InputCell cell={cell} type='password' /> : <InputCell cell={cell} />;
+          }
+        })
+      ]),
     [t]
   );
 
-  const { table, tableRef, setRowSelection, selectedRowActions, showAddButton } = useResizableEditableTable({
+  const { table, tableRef, selectedRowActions, showAddButton } = useResizableEditableTable({
     data,
     columns,
     onChange,
@@ -67,12 +68,12 @@ export const PropertiesTable = ({ data, onChange }: PropertiesTableProps) => {
     <BasicCollapsible label={t('common.label.properties')} controls={selectedRowActions()}>
       <div>
         <Table ref={tableRef}>
-          <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => setRowSelection({})} />
+          <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => table.setRowSelection({})} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
               <SelectRow key={row.id} row={row}>
                 {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                  <TableCell key={cell.id} style={{ width: cell.column.getSize() }} onClick={cell.getSelectionStartHandler()}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
