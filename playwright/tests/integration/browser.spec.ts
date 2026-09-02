@@ -57,10 +57,10 @@ test('properties', async ({ page }) => {
 
   await browser.view.getByRole('textbox').clear();
   await expect(browser.table.row(100).locator).toBeVisible();
-  await browser.table.expectToHaveRowValues(['JSON.Deserialization.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT']);
+  await browser.table.expectToHaveRowValues(['JSON.DateTime.ADJUST_DATES_TO_CONTEXT_TIME_ZONE']);
 
   await browser.table.row(0).locator.click();
-  await expect(browser.info.content).toHaveText('InfoDefault value: false');
+  await expect(browser.info.content).toHaveText('InfoDefault value: true');
 });
 
 test('properties apply', async ({ page }) => {
