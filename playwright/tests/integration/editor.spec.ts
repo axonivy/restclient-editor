@@ -62,6 +62,24 @@ test('add', async ({ page }) => {
   await editor.main.table.expectToHaveRowCount(7);
 });
 
+test('add with openapi codegen', async ({ page }) => {
+  const editor = await RestClientEditor.openMock(page);
+  const dialog = await editor.main.openAddRestClientDialog();
+
+  await dialog.name.locator.fill('NewOpenApiClient');
+  await dialog.openOpenApiGenerator();
+  await dialog.schemaUri.locator.fill('https://petstore3.swagger.io/api/v3/openapi.json');
+  const msg = consoleLog(page);
+  await dialog.create.click();
+
+  expect(await msg).toContain('"clientName":"NewOpenApiClient"');
+  expect(await msg).toContain('"spec":"https://petstore3.swagger.io/api/v3/openapi.json"');
+  expect(await msg).toContain('"namespace":"io.swagger.petstore3.client"');
+  await editor.main.table.expectToHaveRowCount(8);
+  await editor.main.table.row(7).expectToHaveColumnValues('NewOpenApiClient');
+  await editor.main.table.row(7).expectToBeSelected();
+});
+
 test('empty', async ({ page }) => {
   const editor = await RestClientEditor.openMock(page);
   await editor.main.table.clear();
