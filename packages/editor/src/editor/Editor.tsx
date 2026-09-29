@@ -25,9 +25,14 @@ import { Main } from './main/Main';
 import { RestClientToolbar } from './main/RestClientToolbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean };
+export type RestClientEditorProps = {
+  context: RestClientContext;
+  directSave?: boolean;
+  selectedClientKey?: string;
+  selectionRequestId?: number;
+};
 
-export const Editor = ({ context, directSave }: RestClientEditorProps) => {
+export const Editor = ({ context, directSave, selectedClientKey, selectionRequestId }: RestClientEditorProps) => {
   const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [detail, setDetail] = useState(true);
@@ -138,7 +143,7 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
           <Flex direction='column' className='h-full'>
             <RestClientToolbar />
             <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
-              <Main />
+              <Main selectedClientKey={selectedClientKey} selectionRequestId={selectionRequestId} />
             </ErrorBoundary>
           </Flex>
         </ResizablePanel>

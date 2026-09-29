@@ -36,7 +36,7 @@ import { ValidationRow } from './ValidationRow';
 
 const { columnHelper, tableOptions } = dataTableHelper<RestClientData>();
 
-export const Main = () => {
+export const Main = ({ selectedClientKey, selectionRequestId }: { selectedClientKey?: string; selectionRequestId?: number }) => {
   const { t } = useTranslation();
   const { data, setData, setSelectedIndex, detail, setDetail, context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
@@ -69,12 +69,18 @@ export const Main = () => {
     [t, iconMeta.data]
   );
 
-  const table = useTable({
-    ...tableOptions,
-    data,
-    columns,
-    columnResizeMode: 'onChange'
-  });
+  const options = useMemo(
+    () => ({
+      ...tableOptions,
+      data,
+      columns,
+      columnResizeMode: 'onChange' as const
+    }),
+    [data, columns]
+  );
+  const table = useTable(options);
+  const tableRef = useRef(table);
+  tableRef.current = table;
 
   useEffect(() => {
     const subscription = table.atoms.rowSelection.subscribe(selectedRows => {
@@ -86,7 +92,21 @@ export const Main = () => {
       setSelectedIndex(Number(selectedRowIndex));
     });
     return () => subscription.unsubscribe();
-  }, [table, setSelectedIndex]);
+  }, [table.atoms.rowSelection, setSelectedIndex]);
+
+  useEffect(() => {
+    if (selectedClientKey === undefined) {
+      return;
+    }
+    const selectedRowIndex = data.findIndex(client => client.key === selectedClientKey);
+    const targetRowId = selectedRowIndex < 0 ? undefined : String(selectedRowIndex);
+    const selectedRowIds = Object.entries(tableRef.current.state.rowSelection)
+      .filter(([, selected]) => selected)
+      .map(([rowId]) => rowId);
+    if (selectedRowIds.length !== (targetRowId ? 1 : 0) || selectedRowIds[0] !== targetRowId) {
+      selectRow(tableRef.current, targetRowId);
+    }
+  }, [data, selectedClientKey, selectionRequestId]);
 
   const { handleKeyDown } = useTableKeyHandler({
     table,
