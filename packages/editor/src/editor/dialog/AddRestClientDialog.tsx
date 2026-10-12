@@ -34,8 +34,16 @@ import { useValidateKey } from './useValidateKey';
 
 const DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 
-export const AddRestClientDialog = ({ table, children }: { table: Table<DataTableFeatures, RestClientData>; children: ReactNode }) => {
-  const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
+export const AddRestClientDialog = ({
+  table,
+  children,
+  initialOpenState
+}: {
+  table: Table<DataTableFeatures, RestClientData>;
+  children: ReactNode;
+  initialOpenState: boolean;
+}) => {
+  const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS, initialOpenState);
   const { addRestClient: shortcut } = useKnownHotkeys();
   useHotkeys(shortcut.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
   return (

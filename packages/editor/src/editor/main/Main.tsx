@@ -36,9 +36,9 @@ import { ValidationRow } from './ValidationRow';
 
 const { columnHelper, tableOptions } = dataTableHelper<RestClientData>();
 
-export const Main = () => {
+export const Main = ({ openAddDialog }: { openAddDialog: boolean }) => {
   const { t } = useTranslation();
-  const { data, setData, setSelectedIndex, detail, setDetail, context } = useAppContext();
+  const { data, setData, selectedIndex, setSelectedIndex, detail, setDetail, context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
 
   const columns = useMemo(
@@ -73,7 +73,12 @@ export const Main = () => {
     ...tableOptions,
     data,
     columns,
-    columnResizeMode: 'onChange'
+    columnResizeMode: 'onChange',
+    initialState: {
+      rowSelection: {
+        [selectedIndex]: true
+      }
+    }
   });
 
   useEffect(() => {
@@ -119,7 +124,7 @@ export const Main = () => {
     return (
       <Flex direction='column' alignItems='center' justifyContent='center' className='h-full'>
         <PanelMessage icon={IvyIcons.Tool} message={t('message.addFirstRestClient')} mode='column'>
-          <AddRestClientDialog table={table}>
+          <AddRestClientDialog table={table} initialOpenState={openAddDialog}>
             <Button size='large' variant='primary' icon={IvyIcons.Plus}>
               {t('dialog.addRestClient.title')}
             </Button>
@@ -137,7 +142,11 @@ export const Main = () => {
         className='m-3 min-h-0'
         label={t('label.restClients')}
         control={
-          <Controls table={table} deleteRestClient={table.getSelectedRowModel().flatRows.length > 0 ? deleteRestClient : undefined} />
+          <Controls
+            table={table}
+            deleteRestClient={table.getSelectedRowModel().flatRows.length > 0 ? deleteRestClient : undefined}
+            openAddDialog={openAddDialog}
+          />
         }
         onClick={event => event.stopPropagation()}
       >
@@ -157,7 +166,15 @@ export const Main = () => {
   );
 };
 
-const Controls = ({ table, deleteRestClient }: { table: ReactTable<DataTableFeatures, RestClientData>; deleteRestClient?: () => void }) => {
+const Controls = ({
+  table,
+  deleteRestClient,
+  openAddDialog
+}: {
+  table: ReactTable<DataTableFeatures, RestClientData>;
+  deleteRestClient?: () => void;
+  openAddDialog: boolean;
+}) => {
   const { t } = useTranslation();
   const readonly = useReadonly();
   const hotkeys = useKnownHotkeys();
@@ -174,7 +191,7 @@ const Controls = ({ table, deleteRestClient }: { table: ReactTable<DataTableFeat
         />
       </GenerateRestClassesDialog>
       <Separator decorative orientation='vertical' className='m-0! h-5!' />
-      <AddRestClientDialog table={table}>
+      <AddRestClientDialog table={table} initialOpenState={openAddDialog}>
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addRestClient.label} />
       </AddRestClientDialog>
       <Separator decorative orientation='vertical' className='m-0! h-5!' />
