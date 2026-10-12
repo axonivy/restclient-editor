@@ -25,11 +25,23 @@ import { Main } from './main/Main';
 import { RestClientToolbar } from './main/RestClientToolbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean };
+export type RestClientEditorProps = {
+  context: RestClientContext;
+  directSave?: boolean;
+  openActionMessage?: OpenActionMessage;
+};
+export type OpenActionMessage =
+  | {
+      method: 'select';
+      payload: string;
+    }
+  | {
+      method: 'add';
+    };
 
-export const Editor = ({ context, directSave }: RestClientEditorProps) => {
+export const Editor = ({ context, directSave, openActionMessage }: RestClientEditorProps) => {
   const { t } = useTranslation();
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const [detail, setDetail] = useState(true);
   const [initialData, setInitialData] = useState<Array<RestClientData> | undefined>(undefined);
   const history = useHistoryData<Array<RestClientData>>();
@@ -118,12 +130,21 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
     return <PanelMessage icon={IvyIcons.ErrorXMark} message={t('message.notFound')} />;
   }
 
+  let activeSelectedIndex = selectedIndex;
+  if (activeSelectedIndex === undefined) {
+    if (openActionMessage?.method === 'select') {
+      activeSelectedIndex = data.data.findIndex(item => item.key === openActionMessage.payload);
+    } else {
+      activeSelectedIndex = -1;
+    }
+  }
+
   return (
     <AppProvider
       value={{
         data: data.data,
         setData: mutation.mutate,
-        selectedIndex,
+        selectedIndex: activeSelectedIndex,
         setSelectedIndex,
         context: data.context,
         history,
@@ -138,7 +159,7 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
           <Flex direction='column' className='h-full'>
             <RestClientToolbar />
             <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[data]}>
-              <Main />
+              <Main openAddDialog={openActionMessage?.method === 'add'} />
             </ErrorBoundary>
           </Flex>
         </ResizablePanel>
