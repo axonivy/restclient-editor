@@ -25,7 +25,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTable, type Table as ReactTable } from '@tanstack/react-table';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
 import { useMeta } from '../../hooks/useMeta';
@@ -38,7 +38,7 @@ const { columnHelper, tableOptions } = dataTableHelper<RestClientData>();
 
 export const Main = () => {
   const { t } = useTranslation();
-  const { data, setData, setSelectedIndex, detail, setDetail, context } = useAppContext();
+  const { data, setData, selectedIndex, setSelectedIndex, detail, setDetail, context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
 
   const columns = useMemo(
@@ -73,20 +73,16 @@ export const Main = () => {
     ...tableOptions,
     data,
     columns,
-    columnResizeMode: 'onChange'
+    columnResizeMode: 'onChange',
+    onRowSelectionChange: updater => {
+      const selection = typeof updater === 'function' ? updater({ [selectedIndex]: true }) : updater;
+      const newSelectedIndex = Object.keys(selection).find(key => selection[key]);
+      setSelectedIndex(Number(newSelectedIndex));
+    },
+    state: {
+      rowSelection: { [selectedIndex]: true }
+    }
   });
-
-  useEffect(() => {
-    const subscription = table.atoms.rowSelection.subscribe(selectedRows => {
-      const selectedRowIndex = Object.keys(selectedRows).find(key => selectedRows[key]);
-      if (selectedRowIndex === undefined) {
-        setSelectedIndex(-1);
-        return;
-      }
-      setSelectedIndex(Number(selectedRowIndex));
-    });
-    return () => subscription.unsubscribe();
-  }, [table, setSelectedIndex]);
 
   const { handleKeyDown } = useTableKeyHandler({
     table,

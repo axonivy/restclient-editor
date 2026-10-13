@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   Spinner,
   useDefaultLayout,
+  useDialogHotkeys,
   useHistoryData,
   useHotkeys,
   type Unary
@@ -20,16 +21,18 @@ import { AppProvider } from '../context/AppContext';
 import { useClient } from '../context/ClientContext';
 import { genQueryKey } from '../query/query-client';
 import { useKnownHotkeys } from '../utils/useKnownHotkeys';
+import { ADD_DIALOG_HOTKEY_IDS } from './dialog/AddRestClientDialog';
 import { ErrorFallback } from './main/ErrorFallback';
 import { Main } from './main/Main';
 import { RestClientToolbar } from './main/RestClientToolbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean };
+export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean; onReady?: () => void };
 
-export const Editor = ({ context, directSave }: RestClientEditorProps) => {
+export const Editor = ({ context, directSave, onReady }: RestClientEditorProps) => {
   const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const { open: addDialogOpen, onOpenChange: onAddDialogOpenChange } = useDialogHotkeys(ADD_DIALOG_HOTKEY_IDS);
   const [detail, setDetail] = useState(true);
   const [initialData, setInitialData] = useState<Array<RestClientData> | undefined>(undefined);
   const history = useHistoryData<Array<RestClientData>>();
@@ -63,16 +66,28 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
   useEffect(() => {
     const validationDispose = client.onValidationChanged(() => queryClient.invalidateQueries({ queryKey: queryKeys.validation(context) }));
     const dataDispose = client.onDataChanged(() => queryClient.invalidateQueries({ queryKey: queryKeys.data(context) }));
+    const selectElementDispose = client.onSelectElement(selectedElement =>
+      setSelectedIndex(data?.data.findIndex(restClient => restClient.key === selectedElement) ?? -1)
+    );
+    const onOpenAddDispose = client.onOpenAdd(() => onAddDialogOpenChange(true));
     return () => {
       validationDispose.dispose();
       dataDispose.dispose();
+      selectElementDispose.dispose();
+      onOpenAddDispose.dispose();
     };
-  }, [client, context, queryClient, queryKeys]);
+  }, [client, context, data?.data, queryClient, queryKeys, onReady, onAddDialogOpenChange]);
 
   if (data?.data !== undefined && initialData === undefined) {
     setInitialData(data.data);
     history.push(data.data);
   }
+
+  useEffect(() => {
+    if (data?.data) {
+      onReady?.();
+    }
+  }, [data?.data, onReady]);
 
   const mutation = useMutation({
     mutationKey: queryKeys.saveData(context),
@@ -125,6 +140,8 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
         setData: mutation.mutate,
         selectedIndex,
         setSelectedIndex,
+        addDialogOpen,
+        onAddDialogOpenChange,
         context: data.context,
         history,
         validations,

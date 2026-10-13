@@ -50,6 +50,8 @@ export interface RestClientNotificationTypes {
 export interface RestClientOnNotificationTypes {
   dataChanged: void;
   validationChanged: void;
+  selectElement: string;
+  openAdd: void;
 }
 
 export interface RestClientVscExtensionTypes {
