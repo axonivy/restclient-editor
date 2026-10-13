@@ -63,11 +63,17 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
   useEffect(() => {
     const validationDispose = client.onValidationChanged(() => queryClient.invalidateQueries({ queryKey: queryKeys.validation(context) }));
     const dataDispose = client.onDataChanged(() => queryClient.invalidateQueries({ queryKey: queryKeys.data(context) }));
+    const selectElementDispose = client.onSelectElement(selectedElement =>
+      setSelectedIndex(data?.data.findIndex(restClient => restClient.key === selectedElement) ?? -1)
+    );
+    const onOpenAddDispose = client.onOpenAdd(() => console.log('OPEN ADD'));
     return () => {
       validationDispose.dispose();
       dataDispose.dispose();
+      selectElementDispose.dispose();
+      onOpenAddDispose.dispose();
     };
-  }, [client, context, queryClient, queryKeys]);
+  }, [client, context, data?.data, queryClient, queryKeys]);
 
   if (data?.data !== undefined && initialData === undefined) {
     setInitialData(data.data);
