@@ -66,6 +66,8 @@ const ContextHelper = ({ appContext, readonly, children }: ContextHelperProps & 
               setData: appContext?.setData ? getData => appContext.setData(getData(data)) : () => {},
               selectedIndex: -1,
               setSelectedIndex: () => {},
+              addDialogOpen: false,
+              onAddDialogOpenChange: () => {},
               history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
               validations: appContext?.validations ?? [],
               detail: false,

@@ -36,4 +36,6 @@ export interface RestClientClient {
 
   onDataChanged: Event<void>;
   onValidationChanged: Event<void>;
+  onSelectElement: Event<string>;
+  onOpenAdd: Event<void>;
 }
