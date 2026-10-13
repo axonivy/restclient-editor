@@ -16,7 +16,6 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useDialogHotkeys,
   useHotkeys,
   type DataTableFeatures,
   type MessageData
@@ -32,14 +31,14 @@ import { useKnownHotkeys } from '../../utils/useKnownHotkeys';
 import { OpenApiClassGenerator, useGenerateOpenApi } from './GenerateRestClassesDialog';
 import { useValidateKey } from './useValidateKey';
 
-const DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
+export const ADD_DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 
 export const AddRestClientDialog = ({ table, children }: { table: Table<DataTableFeatures, RestClientData>; children: ReactNode }) => {
-  const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
+  const { addDialogOpen, onAddDialogOpenChange } = useAppContext();
   const { addRestClient: shortcut } = useKnownHotkeys();
-  useHotkeys(shortcut.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
+  useHotkeys(shortcut.hotkey, () => onAddDialogOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={addDialogOpen} onOpenChange={onAddDialogOpenChange}>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -49,7 +48,7 @@ export const AddRestClientDialog = ({ table, children }: { table: Table<DataTabl
         </Tooltip>
       </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()} className='max-w-140!'>
-        <AddDialogContent table={table} closeDialog={() => onOpenChange(false)} />
+        <AddDialogContent table={table} closeDialog={() => onAddDialogOpenChange(false)} />
       </DialogContent>
     </Dialog>
   );
@@ -117,7 +116,10 @@ const AddDialogContent = ({ table, closeDialog }: { table: Table<DataTableFeatur
     setSelectedIndex(data.length);
   };
 
-  const enter = useHotkeys<HTMLDivElement>(['Enter', 'mod+Enter'], addRestClient, { scopes: DIALOG_HOTKEY_IDS, enableOnFormTags: true });
+  const enter = useHotkeys<HTMLDivElement>(['Enter', 'mod+Enter'], addRestClient, {
+    scopes: ADD_DIALOG_HOTKEY_IDS,
+    enableOnFormTags: true
+  });
 
   return (
     <BasicDialogContent
