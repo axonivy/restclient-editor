@@ -28,6 +28,10 @@ export class RestClientMock implements RestClientClient {
   onValidationChanged = this.onValidationChangedEmitter.event;
   protected onDataChangedEmitter = new Emitter<void>();
   onDataChanged = this.onDataChangedEmitter.event;
+  protected onSelectElementEmitter = new Emitter<string>();
+  onSelectElement = this.onSelectElementEmitter.event;
+  protected onOpenAddEmitter = new Emitter<void>();
+  onOpenAdd = this.onOpenAddEmitter.event;
 
   initialize(): Promise<void> {
     return Promise.resolve();

@@ -8,6 +8,8 @@ export type AppContext = {
   setData: UpdateConsumer<Array<RestClientData>>;
   selectedIndex: number;
   setSelectedIndex: (index: number) => void;
+  addDialogOpen: boolean;
+  onAddDialogOpenChange: (open: boolean) => void;
   context: RestClientContext;
   history: ReturnType<typeof useHistoryData<Array<RestClientData>>>;
   validations: Array<ValidationResult>;
@@ -21,6 +23,8 @@ export const AppContext = createContext<AppContext>({
   setData: data => data,
   selectedIndex: -1,
   setSelectedIndex: () => {},
+  addDialogOpen: false,
+  onAddDialogOpenChange: () => {},
   context: { app: '', project: '', file: '' },
   history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
   validations: [],
