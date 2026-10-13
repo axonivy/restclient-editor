@@ -25,9 +25,9 @@ import { Main } from './main/Main';
 import { RestClientToolbar } from './main/RestClientToolbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean };
+export type RestClientEditorProps = { context: RestClientContext; directSave?: boolean; onReady?: () => void };
 
-export const Editor = ({ context, directSave }: RestClientEditorProps) => {
+export const Editor = ({ context, directSave, onReady }: RestClientEditorProps) => {
   const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [detail, setDetail] = useState(true);
@@ -67,13 +67,16 @@ export const Editor = ({ context, directSave }: RestClientEditorProps) => {
       setSelectedIndex(data?.data.findIndex(restClient => restClient.key === selectedElement) ?? -1)
     );
     const onOpenAddDispose = client.onOpenAdd(() => console.log('OPEN ADD'));
+    if (data?.data !== undefined) {
+      onReady?.();
+    }
     return () => {
       validationDispose.dispose();
       dataDispose.dispose();
       selectElementDispose.dispose();
       onOpenAddDispose.dispose();
     };
-  }, [client, context, data?.data, queryClient, queryKeys]);
+  }, [client, context, data?.data, onReady, queryClient, queryKeys]);
 
   if (data?.data !== undefined && initialData === undefined) {
     setInitialData(data.data);
