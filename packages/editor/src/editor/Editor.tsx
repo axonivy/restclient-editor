@@ -81,13 +81,8 @@ export const Editor = ({ context, directSave, onReady }: RestClientEditorProps) 
   if (data?.data !== undefined && initialData === undefined) {
     setInitialData(data.data);
     history.push(data.data);
+    onReady?.();
   }
-
-  useEffect(() => {
-    if (data?.data) {
-      onReady?.();
-    }
-  }, [data?.data, onReady]);
 
   const mutation = useMutation({
     mutationKey: queryKeys.saveData(context),
