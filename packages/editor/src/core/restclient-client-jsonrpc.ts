@@ -26,18 +26,30 @@ import type {
 export class RestClientClientJsonRpc extends BaseRpcClient implements RestClientClient {
   protected onDataChangedEmitter = new Emitter<void>();
   protected onValidationChangedEmitter = new Emitter<void>();
+  protected onSelectElementEmitter = new Emitter<string>();
+  protected onOpenAddEmitter = new Emitter<void>();
   onDataChanged: Event<void> = this.onDataChangedEmitter.event;
   onValidationChanged: Event<void> = this.onValidationChangedEmitter.event;
+  onSelectElement: Event<string> = this.onSelectElementEmitter.event;
+  onOpenAdd: Event<void> = this.onOpenAddEmitter.event;
 
   protected override setupConnection(): void {
     super.setupConnection();
     this.toDispose.push(this.onDataChangedEmitter);
     this.toDispose.push(this.onValidationChangedEmitter);
+    this.toDispose.push(this.onSelectElementEmitter);
+    this.toDispose.push(this.onOpenAddEmitter);
     this.onNotification('dataChanged', data => {
       this.onDataChangedEmitter.fire(data);
     });
     this.onNotification('validationChanged', data => {
       this.onValidationChangedEmitter.fire(data);
+    });
+    this.onNotification('selectElement', data => {
+      this.onSelectElementEmitter.fire(data);
+    });
+    this.onNotification('openAdd', data => {
+      this.onOpenAddEmitter.fire(data);
     });
   }
 
