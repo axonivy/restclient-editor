@@ -36,7 +36,7 @@ export const ADD_DIALOG_HOTKEY_IDS = ['addRestClientDialog'];
 export const AddRestClientDialog = ({ table, children }: { table: Table<DataTableFeatures, RestClientData>; children: ReactNode }) => {
   const { addDialogOpen, onAddDialogOpenChange } = useAppContext();
   const { addRestClient: shortcut } = useKnownHotkeys();
-  useHotkeys(shortcut.hotkey, () => onAddDialogOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
+  useHotkeys(shortcut.hotkey, () => onAddDialogOpenChange(true), { scopes: ['global'], keyup: true, enabled: !addDialogOpen });
   return (
     <Dialog open={addDialogOpen} onOpenChange={onAddDialogOpenChange}>
       <TooltipProvider>

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type WebSocketRoute } from '@playwright/test';
 import { AddRestClientDialog } from '../page-objects/AddRestClientDialog';
 import { RestClientEditor } from '../page-objects/RestClientEditor';
 
@@ -125,6 +125,48 @@ test('openapi codegen: placeholder', async ({ page }) => {
   expect(await msg).toContain('"spec":"https://petstore3.swagger.io/api/v3/openapi.json"');
   expect(await msg).toContain('"namespace":"io.swagger.petstore3.client"'); // placeholder
   expect(await msg).toContain('openApiService');
+});
+
+test.describe('notifications', () => {
+  const setupWebSocket = async (page: Page) => {
+    let socket: WebSocketRoute | undefined;
+    await page.routeWebSocket(/ivy-restclient-lsp/, ws => {
+      ws.connectToServer();
+      socket = ws;
+    });
+    const editor = await RestClientEditor.openRestClient(page);
+    if (!socket) {
+      throw new Error('Failed to establish WebSocket connection');
+    }
+    return { editor, socket };
+  };
+
+  test('selectElement', async ({ page }) => {
+    const { editor, socket } = await setupWebSocket(page);
+    await editor.main.table.expectToHaveNoSelection();
+    await expect(editor.detail.header).toHaveText('Rest Client');
+    socket.send(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'selectElement',
+        params: 'batchService'
+      })
+    );
+    await expect(editor.detail.header).toHaveText('batchService');
+  });
+
+  test('openAdd', async ({ page }) => {
+    const { socket } = await setupWebSocket(page);
+    const dialog = new AddRestClientDialog(page);
+    await expect(dialog.locator).toBeHidden();
+    socket.send(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'openAdd'
+      })
+    );
+    await expect(dialog.locator).toBeVisible();
+  });
 });
 
 const consoleLog = async (page: Page) => {
