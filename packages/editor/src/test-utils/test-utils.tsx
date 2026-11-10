@@ -9,7 +9,7 @@ import { ReadonlyProvider } from '@axonivy/ui-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, renderHook, type RenderHookOptions, type RenderOptions, type RenderResult } from '@testing-library/react';
 import i18n from 'i18next';
-import { type ReactElement, type ReactNode } from 'react';
+import { useState, type ReactElement, type ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
 import { AppProvider } from '../context/AppContext';
 import { ClientContextProvider, type ClientContext } from '../context/ClientContext';
@@ -52,7 +52,7 @@ const ContextHelper = ({ appContext, readonly, children }: ContextHelperProps & 
       }
     }
   };
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
   initTranslation();
   return (
     <ClientContextProvider client={client.client}>
