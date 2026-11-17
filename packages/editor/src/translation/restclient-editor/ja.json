@@ -76,7 +76,8 @@
       "ntlm": "ログイン"
     },
     "defaultValue": "デフォルト値: {{defaultValue}}",
-    "examples": "例:{{examples}}"
+    "examples": "例:{{examples}}",
+    "deprecated": "廃止予定"
   },
   "hotkey": {
     "deleteRestClient": "残りのクライアントを削除 ({{hotkey}})",
