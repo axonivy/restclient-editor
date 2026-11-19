@@ -3,6 +3,7 @@ import { BasicCollapsible, BasicField, BasicInput, Combobox, Flex, PanelMessage,
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../context/AppContext';
+import { useAction } from '../../hooks/useAction';
 import { useMeta } from '../../hooks/useMeta';
 import { useValidations } from '../../hooks/useValidation';
 import { AuthenticationPart } from './AuthenticationPart';
@@ -12,6 +13,7 @@ import { PropertiesTable } from './components/PropertiesTable';
 export const DetailContent = () => {
   const { t } = useTranslation();
   const { data, setData, selectedIndex, context } = useAppContext();
+  const openUrl = useAction('openUrl');
   const restclient = useMemo(() => data[selectedIndex], [data, selectedIndex]);
   const validations = useValidations(restclient?.key ?? '');
   const iconMeta = useMeta('meta/icons/all', context);
@@ -27,8 +29,8 @@ export const DetailContent = () => {
       return structuredClone(old);
     });
 
-  const keyMessage = fieldMessage(validations, restclient, 'key');
-  const uriMessage = fieldMessage(validations, restclient, 'uri');
+  const keyMessage = fieldMessage(validations, restclient, 'key', openUrl);
+  const uriMessage = fieldMessage(validations, restclient, 'uri', openUrl);
   const iconOptions = iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.relativePath })) ?? [];
 
   return (
@@ -80,7 +82,16 @@ export const DetailContent = () => {
   );
 };
 
-const fieldMessage = (validations: Array<ValidationResult>, restclient: RestClientData, field: keyof RestClientData) =>
+const fieldMessage = (
+  validations: Array<ValidationResult>,
+  restclient: RestClientData,
+  field: keyof RestClientData,
+  openUrl: (url: string) => void
+) =>
   validations
     .filter(v => v.path.toLowerCase().startsWith(`${restclient.key}.${field}`.toLowerCase()))
-    .map<MessageData>(v => ({ message: v.message, variant: v.severity.toLowerCase() as Lowercase<Severity> }))[0];
+    .map<MessageData>(v => ({
+      message: v.message,
+      variant: v.severity.toLowerCase() as Lowercase<Severity>,
+      reference: v.url ? { tooltip: v.code, openUrl: () => openUrl(v.url) } : undefined
+    }))[0];

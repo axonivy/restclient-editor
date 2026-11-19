@@ -8,17 +8,23 @@ export const validateMock = (data: Array<RestClientData>): Array<ValidationResul
         {
           path: `${restClient.key}.key`,
           message: `RestClient ${restClient.key} contains invalid characters`,
-          severity: 'ERROR'
+          severity: 'ERROR',
+          code: 'INVALID_KEY',
+          url: 'https://example.com/invalid-key'
         },
         {
           path: `${restClient.key}.uri`,
           message: 'URI empty',
-          severity: 'ERROR'
+          severity: 'ERROR',
+          code: 'INVALID_URI',
+          url: ''
         },
         {
           path: `${restClient.key}.features.ch.ivyteam.ivy.rest.client.mapper.JsonFeature`,
           message: 'Feature unknown',
-          severity: 'WARNING'
+          severity: 'WARNING',
+          code: 'UNKNOWN_FEATURE',
+          url: ''
         }
       );
     }
