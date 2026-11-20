@@ -17,14 +17,14 @@ export const validateMock = (data: Array<RestClientData>): Array<ValidationResul
           message: 'URI empty',
           severity: 'ERROR',
           code: 'INVALID_URI',
-          url: ''
+          url: 'https://example.com/invalid-uri'
         },
         {
           path: `${restClient.key}.features.ch.ivyteam.ivy.rest.client.mapper.JsonFeature`,
           message: 'Feature unknown',
           severity: 'WARNING',
           code: 'UNKNOWN_FEATURE',
-          url: ''
+          url: 'https://example.com/unknown-feature'
         }
       );
     }

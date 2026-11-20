@@ -12,7 +12,6 @@ test('table', async ({ page }) => {
     name: 'INVALID_KEY'
   });
   await expect(keyReference).toBeVisible();
-  await expect(validationRows.filter({ hasText: 'URI empty' }).getByRole('button')).toHaveCount(0);
 
   const openUrlAction = page.waitForEvent('console', {
     predicate: message => message.type() === 'log' && message.text().startsWith('action ')
@@ -35,7 +34,6 @@ test('detail', async ({ page }) => {
   await expect(keyMessage.locator.getByRole('button', { name: 'INVALID_KEY' })).toBeVisible();
   const uriMessage = await editor.detail.uri.message();
   await uriMessage.expectToBeError('URI empty');
-  await expect(uriMessage.locator.getByRole('button')).toHaveCount(0);
   await editor.detail.featuresSection.open();
   await editor.detail.features.expectToHaveRowCount(2);
   await expect(editor.detail.features.locator.getByRole('row').last()).toHaveText('Feature unknown');
